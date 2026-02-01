@@ -1,73 +1,119 @@
-# React + TypeScript + Vite
+# 프로젝트 기획 정리
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 개요
 
-Currently, two official plugins are available:
+- 목적: 멘토/멘티 학습 관리 웹앱 구축
+- 대상 화면: 멘토(PC 우선, 반응형 가산점), 멘티(모바일 웹앱 기준)
+- 테스트 계정: 멘토 1명, 멘티 2명 사전 세팅
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 역할별 접속(로그인)
 
-## React Compiler
+- 회원가입은 구현하지 않음
+- 멘토/멘티 각각 사전 생성된 계정으로 접근
+- 계정별로 다른 화면/기능 제공
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 기능 요구사항 정리
 
-## Expanding the ESLint configuration
+### 1) 멘티 화면
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+#### 1-1. 일일 플래너 및 성취도 관리 (모바일 학습 플래너)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- 상단 날짜 표시 + 간단한 코멘트/질문 입력 영역
+- 멘토가 고정 등록한 할 일 목록 표시(멘티 수정 불가)
+- 멘티 개인 할 일 추가 가능
+- 과목별 공부 시간 체크 기능 포함
+  - 시간 체크 UI(타이머/드래그 등) 고려
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+#### 1-2. 캘린더/날짜 이동/리마인더
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- 상단 날짜 이동 버튼
+- 날짜 변경 시 해당 날짜 플래너 + 피드백 동기화 노출
+- 주 단위 미니 캘린더
+- 월간 캘린더 레이어 전환
+- 리마인더 알림(미완료 과제 자정 알림)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### 1-3. 과제 상세 페이지
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- 할 일 클릭 시 과제 상세로 이동
+- 학습지 형태: 설스터디 칼럼(텍스트) + PDF 파일 허용
+- 멘토 업로드 PDF 노출 및 다운로드
+- 멘티: 휴대폰 카메라로 찍은 JPG 업로드
+- 날짜가 지나도 전날 과제 업로드 가능
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+#### 1-4. 과목별 피드백 확인
+
+- 과목별(국/영/수) 피드백 요약/상세 제공
+- 중요 피드백은 요약 강조
+- 클릭 시 상세 피드백 확인
+
+#### 1-5. 알림 (추가)
+
+- 과제 미완료 리마인드 알림
+- 피드백 등록 즉시 노출 및 알림
+
+#### 1-6. 마이페이지/대시보드 (추가)
+
+- 상단 프로필 영역(이미지, 닉네임)
+- 과목별 달성률 요약 카드(국/영/수)
+  - 카드 클릭 시 해당 과목 상세 화면 이동
+- 하단 플로팅 버튼: 상담받아보기
+  - 이동 링크: https://forms.gle/FchKdDcm23JdGHpK9
+
+### 2) 멘토 화면
+
+#### 2-1. 담당 멘티 목록
+
+- 담당 학생 리스트/카드 형태
+- 학생 선택 시 제출 과제 및 피드백 간단 확인
+
+#### 2-2. 할 일 등록
+
+- 학생별 날짜에 맞는 할 일 생성
+- 입력 항목: 할 일 이름, 목표, 과목, 날짜, 학습지(칼럼 or PDF)
+
+#### 2-3. 피드백 작성
+
+- 날짜별/할 일별 피드백 작성 화면
+- 중요 내용 요약 영역 표시
+- 총평/추가 전달 내용 자유 작성
+- 지난 날짜 피드백도 작성 가능
+
+## 체크리스트
+
+### 공통
+
+- [ ] 멘토/멘티 사전 계정 구성 (멘토 1, 멘티 2)
+- [ ] 역할별 접근 분기 및 화면 분리
+- [ ] 기본 라우팅/네비게이션 설계
+
+### 멘티 화면
+
+- [ ] 모바일 학습 플래너 UI 구현
+- [ ] 상단 날짜 + 코멘트 입력 영역
+- [ ] 멘토 고정 할 일 표시 (수정 불가)
+- [ ] 멘티 할 일 추가 기능
+- [ ] 과목별 공부 시간 체크 UI
+- [ ] 날짜 이동 버튼 동작
+- [ ] 주간 미니 캘린더 구현
+- [ ] 월간 캘린더 레이어 전환
+- [ ] 날짜별 플래너/피드백 동기화
+- [ ] 과제 상세 페이지 진입
+- [ ] PDF 학습지 표시/다운로드
+- [ ] JPG 업로드(카메라 촬영 가정)
+- [ ] 전날 과제 업로드 허용
+- [ ] 과목별 피드백 요약/상세
+- [ ] 알림(미완료/피드백 등록)
+- [ ] 마이페이지: 프로필 영역
+- [ ] 과목별 달성률 카드 및 이동
+- [ ] 상담받아보기 플로팅 버튼
+
+### 멘토 화면
+
+- [ ] 담당 멘티 목록 화면
+- [ ] 학생 선택 시 제출 과제/피드백 요약
+- [ ] 할 일 등록 폼(이름/목표/과목/날짜/학습지)
+- [ ] 학습지 업로드(PDF) 연결
+- [ ] 피드백 작성(할 일/날짜 기준)
+- [ ] 중요 피드백 요약 영역
+- [ ] 총평/추가 전달 영역
+- [ ] 지난 날짜 피드백 작성 허용
