@@ -1,0 +1,16 @@
+services:
+  frontend:
+    container_name: cerberus-fe
+    image: blisle/cerberus-fe:latest
+    ports:
+      - "3000:80"
+    restart: always
+
+networks:
+  default:
+    name: web-network
+
+networks:
+  web-network:
+    external: true
+    name: web-network
