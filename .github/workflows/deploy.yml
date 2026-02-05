@@ -77,6 +77,6 @@ jobs:
           key: ${{ secrets.DEV_SSH_KEY }}
           script: |
             cd ~/app/frontend
-            docker-compose pull
-            docker compose -p cerberus-be up -d --remove-orphans
+            docker compose pull
+            docker compose -p cerberus-fe up -d --remove-orphans
             docker image prune -f
