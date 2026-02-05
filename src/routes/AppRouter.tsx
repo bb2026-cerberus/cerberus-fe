@@ -17,7 +17,7 @@ function AppRouter() {
           <Route index element={<Home />} />
         </Route>
 
-        <Route element={<RoleGuard allow="mentee" />}>
+        {/* <Route element={<RoleGuard allow="mentee" />}>
           <Route path={routePaths.mentee} element={<MenteeLayout />}>
             <Route index element={<MenteeHome />} />
           </Route>
@@ -27,6 +27,14 @@ function AppRouter() {
           <Route path={routePaths.mentor} element={<MentorLayout />}>
             <Route index element={<MentorHome />} />
           </Route>
+        </Route> */}
+
+        <Route path={routePaths.mentee} element={<MenteeLayout />}>
+          <Route index element={<MenteeHome />} />
+        </Route>
+
+        <Route path={routePaths.mentor} element={<MentorLayout />}>
+          <Route index element={<MentorHome />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
