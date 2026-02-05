@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import cn from '../../utils/cn'
+import { cn } from '@/lib/utils'
 
 type AppShellProps = {
   title?: string
@@ -14,9 +14,7 @@ function AppShell({ title, headerSlot, children, className }: AppShellProps) {
       <header className="border-b bg-card">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 px-4 py-4">
           <div className="flex flex-col">
-            {title ? (
-              <h1 className="text-lg font-semibold">{title}</h1>
-            ) : null}
+            {title ? <h1 className="text-lg font-semibold">{title}</h1> : null}
           </div>
           {headerSlot}
         </div>
