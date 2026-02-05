@@ -35,6 +35,7 @@ function MenteeHome() {
       <div className="w-full max-w-[320px]">
         <Calendar
           mode="single"
+          viewMode="week"
           selected={selected}
           onSelect={setSelected}
           modifiers={dummyMarkers}

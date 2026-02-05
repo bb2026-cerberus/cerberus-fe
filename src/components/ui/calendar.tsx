@@ -1,9 +1,21 @@
 import * as React from 'react'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
-import { DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
+import {
+  DayButton,
+  DayPicker,
+  type DateRange,
+  Week as DayPickerWeek,
+  getDefaultClassNames,
+} from 'react-day-picker'
 
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
+
+type CalendarProps = React.ComponentProps<typeof DayPicker> & {
+  buttonVariant?: React.ComponentProps<typeof Button>['variant']
+  viewMode?: 'month' | 'week'
+  selected?: Date | Date[] | DateRange | undefined
+}
 
 function Calendar({
   className,
@@ -11,13 +23,53 @@ function Calendar({
   showOutsideDays = true,
   captionLayout = 'label',
   buttonVariant = 'ghost',
+  viewMode = 'month',
   formatters,
   components,
   ...props
-}: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant']
-}) {
+}: CalendarProps) {
   const defaultClassNames = getDefaultClassNames()
+  const { month: monthProp, defaultMonth, onMonthChange } = props
+  const [internalMonth, setInternalMonth] = React.useState<Date>(
+    () => monthProp ?? defaultMonth ?? new Date(),
+  )
+
+  React.useEffect(() => {
+    if (monthProp) setInternalMonth(monthProp)
+  }, [monthProp])
+
+  const currentMonth = monthProp ?? internalMonth
+  const handleMonthChange = React.useCallback(
+    (nextMonth: Date) => {
+      if (!monthProp) setInternalMonth(nextMonth)
+      onMonthChange?.(nextMonth)
+    },
+    [monthProp, onMonthChange],
+  )
+
+  const selectedDate = React.useMemo(() => {
+    const selected = props.selected
+    if (!selected) return undefined
+    if (selected instanceof Date) return selected
+    if (Array.isArray(selected)) return selected[0]
+    if (typeof selected === 'object' && 'from' in selected) return selected.from
+    return undefined
+  }, [props.selected])
+
+  const isSameMonth = (left: Date, right: Date) =>
+    left.getFullYear() === right.getFullYear() && left.getMonth() === right.getMonth()
+  const isSameDay = (left: Date, right: Date) =>
+    left.getFullYear() === right.getFullYear() &&
+    left.getMonth() === right.getMonth() &&
+    left.getDate() === right.getDate()
+  const focusDate =
+    viewMode === 'week'
+      ? selectedDate && isSameMonth(selectedDate, currentMonth)
+        ? selectedDate
+        : new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
+      : undefined
+
+  const UserWeek = components?.Week
 
   return (
     <DayPicker
@@ -108,6 +160,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
+        ...components,
         Root: ({ className, rootRef, ...props }) => {
           return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />
         },
@@ -122,6 +175,19 @@ function Calendar({
 
           return <ChevronDownIcon className={cn('size-4', className)} {...props} />
         },
+        Week: ({ week, ...weekProps }) => {
+          const shouldRender =
+            viewMode !== 'week' ||
+            (focusDate ? week.days.some((day) => isSameDay(day.date, focusDate)) : true)
+          const WeekComponent = UserWeek ?? DayPickerWeek
+          return (
+            <WeekComponent
+              week={week}
+              {...weekProps}
+              className={cn(!shouldRender && 'hidden', weekProps.className)}
+            />
+          )
+        },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => {
           return (
@@ -132,9 +198,10 @@ function Calendar({
             </td>
           )
         },
-        ...components,
       }}
       {...props}
+      month={currentMonth}
+      onMonthChange={handleMonthChange}
     />
   )
 }
