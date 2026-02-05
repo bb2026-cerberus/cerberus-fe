@@ -23,40 +23,42 @@ function Calendar({
     <DayPicker
       showOutsideDays={showOutsideDays}
       className={cn(
-        'bg-background group/calendar p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+        'bg-background group/calendar rounded-[30px] px-[18px] pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
         String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
         String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
         className,
       )}
       captionLayout={captionLayout}
       formatters={{
-        formatMonthDropdown: (date) => date.toLocaleString('default', { month: 'short' }),
+        formatCaption: (date) => date.toLocaleString('ko-KR', { month: 'long' }),
+        formatMonthDropdown: (date) => date.toLocaleString('ko-KR', { month: 'long' }),
+        formatWeekdayName: (date) => date.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0),
         ...formatters,
       }}
       classNames={{
         root: cn('w-fit', defaultClassNames.root),
-        months: cn('relative flex flex-col gap-4 md:flex-row', defaultClassNames.months),
-        month: cn('flex w-full flex-col gap-4', defaultClassNames.month),
+        months: cn('relative flex flex-col gap-[12px]', defaultClassNames.months),
+        month: cn('flex w-full flex-col gap-[12px]', defaultClassNames.month),
         nav: cn(
-          'absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1',
+          'absolute inset-x-0 top-0 z-10 flex w-full items-center justify-between',
           defaultClassNames.nav,
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50',
+          'h-[24px] w-[24px] select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          'h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50',
+          'h-[24px] w-[24px] select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
           defaultClassNames.button_next,
         ),
         month_caption: cn(
-          'flex h-[--cell-size] w-full items-center justify-center px-[--cell-size]',
+          'relative flex w-full items-center justify-center py-[10px]',
           defaultClassNames.month_caption,
         ),
         dropdowns: cn(
-          'flex h-[--cell-size] w-full items-center justify-center gap-1.5 text-sm font-medium',
+          'flex w-full items-center justify-center gap-1.5 text-[18px] font-bold',
           defaultClassNames.dropdowns,
         ),
         dropdown_root: cn(
@@ -65,33 +67,36 @@ function Calendar({
         ),
         dropdown: cn('bg-popover absolute inset-0 opacity-0', defaultClassNames.dropdown),
         caption_label: cn(
-          'select-none font-medium',
+          'absolute left-1/2 -translate-x-1/2 select-none text-[18px] font-bold leading-[24px] text-[#232323]',
           captionLayout === 'label'
-            ? 'text-sm'
+            ? 'pointer-events-none'
             : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5',
           defaultClassNames.caption_label,
         ),
         table: 'w-full border-collapse',
-        weekdays: cn('flex', defaultClassNames.weekdays),
+        weekdays: cn(
+          'mt-[16px] bg-[#fafafa] flex h-[39px] items-center justify-center gap-[14px] rounded-[31px]',
+          defaultClassNames.weekdays,
+        ),
         weekday: cn(
-          'text-muted-foreground flex-1 select-none rounded-md text-[0.8rem] font-normal',
+          'flex w-[38px] select-none items-center justify-center text-[14px] font-semibold text-[#aeaeae]',
           defaultClassNames.weekday,
         ),
-        week: cn('mt-2 flex w-full', defaultClassNames.week),
+        week: cn('mt-[29px] flex w-full items-center justify-center gap-[14px]', defaultClassNames.week),
         week_number_header: cn('w-[--cell-size] select-none', defaultClassNames.week_number_header),
         week_number: cn(
           'text-muted-foreground select-none text-[0.8rem]',
           defaultClassNames.week_number,
         ),
         day: cn(
-          'group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md',
+          'group/day relative h-full w-full select-none p-0 text-center',
           defaultClassNames.day,
         ),
-        range_start: cn('bg-accent rounded-l-md', defaultClassNames.range_start),
+        range_start: cn('bg-[#064092] text-white rounded-[25px]', defaultClassNames.range_start),
         range_middle: cn('rounded-none', defaultClassNames.range_middle),
-        range_end: cn('bg-accent rounded-r-md', defaultClassNames.range_end),
+        range_end: cn('bg-[#064092] text-white rounded-[25px]', defaultClassNames.range_end),
         today: cn(
-          'bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none',
+          'rounded-[25px] data-[selected=true]:rounded-[25px]',
           defaultClassNames.today,
         ),
         outside: cn(
@@ -138,9 +143,18 @@ function CalendarDayButton({
   className,
   day,
   modifiers,
+  children,
   ...props
 }: React.ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames()
+  const modifierMap = modifiers as Record<string, boolean>
+  const dotColors = [
+    { key: 'dotBlue', className: 'bg-[#3b82f6]' },
+    { key: 'dotOrange', className: 'bg-[#f97316]' },
+    { key: 'dotRed', className: 'bg-[#ef4444]' },
+  ]
+  const hasGenericDot = Boolean(modifierMap.dot)
+  const activeDots = dotColors.filter(({ key }) => modifierMap[key])
 
   const ref = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
@@ -163,12 +177,27 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 flex aspect-square h-auto w-full min-w-[--cell-size] flex-col gap-1 font-normal leading-none data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70',
+        'data-[selected-single=true]:bg-[#064092] data-[selected-single=true]:text-white data-[selected-single=true]:font-medium data-[range-middle=true]:bg-[#064092] data-[range-middle=true]:text-white data-[range-start=true]:bg-[#064092] data-[range-start=true]:text-white data-[range-end=true]:bg-[#064092] data-[range-end=true]:text-white flex h-[38px] w-[38px] flex-col items-center justify-center gap-[4px] rounded-[25px] p-[10px] text-[16px] font-normal leading-[1.25] text-[#232323] hover:bg-[#f5f5f5] hover:text-[#232323]',
         defaultClassNames.day,
         className,
       )}
       {...props}
-    />
+    >
+      <span className="leading-[1.25]">{children}</span>
+      <span className="flex h-[4px] items-center justify-center gap-[4px]" aria-hidden="true">
+        {activeDots.length > 0
+          ? activeDots.map(({ key, className: dotClassName }) => (
+              <span key={key} className={cn('block size-[4px] rounded-full', dotClassName)} />
+            ))
+          : hasGenericDot
+            ? (
+                <span className="block size-[4px] rounded-full bg-[#3b82f6]" />
+              )
+            : (
+                <span className="block size-[4px] rounded-full opacity-0" />
+              )}
+      </span>
+    </Button>
   )
 }
 
