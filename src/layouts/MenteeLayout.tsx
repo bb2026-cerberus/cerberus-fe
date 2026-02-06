@@ -11,7 +11,7 @@ function MenteeLayout() {
     <AppShell
       header={<MenteeHeader name="김수험님" dateText={dateText} />}
       headerClassName="border-0 bg-white"
-      className="min-h-dvh bg-[#fafafa]"
+      className="min-h-dvh bg-figma-light-gray"
       mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(2.5rem+env(safe-area-inset-bottom))]"
     >
       <Outlet />

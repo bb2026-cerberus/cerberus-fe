@@ -23,12 +23,12 @@ function MenteeHeader({
     <div className={cn('flex flex-col items-center px-4 pt-4 sm:px-4', className)}>
       <div className="flex w-full flex-col gap-2 overflow-hidden">
         <div className="flex w-full items-center justify-between gap-5">
-          <Text as="p" variant="headline1" className="text-[#232323]">
+          <Text as="p" variant="headline1" className="text-figma-typo-black">
             {name}
           </Text>
           <div className="flex items-center gap-4">
             <button
-              className="flex size-6 items-center justify-center text-[#b6b6b6]"
+              className="flex size-6 items-center justify-center text-figma-icon-color"
               type="button"
               onClick={onNotificationClick}
               aria-label="알림"
@@ -36,7 +36,7 @@ function MenteeHeader({
               <Icon icon={Bell} size={24} />
             </button>
             <button
-              className="flex size-6 items-center justify-center text-[#b6b6b6]"
+              className="flex size-6 items-center justify-center text-figma-icon-color"
               type="button"
               onClick={onMenuClick}
               aria-label="메뉴"
@@ -45,7 +45,7 @@ function MenteeHeader({
             </button>
           </div>
         </div>
-        <Text as="p" variant="title3" className="text-[#aeaeae]">
+        <Text as="p" variant="title3" className="text-figma-typo-gray">
           {dateText}
         </Text>
       </div>

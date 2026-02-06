@@ -12,13 +12,17 @@ type SectionHeaderProps = {
 function SectionHeader({ title, onClick, className }: SectionHeaderProps) {
   return (
     <div className={cn('flex w-full items-center justify-between', className)}>
-      <Text as="h3" variant="title3" className="text-[20px] font-semibold leading-6 text-[#232323]">
+      <Text
+        as="h3"
+        variant="title3"
+        className="text-[20px] font-semibold leading-6 text-figma-typo-black"
+      >
         {title}
       </Text>
       <button
         type="button"
         onClick={onClick}
-        className="flex size-[30px] items-center justify-center text-[#232323]"
+        className="flex size-[30px] items-center justify-center text-figma-typo-black"
         aria-label={`${title} 더보기`}
       >
         <ChevronRight className="size-5" />

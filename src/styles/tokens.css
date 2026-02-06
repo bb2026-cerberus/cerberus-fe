@@ -1,17 +1,36 @@
 /* Auto-generated from Figma tokens. Do not edit directly. */
-:root {
-  --figma-white: #FFFFFF;
-  --figma-point-color-1: #6F8FAF;
-  --figma-point-color-2: #064092;
-  --figma-card-color: #F8FCFF;
-  --figma-light-gray: #FAFAFA;
-  --figma-typo-black: #232323;
-  --figma-typo-gray: #AEAEAE;
-  --figma-icon-color: #D8D8D8;
-  --figma-sub-color-1: #F38080;
-  --figma-sub-color-2: #4789E6;
-  --figma-sub-color-3: #FAB96F;
-  --figma-typo-gray-b: #9DA9B5;
-  --figma-card-gray: #EDEFF3;
-  --figma-start-color: #F44343;
+@layer base {
+  :root {
+    --figma-white: #FFFFFF;
+    --figma-point-color-1: #6F8FAF;
+    --figma-point-color-2: #064092;
+    --figma-card-color: #F8FCFF;
+    --figma-light-gray: #FAFAFA;
+    --figma-typo-black: #232323;
+    --figma-typo-gray: #AEAEAE;
+    --figma-icon-color: #D8D8D8;
+    --figma-sub-color-1: #F38080;
+    --figma-sub-color-2: #4789E6;
+    --figma-sub-color-3: #FAB96F;
+    --figma-typo-gray-b: #9DA9B5;
+    --figma-card-gray: #EDEFF3;
+    --figma-start-color: #F44343;
+  }
+}
+
+@theme inline {
+  --color-figma-white: var(--figma-white);
+  --color-figma-point-color-1: var(--figma-point-color-1);
+  --color-figma-point-color-2: var(--figma-point-color-2);
+  --color-figma-card-color: var(--figma-card-color);
+  --color-figma-light-gray: var(--figma-light-gray);
+  --color-figma-typo-black: var(--figma-typo-black);
+  --color-figma-typo-gray: var(--figma-typo-gray);
+  --color-figma-icon-color: var(--figma-icon-color);
+  --color-figma-sub-color-1: var(--figma-sub-color-1);
+  --color-figma-sub-color-2: var(--figma-sub-color-2);
+  --color-figma-sub-color-3: var(--figma-sub-color-3);
+  --color-figma-typo-gray-b: var(--figma-typo-gray-b);
+  --color-figma-card-gray: var(--figma-card-gray);
+  --color-figma-start-color: var(--figma-start-color);
 }

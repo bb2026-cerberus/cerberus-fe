@@ -30,8 +30,16 @@ const main = async () => {
 
   const lines = [
     '/* Auto-generated from Figma tokens. Do not edit directly. */',
-    ':root {',
-    ...entries.map((entry) => `  --figma-${entry.name}: ${entry.hex};`),
+    '@layer base {',
+    '  :root {',
+    ...entries.map((entry) => `    --figma-${entry.name}: ${entry.hex};`),
+    '  }',
+    '}',
+    '',
+    '@theme inline {',
+    ...entries.map(
+      (entry) => `  --color-figma-${entry.name}: var(--figma-${entry.name});`,
+    ),
     '}',
     '',
   ]

@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "./styles/tokens.css";
 
 @plugin "tailwindcss-animate";
 
@@ -25,6 +24,22 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+
+  /* Figma tokens (tokens.css) - Tailwind 유틸리티로 사용 */
+  --color-figma-white: var(--figma-white);
+  --color-figma-point-color-1: var(--figma-point-color-1);
+  --color-figma-point-color-2: var(--figma-point-color-2);
+  --color-figma-card-color: var(--figma-card-color);
+  --color-figma-light-gray: var(--figma-light-gray);
+  --color-figma-typo-black: var(--figma-typo-black);
+  --color-figma-typo-gray: var(--figma-typo-gray);
+  --color-figma-icon-color: var(--figma-icon-color);
+  --color-figma-sub-color-1: var(--figma-sub-color-1);
+  --color-figma-sub-color-2: var(--figma-sub-color-2);
+  --color-figma-sub-color-3: var(--figma-sub-color-3);
+  --color-figma-typo-gray-b: var(--figma-typo-gray-b);
+  --color-figma-card-gray: var(--figma-card-gray);
+  --color-figma-start-color: var(--figma-start-color);
 }
 
 @layer base {

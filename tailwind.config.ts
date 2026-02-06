@@ -1,6 +1,11 @@
-import type { Config } from 'tailwindcss'
 import fs from 'node:fs'
 import path from 'node:path'
+
+interface TailwindThemeConfig {
+  content?: string[]
+  theme?: { extend?: { colors?: Record<string, string>; borderRadius?: Record<string, string> } }
+  plugins?: unknown[]
+}
 
 type FigmaTokenValue = {
   $type?: string
@@ -61,6 +66,6 @@ const config = {
     },
   },
   plugins: [],
-} satisfies Config
+} satisfies TailwindThemeConfig
 
 export default config

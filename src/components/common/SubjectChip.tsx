@@ -8,14 +8,14 @@ const subjectChipVariants = cva(
   {
     variants: {
       subject: {
-        korean: 'bg-[#f38080] text-white',
-        math: 'bg-[#4789e6] text-white',
+        korean: 'bg-figma-sub-color-1 text-white',
+        math: 'bg-figma-sub-color-2 text-white',
         english: 'bg-[#59c08e] text-white',
-        neutral: 'bg-white text-[#9da9b5]',
+        neutral: 'bg-white text-figma-typo-gray-b',
       },
       tone: {
         default: '',
-        muted: 'bg-[#edeff3] text-[#9da9b5]',
+        muted: 'bg-figma-card-gray text-figma-typo-gray-b',
       },
     },
     defaultVariants: {

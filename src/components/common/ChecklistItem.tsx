@@ -25,14 +25,14 @@ function ChecklistItem({
     <div
       className={cn(
         'flex h-[90px] w-full items-center gap-4 rounded-[18px] px-4',
-        completed ? 'bg-[#edeff3]' : 'bg-white',
+        completed ? 'bg-figma-card-gray' : 'bg-white',
         className,
       )}
     >
       <div
         className={cn(
           'flex size-[28px] items-center justify-center rounded-full',
-          completed ? 'bg-[#9da9b5]' : 'border-2 border-[#aeaeae] bg-transparent',
+          completed ? 'bg-figma-typo-gray-b' : 'border-2 border-figma-typo-gray bg-transparent',
         )}
       >
         {completed ? <Check className="size-4 text-white" /> : null}
@@ -42,8 +42,8 @@ function ChecklistItem({
           as="p"
           variant="title3"
           className={cn(
-            'text-[#232323]',
-            completed && 'line-through text-[#232323]/80',
+            'text-figma-typo-black',
+            completed && 'line-through opacity-80',
           )}
         >
           {title}
@@ -54,11 +54,17 @@ function ChecklistItem({
               label={subjectLabel}
               subject={subject}
               tone={completed ? 'muted' : 'default'}
-              className={completed ? 'bg-white text-[#9da9b5]' : undefined}
+              className={completed ? 'bg-white text-figma-typo-gray-b' : undefined}
             />
           ) : null}
           {subtitle ? (
-            <Text as="p" variant="caption" className={cn(completed ? 'text-[#9da9b5]' : 'text-[#aeaeae]')}>
+            <Text
+              as="p"
+              variant="caption"
+              className={cn(
+                completed ? 'text-figma-typo-gray-b' : 'text-figma-typo-gray',
+              )}
+            >
               {subtitle}
             </Text>
           ) : null}

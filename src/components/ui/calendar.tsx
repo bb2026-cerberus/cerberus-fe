@@ -130,7 +130,7 @@ function Calendar({
         <DayPicker
           showOutsideDays={showOutsideDays}
           className={cn(
-            'bg-background group/calendar mx-auto px-0 pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+            'bg-background group/calendar mx-auto px-0 pb-[14px] pt-[18px] text-figma-typo-black [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
             String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
             String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
             className,
@@ -163,12 +163,12 @@ function Calendar({
             ),
             button_previous: cn(
               buttonVariants({ variant: buttonVariant }),
-              'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+              'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_previous,
             ),
             button_next: cn(
               buttonVariants({ variant: buttonVariant }),
-              'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+              'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_next,
             ),
             month_caption: cn(
@@ -185,7 +185,7 @@ function Calendar({
             ),
             dropdown: cn('bg-popover absolute inset-0 opacity-0', defaultClassNames.dropdown),
             caption_label: cn(
-              'absolute left-1/2 -translate-x-1/2 select-none text-[18px] font-bold leading-[24px] text-[#232323]',
+              'absolute left-1/2 -translate-x-1/2 select-none text-[18px] font-bold leading-[24px] text-figma-typo-black',
               captionLayout === 'label'
                 ? 'pointer-events-none'
                 : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5',
@@ -193,11 +193,11 @@ function Calendar({
             ),
             table: 'w-full border-collapse',
             weekdays: cn(
-              'mt-[16px] bg-[#fafafa] flex h-[39px] items-center justify-between rounded-[31px]',
+              'mt-[16px] bg-figma-light-gray flex h-[39px] items-center justify-between rounded-[31px]',
               defaultClassNames.weekdays,
             ),
             weekday: cn(
-              'flex w-[38px] select-none items-center justify-center text-[14px] font-semibold text-[#aeaeae]',
+              'flex w-[38px] select-none items-center justify-center text-[14px] font-semibold text-figma-typo-gray',
               defaultClassNames.weekday,
             ),
             week: cn(
@@ -208,9 +208,15 @@ function Calendar({
               'group/day relative h-full w-full select-none p-0 text-center',
               defaultClassNames.day,
             ),
-            range_start: cn('bg-[#064092] text-white rounded-[25px]', defaultClassNames.range_start),
+            range_start: cn(
+              'bg-figma-point-color-2 text-white rounded-[25px]',
+              defaultClassNames.range_start,
+            ),
             range_middle: cn('rounded-none', defaultClassNames.range_middle),
-            range_end: cn('bg-[#064092] text-white rounded-[25px]', defaultClassNames.range_end),
+            range_end: cn(
+              'bg-figma-point-color-2 text-white rounded-[25px]',
+              defaultClassNames.range_end,
+            ),
             today: cn('rounded-[25px] data-[selected=true]:rounded-[25px]', defaultClassNames.today),
             outside: cn(
               'text-muted-foreground aria-selected:text-muted-foreground',
@@ -244,7 +250,7 @@ function Calendar({
                     type="button"
                     className={cn(
                       buttonVariants({ variant: buttonVariant }),
-                      'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+                      'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
                     )}
                     aria-label="Previous"
                     disabled={!isWeekMode && !previousMonth}
@@ -262,7 +268,7 @@ function Calendar({
                     type="button"
                     className={cn(
                       buttonVariants({ variant: buttonVariant }),
-                      'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+                      'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
                     )}
                     aria-label="Next"
                     disabled={!isWeekMode && !nextMonth}
@@ -377,8 +383,8 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'flex h-[var(--cell-size)] w-[var(--cell-size)] flex-col items-center justify-center gap-[4px] rounded-full text-[16px] font-normal leading-[1.25] text-[#232323] hover:bg-[#f5f5f5] hover:text-[#232323]',
-        isSelected && '!bg-[#064092] !text-white !font-medium',
+        'flex h-[var(--cell-size)] w-[var(--cell-size)] flex-col items-center justify-center gap-[4px] rounded-full text-[16px] font-normal leading-[1.25] text-figma-typo-black hover:bg-[#f5f5f5] hover:text-figma-typo-black',
+        isSelected && '!bg-figma-point-color-2 !text-white !font-medium',
         defaultClassNames.day,
         className,
       )}

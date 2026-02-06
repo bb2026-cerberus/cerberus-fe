@@ -14,7 +14,7 @@ function CalendarToggle({ label, isExpanded, onClick, className }: CalendarToggl
   return (
     <button
       type="button"
-      className={cn('flex items-center justify-end gap-1 text-[#aeaeae]', className)}
+      className={cn('flex items-center justify-end gap-1 text-figma-typo-gray', className)}
       onClick={onClick}
     >
       <span className="text-[12px] font-medium leading-[24px]">{label}</span>
