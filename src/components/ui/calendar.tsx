@@ -117,7 +117,7 @@ function Calendar({
         <DayPicker
           showOutsideDays={showOutsideDays}
           className={cn(
-            'bg-background group/calendar rounded-[30px] px-[18px] pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+            'bg-background group/calendar rounded-[30px] px-0 pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
             String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
             String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
             className,
@@ -304,15 +304,15 @@ function CalendarDayButton({
       <span className="flex h-[4px] items-center justify-center gap-[4px]" aria-hidden="true">
         {activeDots.length > 0
           ? activeDots.map(({ key, className: dotClassName }) => (
-              <span key={key} className={cn('block size-[4px] rounded-full', dotClassName)} />
-            ))
+            <span key={key} className={cn('block size-[4px] rounded-full', dotClassName)} />
+          ))
           : hasGenericDot
             ? (
-                <span className="block size-[4px] rounded-full bg-[#3b82f6]" />
-              )
+              <span className="block size-[4px] rounded-full bg-[#3b82f6]" />
+            )
             : (
-                <span className="block size-[4px] rounded-full opacity-0" />
-              )}
+              <span className="block size-[4px] rounded-full opacity-0" />
+            )}
       </span>
     </Button>
   )
