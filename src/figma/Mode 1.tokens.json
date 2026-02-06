@@ -1,0 +1,285 @@
+{
+  "White": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1,
+        1,
+        1
+      ],
+      "alpha": 1,
+      "hex": "#FFFFFF"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6869",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "PointColor1": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.43529412150382996,
+        0.5607843399047852,
+        0.686274528503418
+      ],
+      "alpha": 1,
+      "hex": "#6F8FAF"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6870",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "PointColor2": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.0235294122248888,
+        0.250980406999588,
+        0.572549045085907
+      ],
+      "alpha": 1,
+      "hex": "#064092"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6871",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "CardColor": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9725490212440491,
+        0.9882352948188782,
+        1
+      ],
+      "alpha": 1,
+      "hex": "#F8FCFF"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6876",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "LightGray": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9803921580314636,
+        0.9803921580314636,
+        0.9803921580314636
+      ],
+      "alpha": 1,
+      "hex": "#FAFAFA"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6968",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "TypoBlack": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.13725490868091583,
+        0.13725490868091583,
+        0.13725490868091583
+      ],
+      "alpha": 1,
+      "hex": "#232323"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6969",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "TypoGray": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.682692289352417,
+        0.682692289352417,
+        0.682692289352417
+      ],
+      "alpha": 1,
+      "hex": "#AEAEAE"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:183:6999",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "IconColor": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.8461538553237915,
+        0.8461538553237915,
+        0.8461538553237915
+      ],
+      "alpha": 1,
+      "hex": "#D8D8D8"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:191:7930",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "SubColor1": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9519230723381042,
+        0.5034208297729492,
+        0.5034208297729492
+      ],
+      "alpha": 1,
+      "hex": "#F38080"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:215:8140",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "SubColor2": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.2781065106391907,
+        0.5373415350914001,
+        0.9038461446762085
+      ],
+      "alpha": 1,
+      "hex": "#4789E6"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:215:8141",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "SubColor3": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9807692170143127,
+        0.7255180478096008,
+        0.4338017702102661
+      ],
+      "alpha": 1,
+      "hex": "#FAB96F"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:215:8142",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "TypoGray_B": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.615686297416687,
+        0.6627451181411743,
+        0.7098039388656616
+      ],
+      "alpha": 1,
+      "hex": "#9DA9B5"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:215:8143",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "CardGray": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9290403127670288,
+        0.9385747909545898,
+        0.9519230723381042
+      ],
+      "alpha": 1,
+      "hex": "#EDEFF3"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:215:8144",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "StartColor": {
+    "$type": "color",
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        0.9567307829856873,
+        0.26218101382255554,
+        0.26218101382255554
+      ],
+      "alpha": 1,
+      "hex": "#F44343"
+    },
+    "$extensions": {
+      "com.figma.variableId": "VariableID:648:9911",
+      "com.figma.scopes": [
+        "ALL_SCOPES"
+      ],
+      "com.figma.isOverride": true
+    }
+  },
+  "$extensions": {
+    "com.figma.modeName": "Mode 1"
+  }
+}
