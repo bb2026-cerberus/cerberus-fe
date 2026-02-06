@@ -15,6 +15,7 @@ type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   viewMode?: 'month' | 'week'
   selected?: Date | Date[] | DateRange | undefined
+  onSelect?: (date: Date | undefined) => void
 }
 
 function Calendar({
@@ -66,6 +67,7 @@ function Calendar({
     left.getFullYear() === right.getFullYear() &&
     left.getMonth() === right.getMonth() &&
     left.getDate() === right.getDate()
+  const today = React.useMemo(() => new Date(), [])
   const focusDate =
     viewMode === 'week'
       ? selectedDate && isSameMonth(selectedDate, currentMonth)
@@ -107,6 +109,17 @@ function Calendar({
 
   const UserWeek = components?.Week
   const UserWeeks = components?.Weeks
+  const handleWeekChange = React.useCallback(
+    (direction: 'prev' | 'next') => {
+      const baseDate = selectedDate ?? currentMonth
+      const delta = direction === 'prev' ? -7 : 7
+      const nextDate = new Date(baseDate)
+      nextDate.setDate(baseDate.getDate() + delta)
+      handleMonthChange(nextDate)
+      props.onSelect?.(nextDate)
+    },
+    [currentMonth, handleMonthChange, props.onSelect, selectedDate],
+  )
 
   return (
     <div
@@ -124,7 +137,17 @@ function Calendar({
           )}
           captionLayout={captionLayout}
           formatters={{
-            formatCaption: (date) => date.toLocaleString('ko-KR', { month: 'long' }),
+            formatCaption: (date) => {
+              if (viewMode === 'week') {
+                const targetDate = selectedDate ?? date
+                if (isSameDay(targetDate, today)) return '오늘'
+                return targetDate.toLocaleDateString('ko-KR', {
+                  month: 'long',
+                  day: 'numeric',
+                })
+              }
+              return date.toLocaleString('ko-KR', { month: 'long' })
+            },
             formatMonthDropdown: (date) => date.toLocaleString('ko-KR', { month: 'long' }),
             formatWeekdayName: (date) =>
               date.toLocaleDateString('en-US', { weekday: 'short' }).charAt(0),
@@ -140,12 +163,12 @@ function Calendar({
             ),
             button_previous: cn(
               buttonVariants({ variant: buttonVariant }),
-              'h-[24px] w-[24px] select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+              'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_previous,
             ),
             button_next: cn(
               buttonVariants({ variant: buttonVariant }),
-              'h-[24px] w-[24px] select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+              'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_next,
             ),
             month_caption: cn(
@@ -212,6 +235,49 @@ function Calendar({
               }
 
               return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+            },
+            Nav: ({ className, onNextClick, onPreviousClick, nextMonth, previousMonth, ...navProps }) => {
+              const isWeekMode = viewMode === 'week'
+              return (
+                <nav className={cn(className)} {...navProps}>
+                  <button
+                    type="button"
+                    className={cn(
+                      buttonVariants({ variant: buttonVariant }),
+                      'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+                    )}
+                    aria-label="Previous"
+                    disabled={!isWeekMode && !previousMonth}
+                    onClick={(e) => {
+                      if (isWeekMode) {
+                        handleWeekChange('prev')
+                        return
+                      }
+                      onPreviousClick?.(e)
+                    }}
+                  >
+                    <ChevronLeftIcon className="size-4" />
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      buttonVariants({ variant: buttonVariant }),
+                      'h-9 w-9 select-none p-0 text-[#232323] hover:bg-transparent aria-disabled:opacity-50',
+                    )}
+                    aria-label="Next"
+                    disabled={!isWeekMode && !nextMonth}
+                    onClick={(e) => {
+                      if (isWeekMode) {
+                        handleWeekChange('next')
+                        return
+                      }
+                      onNextClick?.(e)
+                    }}
+                  >
+                    <ChevronRightIcon className="size-4" />
+                  </button>
+                </nav>
+              )
             },
             Weeks: ({ className, ...weeksProps }) => {
               const WeeksComponent = UserWeeks ?? 'tbody'
