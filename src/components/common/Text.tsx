@@ -1,4 +1,4 @@
-import type { ElementType, HTMLAttributes } from 'react'
+import type { ComponentPropsWithoutRef, ElementType } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '../../lib/utils'
@@ -20,7 +20,8 @@ const textVariants = cva('text-foreground', {
 
 type TextProps<T extends ElementType> = {
   as?: T
-} & HTMLAttributes<HTMLElement> &
+  className?: string
+} & Omit<ComponentPropsWithoutRef<T>, 'as' | 'className'> &
   VariantProps<typeof textVariants>
 
 function Text<T extends ElementType = 'p'>({
