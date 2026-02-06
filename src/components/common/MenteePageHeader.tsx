@@ -56,7 +56,7 @@ function MenteePageHeader({
             </button>
           </SheetTrigger>
           <SheetContent
-            side="left"
+            side="right"
             hideClose
             className="w-[260px] border-0 bg-transparent p-0 shadow-none"
           >
@@ -64,6 +64,7 @@ function MenteePageHeader({
               name={menuName}
               subline={menuSubline}
               activeLabel={menuActiveLabel}
+              side="right"
             />
           </SheetContent>
         </Sheet>

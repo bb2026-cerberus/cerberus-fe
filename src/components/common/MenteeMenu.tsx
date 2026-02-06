@@ -24,6 +24,7 @@ type MenteeMenuProps = {
   subline: string
   avatarUrl?: string
   activeLabel?: string
+  side?: 'left' | 'right'
   className?: string
 }
 
@@ -36,11 +37,21 @@ const menuItems: MenteeMenuItem[] = [
   { label: '주간 리포트', icon: BarChart3 },
 ]
 
-function MenteeMenu({ name, subline, avatarUrl, activeLabel, className }: MenteeMenuProps) {
+function MenteeMenu({
+  name,
+  subline,
+  avatarUrl,
+  activeLabel,
+  side = 'left',
+  className,
+}: MenteeMenuProps) {
   return (
     <div
       className={cn(
-        'flex w-full flex-col items-center gap-[13px] rounded-tr-[25px] rounded-br-[25px] bg-white px-5 py-[50px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)]',
+        'flex w-full flex-col items-center gap-[13px] bg-white px-5 py-[50px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)]',
+        side === 'right'
+          ? 'rounded-tl-[25px] rounded-bl-[25px]'
+          : 'rounded-tr-[25px] rounded-br-[25px]',
         className,
       )}
     >

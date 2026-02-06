@@ -51,7 +51,7 @@ function MenteeHeader({
                 </button>
               </SheetTrigger>
               <SheetContent
-                side="left"
+                side="right"
                 hideClose
                 className="w-[260px] border-0 bg-transparent p-0 shadow-none"
               >
@@ -59,6 +59,7 @@ function MenteeHeader({
                   name={name.replace('님', '')}
                   subline="D-282 · 목표 1등급"
                   activeLabel="홈"
+                  side="right"
                 />
               </SheetContent>
             </Sheet>
