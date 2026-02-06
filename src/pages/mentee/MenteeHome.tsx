@@ -1,12 +1,15 @@
 import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
 import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
 import MenteeSection from '@/components/common/MenteeSection'
 import SectionHeader from '@/components/common/SectionHeader'
+import routePaths from '@/routes/routePaths'
 
 function MenteeHome() {
+  const navigate = useNavigate()
   const today = React.useMemo(() => new Date(), [])
   const assignments = React.useMemo(
     () => [
@@ -98,7 +101,10 @@ function MenteeHome() {
       </div>
       <div className="w-full bg-transparent px-4 pb-[31px] pt-[26px]">
         <MenteeSection className="flex flex-col gap-2.5">
-          <SectionHeader title="과제" />
+          <SectionHeader
+            title="과제"
+            onClick={() => navigate(`${routePaths.menteeTasks}?tab=assignments`)}
+          />
           <ChecklistGroup>
             {assignments.map((item) => (
               <ChecklistItem
@@ -113,7 +119,10 @@ function MenteeHome() {
           </ChecklistGroup>
         </MenteeSection>
         <MenteeSection className="mt-[14px] flex flex-col gap-2.5">
-          <SectionHeader title="할 일" />
+          <SectionHeader
+            title="할 일"
+            onClick={() => navigate(`${routePaths.menteeTasks}?tab=todos`)}
+          />
           <ChecklistGroup>
             {todos.map((item) => (
               <ChecklistItem

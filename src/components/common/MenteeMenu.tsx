@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react'
+import { Link } from 'react-router-dom'
 import {
   BarChart3,
   ChevronRight,
@@ -12,11 +13,13 @@ import {
 
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
+import routePaths from '@/routes/routePaths'
 
 type MenteeMenuItem = {
   label: string
   icon: ComponentType<{ className?: string }>
   onClick?: () => void
+  to?: string
 }
 
 type MenteeMenuProps = {
@@ -29,8 +32,8 @@ type MenteeMenuProps = {
 }
 
 const menuItems: MenteeMenuItem[] = [
-  { label: '홈', icon: Home },
-  { label: '과제/할 일', icon: FileText },
+  { label: '홈', icon: Home, to: routePaths.mentee },
+  { label: '과제/할 일', icon: FileText, to: routePaths.menteeTasks },
   { label: '과목별 피드백', icon: MessageSquare },
   { label: 'Q&A', icon: MessageCircle },
   { label: '타임블록', icon: Clock3 },
@@ -87,21 +90,39 @@ function MenteeMenu({
       <div className="flex w-full flex-col gap-[10px] p-5">
         {menuItems.map((item) => {
           const isActive = item.label === activeLabel
-          return (
-          <button
-            key={item.label}
-            type="button"
-            className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-            onClick={item.onClick}
-          >
-            <item.icon
-              className={cn('size-6', isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray-b')}
-            />
-            <Text as="span" variant="title3" className="text-[18px] font-medium">
-              {item.label}
-            </Text>
-          </button>
-        )})}
+          const content = (
+            <>
+              <item.icon
+                className={cn(
+                  'size-6',
+                  isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray-b',
+                )}
+              />
+              <Text as="span" variant="title3" className="text-[18px] font-medium">
+                {item.label}
+              </Text>
+            </>
+          )
+
+          return item.to ? (
+            <Link
+              key={item.label}
+              to={item.to}
+              className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+            >
+              {content}
+            </Link>
+          ) : (
+            <button
+              key={item.label}
+              type="button"
+              className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              onClick={item.onClick}
+            >
+              {content}
+            </button>
+          )
+        })}
       </div>
 
       <div className="h-[200px] w-[171px]" />

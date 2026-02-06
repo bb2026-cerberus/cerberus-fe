@@ -6,6 +6,7 @@ import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
 import MenteeHome from '../pages/mentee/MenteeHome'
 import MenteeNotifications from '../pages/mentee/MenteeNotifications'
+import MenteeTasks from '../pages/mentee/MenteeTasks'
 import MentorHome from '../pages/mentor/MentorHome'
 import RoleGuard from './RoleGuard'
 import routePaths from './routePaths'
@@ -33,6 +34,7 @@ function AppRouter() {
         <Route path={routePaths.mentee} element={<MenteeLayout />}>
           <Route index element={<MenteeHome />} />
           <Route path="notifications" element={<MenteeNotifications />} />
+          <Route path="tasks" element={<MenteeTasks />} />
         </Route>
 
         <Route path={routePaths.mentor} element={<MentorLayout />}>

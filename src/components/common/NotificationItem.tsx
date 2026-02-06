@@ -41,10 +41,7 @@ function NotificationItem({
 
   return (
     <div
-      className={cn(
-        'flex w-full items-center gap-4 rounded-[18px] bg-white px-4 py-3',
-        className,
-      )}
+      className={cn('flex w-full items-center gap-4 rounded-[18px] bg-white px-4 py-3', className)}
     >
       <div className={cn('flex size-[34px] items-center justify-center rounded-full', style.bg)}>
         <Icon icon={style.icon} size={20} className={style.iconColor} />
@@ -56,7 +53,7 @@ function NotificationItem({
         <Text as="p" className="text-[14px] font-medium leading-[1.4] text-figma-typo-black">
           {message}
         </Text>
-        <Text as="p" className="text-[12px] font-medium leading-[1.25] text-figma-typo-gray">
+        <Text as="p" className="text-[12px] font-medium leading-tight text-figma-typo-gray">
           {timeText}
         </Text>
       </div>
