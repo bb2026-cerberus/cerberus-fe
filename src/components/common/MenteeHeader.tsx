@@ -1,8 +1,8 @@
 import { Bell, Menu } from 'lucide-react'
 
-import { cn } from '../../lib/utils'
-import { Icon } from './Icon'
-import { Text } from './Text'
+import { cn } from '@/lib/utils'
+import { Icon } from '@/components/common/Icon'
+import { Text } from '@/components/common/Text'
 
 type MenteeHeaderProps = {
   name: string
@@ -20,7 +20,7 @@ function MenteeHeader({
   className,
 }: MenteeHeaderProps) {
   return (
-    <div className={cn('flex flex-col items-center px-3 pt-4 sm:px-4', className)}>
+    <div className={cn('flex flex-col items-center px-4 pt-4 sm:px-4', className)}>
       <div className="flex w-full flex-col gap-2 overflow-hidden">
         <div className="flex w-full items-center justify-between gap-5">
           <Text as="p" variant="headline1" className="text-[#232323]">

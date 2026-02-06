@@ -1,6 +1,6 @@
 import type { LucideIcon, LucideProps } from 'lucide-react'
 
-import { cn } from '../../lib/utils'
+import { cn } from '@/lib/utils'
 
 type IconProps = LucideProps & {
   icon: LucideIcon
