@@ -28,7 +28,7 @@ function MenteeHome() {
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="w-full max-w-[366px]">
+      <div className="w-[386px] max-w-full">
         <Calendar
           mode="single"
           viewMode={viewMode}
@@ -38,7 +38,7 @@ function MenteeHome() {
           defaultMonth={today}
         />
       </div>
-      <div className="flex w-full max-w-[366px] items-center justify-end">
+      <div className="flex w-[366px] max-w-full items-center justify-end">
         <CalendarToggle
           label={viewMode === 'week' ? '캘린더 펼치기' : '캘린더 접기'}
           isExpanded={viewMode === 'month'}

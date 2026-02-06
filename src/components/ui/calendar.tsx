@@ -117,7 +117,7 @@ function Calendar({
         <DayPicker
           showOutsideDays={showOutsideDays}
           className={cn(
-            'bg-background group/calendar rounded-[30px] px-0 pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+            'bg-background group/calendar mx-auto px-0 pb-[14px] pt-[18px] text-[#232323] [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
             String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
             String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
             className,
@@ -131,7 +131,7 @@ function Calendar({
             ...formatters,
           }}
           classNames={{
-            root: cn('w-fit', defaultClassNames.root),
+            root: cn('w-full', defaultClassNames.root),
             months: cn('relative flex flex-col gap-[12px]', defaultClassNames.months),
             month: cn('flex w-full flex-col gap-[12px]', defaultClassNames.month),
             nav: cn(
@@ -170,7 +170,7 @@ function Calendar({
             ),
             table: 'w-full border-collapse',
             weekdays: cn(
-              'mt-[16px] bg-[#fafafa] flex h-[39px] items-center justify-center gap-[14px] rounded-[31px]',
+              'mt-[16px] bg-[#fafafa] flex h-[39px] items-center justify-between rounded-[31px]',
               defaultClassNames.weekdays,
             ),
             weekday: cn(
@@ -178,13 +178,8 @@ function Calendar({
               defaultClassNames.weekday,
             ),
             week: cn(
-              'mt-[29px] flex w-full items-center justify-center gap-[14px]',
+              'mt-[29px] flex w-full items-center justify-between',
               defaultClassNames.week,
-            ),
-            week_number_header: cn('w-[--cell-size] select-none', defaultClassNames.week_number_header),
-            week_number: cn(
-              'text-muted-foreground select-none text-[0.8rem]',
-              defaultClassNames.week_number,
             ),
             day: cn(
               'group/day relative h-full w-full select-none p-0 text-center',
@@ -236,7 +231,12 @@ function Calendar({
                 />
               )
             },
-            DayButton: CalendarDayButton,
+            DayButton: (dayButtonProps) => (
+              <CalendarDayButton
+                {...dayButtonProps}
+                selectedDate={selectedDate instanceof Date ? selectedDate : undefined}
+              />
+            ),
             WeekNumber: ({ children, ...props }) => {
               return (
                 <td {...props}>
@@ -256,13 +256,18 @@ function Calendar({
   )
 }
 
+type CalendarDayButtonProps = React.ComponentProps<typeof DayButton> & {
+  selectedDate?: Date
+}
+
 function CalendarDayButton({
   className,
   day,
   modifiers,
   children,
+  selectedDate,
   ...props
-}: React.ComponentProps<typeof DayButton>) {
+}: CalendarDayButtonProps) {
   const defaultClassNames = getDefaultClassNames()
   const modifierMap = modifiers as Record<string, boolean>
   const dotColors = [
@@ -272,6 +277,24 @@ function CalendarDayButton({
   ]
   const hasGenericDot = Boolean(modifierMap.dot)
   const activeDots = dotColors.filter(({ key }) => modifierMap[key])
+  const ariaSelected = props['aria-selected']
+  const isAriaSelected = ariaSelected === true || ariaSelected === 'true'
+  const isSelectedByDate =
+    selectedDate instanceof Date &&
+    selectedDate.getFullYear() === day.date.getFullYear() &&
+    selectedDate.getMonth() === day.date.getMonth() &&
+    selectedDate.getDate() === day.date.getDate()
+  const isSelectedSingle =
+    (modifiers.selected || isAriaSelected || isSelectedByDate) &&
+    !modifiers.range_start &&
+    !modifiers.range_end &&
+    !modifiers.range_middle
+  const isRangeStart = modifiers.range_start
+  const isRangeEnd = modifiers.range_end
+  const isRangeMiddle = modifiers.range_middle
+  const isSelected =
+    isSelectedSingle || isRangeStart || isRangeEnd || isRangeMiddle || isAriaSelected
+
 
   const ref = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
@@ -284,20 +307,16 @@ function CalendarDayButton({
       variant="ghost"
       size="icon"
       data-day={day.date.toLocaleDateString()}
-      data-selected-single={
-        modifiers.selected &&
-        !modifiers.range_start &&
-        !modifiers.range_end &&
-        !modifiers.range_middle
-      }
       data-range-start={modifiers.range_start}
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'data-[selected-single=true]:bg-[#064092] data-[selected-single=true]:text-white data-[selected-single=true]:font-medium data-[range-middle=true]:bg-[#064092] data-[range-middle=true]:text-white data-[range-start=true]:bg-[#064092] data-[range-start=true]:text-white data-[range-end=true]:bg-[#064092] data-[range-end=true]:text-white flex h-[38px] w-[38px] flex-col items-center justify-center gap-[4px] rounded-[25px] p-[10px] text-[16px] font-normal leading-[1.25] text-[#232323] hover:bg-[#f5f5f5] hover:text-[#232323]',
+        'flex h-[var(--cell-size)] w-[var(--cell-size)] flex-col items-center justify-center gap-[4px] rounded-full text-[16px] font-normal leading-[1.25] text-[#232323] hover:bg-[#f5f5f5] hover:text-[#232323]',
+        isSelected && '!bg-[#064092] !text-white !font-medium',
         defaultClassNames.day,
         className,
       )}
+      style={props.style}
       {...props}
     >
       <span className="leading-[1.25]">{children}</span>

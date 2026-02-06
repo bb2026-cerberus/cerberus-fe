@@ -11,7 +11,8 @@ function MenteeLayout() {
     <AppShell
       header={<MenteeHeader name="김수험님" dateText={dateText} />}
       headerClassName="border-0 bg-transparent"
-      mainClassName="px-4 pt-2 pb-10"
+      className="min-h-dvh"
+      mainClassName="mx-0 w-full max-w-none px-3 sm:px-4 pt-2 pb-[calc(2.5rem+env(safe-area-inset-bottom))]"
     >
       <Outlet />
     </AppShell>
