@@ -3,12 +3,13 @@ import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
 import SubjectChip from '@/components/common/SubjectChip'
+import type { SubjectWithNeutral } from '@/types/ui/subject'
 
 type ChecklistItemProps = {
   title: string
   subtitle?: string
   subjectLabel?: string
-  subject?: 'korean' | 'math' | 'english' | 'neutral'
+  subject?: SubjectWithNeutral
   completed?: boolean
   className?: string
 }

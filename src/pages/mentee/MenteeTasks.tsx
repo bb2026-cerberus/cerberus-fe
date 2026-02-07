@@ -9,10 +9,12 @@ import PillFilterTabs, { type PillFilterItem } from '@/components/common/PillFil
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskItem from '@/components/common/TaskItem'
 import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/SegmentedTabs'
+import type { Subject } from '@/types/ui/subject'
+import type { TaskGroup } from '@/types/ui/task'
 import routePaths from '@/routes/routePaths'
 
 type TaskTabValue = 'assignments' | 'todos' | 'feedback'
-type SubjectFilterValue = 'korean' | 'english' | 'math'
+type SubjectFilterValue = Subject
 
 const taskTabItems: SegmentedTabItem<TaskTabValue>[] = [
   { label: '과제', value: 'assignments' },
@@ -50,7 +52,7 @@ function MenteeTasks() {
   const activeTab = getTabValue(searchParams.get('tab'))
   const [activeSubject, setActiveSubject] = React.useState<SubjectFilterValue>('korean')
 
-  const assignmentGroups = React.useMemo(
+  const assignmentGroups = React.useMemo<TaskGroup[]>(
     () => [
       {
         dateText: '2026.02.02',
@@ -127,7 +129,7 @@ function MenteeTasks() {
     [],
   )
 
-  const todoGroups = React.useMemo(
+  const todoGroups = React.useMemo<TaskGroup[]>(
     () => [
       {
         dateText: '2026.02.02',

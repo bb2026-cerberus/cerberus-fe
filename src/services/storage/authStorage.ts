@@ -1,4 +1,4 @@
-import type { UserRole } from '../../types/auth'
+import type { UserRole } from '../../types/shared/auth'
 
 const ROLE_KEY = 'userRole'
 

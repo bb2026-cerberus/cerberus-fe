@@ -7,8 +7,9 @@ import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
 import MenteeSection from '@/components/common/MenteeSection'
 import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/SegmentedTabs'
+import type { Subject } from '@/types/ui/subject'
 
-type SubjectValue = 'korean' | 'english' | 'math'
+type SubjectValue = Subject
 
 const subjectItems: SegmentedTabItem<SubjectValue>[] = [
   { label: '국어', value: 'korean' },

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import useAuth from '../store/auth/useAuth'
-import type { UserRole } from '../types/auth'
+import type { UserRole } from '../types/shared/auth'
 import routePaths from './routePaths'
 
 type RoleGuardProps = {

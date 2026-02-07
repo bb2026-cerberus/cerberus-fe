@@ -1,10 +1,11 @@
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
 import SubjectChip from '@/components/common/SubjectChip'
+import type { SubjectWithNeutral } from '@/types/ui/subject'
 
 type SubjectStatCardProps = {
   subjectLabel: string
-  subject?: 'korean' | 'english' | 'math' | 'neutral'
+  subject?: SubjectWithNeutral
   value: string
   className?: string
 }

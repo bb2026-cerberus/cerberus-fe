@@ -8,12 +8,13 @@ import FloatingChatButton from '@/components/common/FloatingChatButton'
 import MenteeSection from '@/components/common/MenteeSection'
 import SectionHeader from '@/components/common/SectionHeader'
 import MenteeTimeline from '@/components/common/MenteeTimeline'
+import type { TaskItem } from '@/types/ui/task'
 import routePaths from '@/routes/routePaths'
 
 function MenteeHome() {
   const navigate = useNavigate()
   const today = React.useMemo(() => new Date(), [])
-  const assignments = React.useMemo(
+  const assignments = React.useMemo<TaskItem[]>(
     () => [
       {
         title: '문학 1지문 정리',
@@ -39,7 +40,7 @@ function MenteeHome() {
     ],
     [],
   )
-  const todos = React.useMemo(
+  const todos = React.useMemo<TaskItem[]>(
     () => [
       {
         title: '미적분 30문제',

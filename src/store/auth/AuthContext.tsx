@@ -5,7 +5,7 @@ import {
   getAccessToken,
   setAccessToken,
 } from '../../services/storage/tokenStorage'
-import type { UserRole } from '../../types/auth'
+import type { UserRole } from '../../types/shared/auth'
 
 type AuthState = {
   role: UserRole | null

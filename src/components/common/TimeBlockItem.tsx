@@ -1,13 +1,14 @@
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
 import SubjectChip from '@/components/common/SubjectChip'
+import type { SubjectWithNeutral } from '@/types/ui/subject'
 import { diffMinutes } from '@/utils/timeBlock'
 
 type TimeBlockItemProps = {
   title: string
   subtitle?: string
   subjectLabel: string
-  subject?: 'korean' | 'english' | 'math' | 'neutral'
+  subject?: SubjectWithNeutral
   startTime: string
   endTime: string
   className?: string
