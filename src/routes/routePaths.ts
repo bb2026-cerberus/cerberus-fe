@@ -8,6 +8,7 @@ const routePaths = {
   menteeAssignmentDetail: '/mentee/assignments/:assignmentId',
   menteeMyPage: '/mentee/my',
   menteeWeeklyReport: '/mentee/weekly-report',
+  menteeTimeBlock: '/mentee/time-block',
   mentor: '/mentor',
 }
 

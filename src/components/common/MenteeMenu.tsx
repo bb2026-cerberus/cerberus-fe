@@ -36,7 +36,7 @@ const menuItems: MenteeMenuItem[] = [
   { label: '과제/할 일', icon: FileText, to: routePaths.menteeTasks },
   { label: '과목별 피드백', icon: MessageSquare },
   { label: 'Q&A', icon: MessageCircle },
-  { label: '타임블록', icon: Clock3 },
+  { label: '타임블록', icon: Clock3, to: routePaths.menteeTimeBlock },
   { label: '주간 리포트', icon: BarChart3, to: routePaths.menteeWeeklyReport },
 ]
 

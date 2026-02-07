@@ -18,11 +18,12 @@ function MenteeLayout() {
   const isTodoDetail = location.pathname.startsWith('/mentee/todos/')
   const isMyPage = location.pathname === routePaths.menteeMyPage
   const isWeeklyReport = location.pathname === routePaths.menteeWeeklyReport
+  const isTimeBlock = location.pathname === routePaths.menteeTimeBlock
 
   return (
     <AppShell
       header={
-        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport ? (
+        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport || isTimeBlock ? (
           <MenteePageHeader
             title={
               isTodoCreate
@@ -37,7 +38,9 @@ function MenteeLayout() {
                         ? '마이페이지'
                         : isWeeklyReport
                           ? '주간학습 리포트'
-                        : '알림'
+                          : isTimeBlock
+                            ? '타임블록'
+                          : '알림'
             }
             menuName="김수험"
             menuActiveLabel={isTasks ? '과제/할 일' : '홈'}
@@ -51,7 +54,9 @@ function MenteeLayout() {
                       ? routePaths.mentee
                       : isWeeklyReport
                         ? routePaths.mentee
-                      : routePaths.mentee,
+                        : isTimeBlock
+                          ? routePaths.mentee
+                        : routePaths.mentee,
               )
             }
           />
