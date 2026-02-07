@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   BarChart3,
   ChevronRight,
@@ -50,6 +50,13 @@ function MenteeMenu({
 }: MenteeMenuProps) {
   const location = useLocation()
   const pathname = location.pathname
+  const navigate = useNavigate()
+
+  const handleLogoutClick = () => {
+    navigate(routePaths.root)
+    // localStorage.removeItem('token')
+    // window.location.reload()
+  }
 
   return (
     <div
@@ -147,6 +154,7 @@ function MenteeMenu({
         <button
           type="button"
           className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+          onClick={handleLogoutClick}
         >
           <LogOut className="size-6 text-figma-typo-gray-b" />
           <Text as="span" variant="title3" className="text-[18px] font-medium">
