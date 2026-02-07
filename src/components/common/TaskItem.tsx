@@ -11,6 +11,7 @@ type TaskItemProps = {
   subject?: 'korean' | 'math' | 'english' | 'neutral'
   completed?: boolean
   className?: string
+  onClick?: () => void
 }
 
 function TaskItem({
@@ -20,14 +21,10 @@ function TaskItem({
   subject = 'neutral',
   completed = false,
   className,
+  onClick,
 }: TaskItemProps) {
-  return (
-    <div
-      className={cn(
-        'flex h-[90px] w-full items-center gap-4 rounded-[18px] bg-white px-4',
-        className,
-      )}
-    >
+  const content = (
+    <>
       <div
         className={cn(
           'flex size-[28px] items-center justify-center rounded-full',
@@ -51,7 +48,21 @@ function TaskItem({
           ) : null}
         </div>
       </div>
-    </div>
+    </>
+  )
+
+  const containerClassName = cn(
+    'flex h-[90px] w-full items-center gap-4 rounded-[18px] bg-white px-4',
+    onClick ? 'text-left transition-colors hover:bg-figma-light-gray' : undefined,
+    className,
+  )
+
+  return onClick ? (
+    <button type="button" className={containerClassName} onClick={onClick}>
+      {content}
+    </button>
+  ) : (
+    <div className={containerClassName}>{content}</div>
   )
 }
 

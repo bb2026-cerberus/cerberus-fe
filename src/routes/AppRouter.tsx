@@ -8,6 +8,7 @@ import MenteeHome from '../pages/mentee/MenteeHome'
 import MenteeNotifications from '../pages/mentee/MenteeNotifications'
 import MenteeTasks from '../pages/mentee/MenteeTasks'
 import MenteeTodoCreate from '../pages/mentee/MenteeTodoCreate'
+import MenteeAssignmentDetail from '../pages/mentee/MenteeAssignmentDetail'
 import MentorHome from '../pages/mentor/MentorHome'
 import RoleGuard from './RoleGuard'
 import routePaths from './routePaths'
@@ -37,6 +38,7 @@ function AppRouter() {
           <Route path="notifications" element={<MenteeNotifications />} />
           <Route path="tasks" element={<MenteeTasks />} />
           <Route path="todos/new" element={<MenteeTodoCreate />} />
+          <Route path="assignments/:assignmentId" element={<MenteeAssignmentDetail />} />
         </Route>
 
         <Route path={routePaths.mentor} element={<MentorLayout />}>

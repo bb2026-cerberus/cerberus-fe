@@ -271,6 +271,11 @@ function MenteeTasks() {
                         subject={item.subject}
                         subjectLabel={item.subjectLabel}
                         completed={item.completed}
+                        onClick={() =>
+                          navigate(
+                            routePaths.menteeAssignmentDetail.replace(':assignmentId', item.id),
+                          )
+                        }
                       />
                     ))}
                   </div>

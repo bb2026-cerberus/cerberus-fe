@@ -14,16 +14,27 @@ function MenteeLayout() {
   const isNotifications = location.pathname === routePaths.menteeNotifications
   const isTasks = location.pathname === routePaths.menteeTasks
   const isTodoCreate = location.pathname === routePaths.menteeTodoCreate
+  const isAssignmentDetail = location.pathname.startsWith('/mentee/assignments/')
 
   return (
     <AppShell
       header={
-        isNotifications || isTasks || isTodoCreate ? (
+        isNotifications || isTasks || isTodoCreate || isAssignmentDetail ? (
           <MenteePageHeader
-            title={isTodoCreate ? '할 일 추가' : isTasks ? '과제/할 일' : '알림'}
+            title={
+              isTodoCreate ? '할 일 추가' : isTasks ? '과제/할 일' : isAssignmentDetail ? '과제' : '알림'
+            }
             menuName="김수험"
             menuActiveLabel={isTasks ? '과제/할 일' : '홈'}
-            onBackClick={() => navigate(isTodoCreate ? routePaths.menteeTasks : routePaths.mentee)}
+            onBackClick={() =>
+              navigate(
+                isTodoCreate
+                  ? routePaths.menteeTasks
+                  : isAssignmentDetail
+                    ? routePaths.menteeTasks
+                    : routePaths.mentee,
+              )
+            }
           />
         ) : (
           <MenteeHeader
@@ -35,7 +46,9 @@ function MenteeLayout() {
       }
       headerClassName={cn(
         'sticky top-0 z-10 border-0',
-        isNotifications || isTasks || isTodoCreate ? 'bg-figma-light-gray' : 'bg-white',
+        isNotifications || isTasks || isTodoCreate || isAssignmentDetail
+          ? 'bg-figma-light-gray'
+          : 'bg-white',
       )}
       className="min-h-dvh bg-figma-light-gray"
       mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(2.5rem+env(safe-area-inset-bottom))]"
