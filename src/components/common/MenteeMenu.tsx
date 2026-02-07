@@ -54,7 +54,7 @@ function MenteeMenu({
   return (
     <div
       className={cn(
-        'flex w-full flex-col items-center gap-[13px] bg-white px-5 py-[50px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)]',
+        'flex w-full flex-col items-center gap-[13px] bg-white px-5 py-[50px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)] h-full',
         side === 'right'
           ? 'rounded-tl-[25px] rounded-bl-[25px]'
           : 'rounded-tr-[25px] rounded-br-[25px]',
@@ -98,7 +98,7 @@ function MenteeMenu({
 
       <div className="h-px w-[218px] bg-figma-typo-gray/30" />
 
-      <div className="flex w-full flex-col gap-[10px] p-5">
+      <div className="flex min-h-0 flex-1 w-full flex-col gap-[10px] p-5">
         {menuItems.map((item) => {
           const isActive = item.to
             ? item.to === routePaths.mentee
@@ -143,17 +143,17 @@ function MenteeMenu({
         })}
       </div>
 
-      <div className="h-[200px] w-[171px]" />
-
-      <button
-        type="button"
-        className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
-      >
-        <LogOut className="size-6 text-figma-typo-gray-b" />
-        <Text as="span" variant="title3" className="text-[18px] font-medium">
-          로그아웃
-        </Text>
-      </button>
+      <div className="mt-auto pb-8">
+        <button
+          type="button"
+          className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+        >
+          <LogOut className="size-6 text-figma-typo-gray-b" />
+          <Text as="span" variant="title3" className="text-[18px] font-medium">
+            로그아웃
+          </Text>
+        </button>
+      </div>
     </div>
   )
 }

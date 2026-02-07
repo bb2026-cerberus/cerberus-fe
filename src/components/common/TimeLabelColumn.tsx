@@ -17,7 +17,7 @@ function TimeLabelColumn({ labels, className, gap = 35 }: TimeLabelColumnProps) 
         <Text
           key={label}
           as="span"
-          className="whitespace-nowrap text-[12px] font-medium leading-[1.25]"
+          className="whitespace-nowrap text-[12px] font-medium leading-tight"
         >
           {label}
         </Text>
