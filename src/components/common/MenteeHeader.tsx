@@ -24,10 +24,14 @@ function MenteeHeader({
   className,
 }: MenteeHeaderProps) {
   return (
-    <div className={cn('flex flex-col items-center px-4 pt-4 sm:px-4', className)}>
-      <div className="flex w-full flex-col gap-2 overflow-hidden">
+    <div className={cn('flex w-full flex-col items-center px-4 sm:px-4', className)}>
+      <div className="flex w-full flex-col gap-1 overflow-hidden">
         <div className="flex w-full items-center justify-between gap-5">
-          <Text as="p" variant="headline1" className="text-figma-typo-black">
+          <Text
+            as="p"
+            variant="headline1"
+            className="text-[24px] font-semibold leading-[1.2] text-figma-typo-black"
+          >
             {name}
           </Text>
           <div className="flex items-center gap-4">
@@ -42,7 +46,7 @@ function MenteeHeader({
             <Sheet onOpenChange={onMenuOpenChange}>
               <SheetTrigger asChild>
                 <button
-                  className="flex size-6 items-center justify-center text-figma-icon-color outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+                  className="flex size-6 items-center justify-center rounded-md text-figma-icon-color focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-figma-point-color-1 focus-visible:ring-offset-2 focus-visible:ring-offset-figma-white"
                   type="button"
                   onClick={onMenuClick}
                   aria-label="메뉴"
@@ -65,7 +69,7 @@ function MenteeHeader({
             </Sheet>
           </div>
         </div>
-        <Text as="p" variant="title3" className="text-figma-typo-gray">
+        <Text as="p" variant="caption" className="leading-[1.2] text-figma-typo-gray">
           {dateText}
         </Text>
       </div>

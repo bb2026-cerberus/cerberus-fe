@@ -38,7 +38,7 @@
 
 - UI 작업 전에 항상 `src/components` 폴더(공통 UI는 `src/components/ui`)를 확인하여 기존 컴포넌트 재사용 여부를 판단한다.
 - 공통 UI는 `src/components/ui`에만 추가한다.
-- 클래스 결합은 `cn` 유틸(`src/utils/cn.ts`)로 한다.
+- 클래스 결합은 `cn` 유틸(`@/lib/utils`)로 한다.
 - 에러/로딩은 `ErrorBoundary`, `Loading`을 사용한다.
 - 비동기 화면에는 `Loading` 또는 `Skeleton` 중 하나를 적용한다.
 

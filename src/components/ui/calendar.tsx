@@ -134,7 +134,7 @@ function Calendar({
         <DayPicker
           showOutsideDays={showOutsideDays}
           className={cn(
-            'bg-background group/calendar mx-auto px-0 pb-[14px] pt-[18px] text-figma-typo-black [--cell-size:38px] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+            'bg-background group/calendar mx-auto px-0 pb-[14px] pt-[18px] text-figma-typo-black [--cell-size:38px] in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
             String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
             String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
             className,
@@ -416,15 +416,15 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        'flex h-[var(--cell-size)] w-[var(--cell-size)] flex-col items-center justify-center gap-[4px] rounded-full text-[16px] font-normal leading-[1.25] text-figma-typo-black hover:bg-[#f5f5f5] hover:text-figma-typo-black',
-        isSelected && '!bg-figma-point-color-2 !text-white !font-medium',
+        'flex h-(--cell-size) w-(--cell-size) flex-col items-center justify-center gap-[4px] rounded-full text-[16px] font-normal leading-tight text-figma-typo-black hover:bg-[#f5f5f5] hover:text-figma-typo-black',
+        isSelected && 'bg-figma-point-color-2! text-white! font-medium!',
         defaultClassNames.day,
         className,
       )}
       style={props.style}
       {...props}
     >
-      <span className="leading-[1.25]">{children}</span>
+      <span className="leading-tight">{children}</span>
       <span className="flex h-[4px] items-center justify-center gap-[4px]" aria-hidden="true">
         {activeDots.length > 0 ? (
           activeDots.map(({ key, className: dotClassName }) => (

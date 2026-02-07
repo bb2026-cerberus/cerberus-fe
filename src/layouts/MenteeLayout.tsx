@@ -23,7 +23,14 @@ function MenteeLayout() {
   return (
     <AppShell
       header={
-        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport || isTimeBlock ? (
+        isNotifications ||
+        isTasks ||
+        isTodoCreate ||
+        isAssignmentDetail ||
+        isTodoDetail ||
+        isMyPage ||
+        isWeeklyReport ||
+        isTimeBlock ? (
           <MenteePageHeader
             title={
               isTodoCreate
@@ -40,7 +47,7 @@ function MenteeLayout() {
                           ? '주간학습 리포트'
                           : isTimeBlock
                             ? '타임블록'
-                          : '알림'
+                            : '알림'
             }
             menuName="김수험"
             menuActiveLabel={isTasks ? '과제/할 일' : '홈'}
@@ -56,7 +63,7 @@ function MenteeLayout() {
                         ? routePaths.mentee
                         : isTimeBlock
                           ? routePaths.mentee
-                        : routePaths.mentee,
+                          : routePaths.mentee,
               )
             }
           />
@@ -69,13 +76,19 @@ function MenteeLayout() {
         )
       }
       headerClassName={cn(
-        'sticky top-0 z-10 border-0',
-        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport
+        'sticky top-0 z-50 border-b border-figma-card-gray bg-figma-white pb-4 pt-[calc(env(safe-area-inset-top)+1rem)]',
+        isNotifications ||
+          isTasks ||
+          isTodoCreate ||
+          isAssignmentDetail ||
+          isTodoDetail ||
+          isMyPage ||
+          isWeeklyReport
           ? 'bg-figma-light-gray'
-          : 'bg-white',
+          : 'bg-figma-white',
       )}
       className="min-h-dvh bg-figma-light-gray"
-      mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(2.5rem+env(safe-area-inset-bottom))]"
+      mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
     >
       <Outlet />
     </AppShell>

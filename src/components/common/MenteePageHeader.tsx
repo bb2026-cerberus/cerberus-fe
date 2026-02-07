@@ -28,23 +28,36 @@ function MenteePageHeader({
   className,
 }: MenteePageHeaderProps) {
   return (
-    <div className={cn('flex w-full flex-col items-center px-4 pt-4', className)}>
-      <div className="flex w-full items-center justify-between">
+    <div
+      className={cn(
+        'flex w-full flex-col items-center px-4',
+        className
+      )}
+    >
+      <div className="grid w-full grid-cols-[30px_1fr_30px] items-center">
         <button
-          className="flex size-[30px] items-center justify-center text-figma-typo-gray-b"
+          className={cn(
+            'flex size-[30px] items-center justify-center text-figma-typo-gray-b',
+            !onBackClick && 'opacity-50'
+          )}
           type="button"
           onClick={onBackClick}
+          disabled={!onBackClick}
+          aria-disabled={!onBackClick}
           aria-label="뒤로가기"
         >
           <Icon icon={ChevronLeft} size={24} />
         </button>
-        <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+        <Text
+          as="p"
+          className="justify-self-center text-center text-[20px] font-semibold leading-6 text-figma-typo-black"
+        >
           {title}
         </Text>
         <Sheet onOpenChange={onMenuOpenChange}>
           <SheetTrigger asChild>
             <button
-              className="flex size-6 items-center justify-center text-figma-icon-color outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              className="flex size-6 items-center justify-center justify-self-end rounded-md text-figma-icon-color focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-figma-point-color-1 focus-visible:ring-offset-2 focus-visible:ring-offset-figma-white"
               type="button"
               onClick={onMenuClick}
               aria-label="메뉴"
