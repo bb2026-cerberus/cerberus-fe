@@ -10,6 +10,9 @@ type SegmentedTabsProps<T extends string> = {
   items: SegmentedTabItem<T>[]
   onChange: (value: T) => void
   className?: string
+  buttonClassName?: string
+  activeClassName?: string
+  inactiveClassName?: string
 }
 
 function SegmentedTabs<T extends string>({
@@ -17,6 +20,9 @@ function SegmentedTabs<T extends string>({
   items,
   onChange,
   className,
+  buttonClassName,
+  activeClassName,
+  inactiveClassName,
 }: SegmentedTabsProps<T>) {
   return (
     <div
@@ -34,9 +40,10 @@ function SegmentedTabs<T extends string>({
             onClick={() => onChange(item.value)}
             className={cn(
               'flex flex-1 items-center justify-center rounded-[40px] text-[14px] leading-[1.4]',
+              buttonClassName,
               isActive
-                ? 'bg-figma-point-color-2 font-semibold text-white'
-                : 'font-medium text-figma-typo-gray',
+                ? activeClassName ?? 'bg-figma-point-color-2 font-semibold text-white'
+                : inactiveClassName ?? 'font-medium text-figma-typo-gray',
             )}
             aria-pressed={isActive}
           >

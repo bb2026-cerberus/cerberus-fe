@@ -1,5 +1,5 @@
 import MenteeSection from '@/components/common/MenteeSection'
-import PrimaryActionButton from '@/components/common/PrimaryActionButton'
+import ActionButton from '@/components/common/ActionButton'
 import ProfileCard from '@/components/common/ProfileCard'
 import SectionLinkHeader from '@/components/common/SectionLinkHeader'
 import StatCard from '@/components/common/StatCard'
@@ -39,7 +39,7 @@ function MenteeMyPage() {
 
           <div className="flex justify-end px-[10px]">
             <div className="w-[173px]">
-              <PrimaryActionButton label="상담 받아보기" />
+              <ActionButton label="상담 받아보기" />
             </div>
           </div>
         </MenteeSection>
