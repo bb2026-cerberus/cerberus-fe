@@ -23,15 +23,18 @@ function MenteeLayout() {
   const isMyPage = location.pathname === routePaths.menteeMyPage
   const isWeeklyReport = location.pathname === routePaths.menteeWeeklyReport
   const isTimeBlock = location.pathname === routePaths.menteeTimeBlock
+  const isQna = location.pathname === routePaths.menteeQna
 
   const menteeMenuActiveLabel =
     isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail
-      ? '과제 · 피드백'
+      ? '과제 피드백'
       : isTimeBlock
         ? '타임블록'
         : isWeeklyReport
           ? '주간 리포트'
-          : '홈'
+          : isQna
+            ? 'Q&A'
+            : '홈'
 
   return (
     <>
@@ -44,7 +47,8 @@ function MenteeLayout() {
           isTodoDetail ||
           isMyPage ||
           isWeeklyReport ||
-          isTimeBlock ? (
+          isTimeBlock ||
+          isQna ? (
             <MenteePageHeader
               title={
                 isTodoCreate
@@ -58,9 +62,11 @@ function MenteeLayout() {
                         : isMyPage
                           ? '마이페이지'
                           : isWeeklyReport
-                            ? '주간학습 리포트'
-                            : isTimeBlock
-                              ? '타임블록'
+                          ? '주간학습 리포트'
+                          : isTimeBlock
+                            ? '타임블록'
+                            : isQna
+                              ? 'Q&A'
                               : '알림'
               }
               onMenuClick={() => setMenuOpen(true)}
@@ -94,13 +100,14 @@ function MenteeLayout() {
           isNotifications ||
             isTasks ||
             isTodoCreate ||
-            isAssignmentDetail ||
-            isTodoDetail ||
-            isMyPage ||
-            isWeeklyReport
-            ? 'bg-figma-light-gray'
-            : 'bg-figma-white',
-        )}
+          isAssignmentDetail ||
+          isTodoDetail ||
+          isMyPage ||
+          isWeeklyReport ||
+          isQna
+          ? 'bg-figma-light-gray'
+          : 'bg-figma-white',
+      )}
         className="min-h-dvh bg-figma-light-gray"
         mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
       >

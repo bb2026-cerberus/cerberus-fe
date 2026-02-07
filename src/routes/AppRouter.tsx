@@ -13,6 +13,7 @@ import MenteeTodoDetail from '../pages/mentee/MenteeTodoDetail'
 import MenteeMyPage from '../pages/mentee/MenteeMyPage'
 import MenteeWeeklyReport from '../pages/mentee/MenteeWeeklyReport'
 import MenteeTimeBlock from '../pages/mentee/MenteeTimeBlock'
+import MenteeQna from '../pages/mentee/MenteeQna'
 import MentorHome from '../pages/mentor/MentorHome'
 import RoleGuard from './RoleGuard'
 import routePaths from './routePaths'
@@ -47,6 +48,7 @@ function AppRouter() {
           <Route path="my" element={<MenteeMyPage />} />
           <Route path="weekly-report" element={<MenteeWeeklyReport />} />
           <Route path="time-block" element={<MenteeTimeBlock />} />
+          <Route path="qna" element={<MenteeQna />} />
         </Route>
 
         <Route path={routePaths.mentor} element={<MentorLayout />}>

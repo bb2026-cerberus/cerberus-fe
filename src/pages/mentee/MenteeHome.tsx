@@ -4,6 +4,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
 import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
+import FloatingChatButton from '@/components/common/FloatingChatButton'
 import MenteeSection from '@/components/common/MenteeSection'
 import SectionHeader from '@/components/common/SectionHeader'
 import MenteeTimeline from '@/components/common/MenteeTimeline'
@@ -59,6 +60,28 @@ function MenteeHome() {
   )
   const [selected, setSelected] = React.useState<Date | undefined>(today)
   const [viewMode, setViewMode] = React.useState<'month' | 'week'>('week')
+  const [now, setNow] = React.useState(() => new Date())
+  React.useEffect(() => {
+    const id = setInterval(() => setNow(new Date()), 60_000)
+    return () => clearInterval(id)
+  }, [])
+  const displayDate = React.useMemo(() => {
+    const selectedOrToday = selected ?? today
+    const currentDay = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    const selectedDay = new Date(
+      selectedOrToday.getFullYear(),
+      selectedOrToday.getMonth(),
+      selectedOrToday.getDate(),
+    )
+    const isViewingToday = selectedDay.getTime() === currentDay.getTime()
+    const fiveAM = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 5, 0, 0, 0)
+    if (isViewingToday && now.getTime() < fiveAM.getTime()) {
+      const yesterday = new Date(currentDay)
+      yesterday.setDate(yesterday.getDate() - 1)
+      return yesterday
+    }
+    return selectedOrToday
+  }, [now, selected, today])
   const dummyMarkers = React.useMemo(
     () => ({
       dotBlue: [
@@ -108,9 +131,9 @@ function MenteeHome() {
             onClick={() => navigate(routePaths.menteeTimeBlock)}
           />
           <MenteeTimeline
-            baseDate={selected ?? today}
+            baseDate={displayDate}
             segments={React.useMemo(() => {
-              const d = selected ?? today
+              const d = displayDate
               const y = d.getFullYear()
               const m = d.getMonth()
               const day = d.getDate()
@@ -127,7 +150,7 @@ function MenteeHome() {
                   type: 'break' as const,
                 },
                 {
-                  start: new Date(y, m, day, 11, 0),
+                  start: new Date(y, m, day, 11, 50),
                   end: new Date(y, m, day, 12, 0),
                   colorClass: 'bg-figma-sub-color-1',
                 },
@@ -137,9 +160,9 @@ function MenteeHome() {
                   colorClass: 'bg-figma-sub-color-3',
                 },
               ]
-            }, [selected, today])}
+            }, [displayDate])}
             markers={React.useMemo(() => {
-              const d = selected ?? today
+              const d = displayDate
               const y = d.getFullYear()
               const m = d.getMonth()
               const day = d.getDate()
@@ -166,7 +189,7 @@ function MenteeHome() {
                   colorClass: 'bg-figma-sub-color-3',
                 },
               ]
-            }, [selected, today])}
+            }, [displayDate])}
           />
         </MenteeSection>
         <MenteeSection className="mt-[14px] flex flex-col gap-2.5">
@@ -206,6 +229,7 @@ function MenteeHome() {
           </ChecklistGroup>
         </MenteeSection>
       </div>
+      <FloatingChatButton onClick={() => navigate(routePaths.menteeQna)} />
     </div>
   )
 }

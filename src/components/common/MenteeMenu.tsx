@@ -34,7 +34,7 @@ type MenteeMenuProps = {
 const menuItems: MenteeMenuItem[] = [
   { label: '홈', icon: Home, to: routePaths.mentee },
   { label: '과제 · 피드백', icon: FileText, to: routePaths.menteeTasks },
-  { label: 'Q&A', icon: MessageCircle },
+  { label: 'Q&A', icon: MessageCircle, to: routePaths.menteeQna },
   { label: '타임블록', icon: Clock3, to: routePaths.menteeTimeBlock },
   { label: '주간 리포트', icon: BarChart3, to: routePaths.menteeWeeklyReport },
 ]

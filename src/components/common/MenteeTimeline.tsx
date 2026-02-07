@@ -56,21 +56,30 @@ const BAR_HEIGHT = 19
 /** 마커(세로선+체크 원)가 다 들어갈 높이 — top-5(20px) + size-7(28px) = 48 */
 const MARKER_EXTENT = 48
 
-function MenteeTimeline({
-  baseDate,
-  segments,
-  markers = [],
-  className,
-}: MenteeTimelineProps) {
+/** baseDate를 로컬 기준 '날짜만' 사용해 타임라인 범위가 어긋나지 않도록 정규화 */
+function toBaseDay(d: Date): Date {
+  return new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0)
+}
+
+function MenteeTimeline({ baseDate, segments, markers = [], className }: MenteeTimelineProps) {
   const timelineWidth = MINUTES_IN_DAY * PX_PER_MINUTE
   const labelScrollRef = React.useRef<HTMLDivElement>(null)
   const barScrollRef = React.useRef<HTMLDivElement>(null)
   const isSyncingRef = React.useRef(false)
   const hasScrolledToCurrentRef = React.useRef(false)
 
-  const currentTimeLeftPx = React.useMemo(() => {
-    return dateToTimelineMinutes(new Date(), baseDate) * PX_PER_MINUTE
-  }, [baseDate])
+  const baseDay = React.useMemo(() => toBaseDay(baseDate), [baseDate])
+
+  const [currentTimeLeftPx, setCurrentTimeLeftPx] = React.useState(
+    () => dateToTimelineMinutes(new Date(), baseDay) * PX_PER_MINUTE,
+  )
+  React.useEffect(() => {
+    const update = () =>
+      setCurrentTimeLeftPx(dateToTimelineMinutes(new Date(), baseDay) * PX_PER_MINUTE)
+    update()
+    const id = setInterval(update, 60_000)
+    return () => clearInterval(id)
+  }, [baseDay])
 
   React.useEffect(() => {
     if (hasScrolledToCurrentRef.current) return
@@ -107,94 +116,91 @@ function MenteeTimeline({
 
   return (
     <div className={cn('w-full rounded-[18px] bg-figma-white px-4 py-4', className)}>
-        <div className="relative" style={{ minHeight: MARKER_EXTENT }}>
-          {/* 라벨 + 마커 스크롤 (rounded 없음, 마커가 바 위에 보이도록 z-10) */}
-          <div
-            ref={labelScrollRef}
-            className="relative z-10 overflow-x-auto overflow-y-visible"
-            onScroll={() => syncScroll('label')}
-            style={{ scrollbarWidth: 'none' }}
-          >
+      <div className="relative" style={{ minHeight: MARKER_EXTENT }}>
+        {/* 라벨 + 마커 스크롤 (rounded 없음, 마커가 바 위에 보이도록 z-10) */}
+        <div
+          ref={labelScrollRef}
+          className="relative z-10 overflow-x-auto overflow-y-visible"
+          onScroll={() => syncScroll('label')}
+          style={{ scrollbarWidth: 'none' }}
+        >
+          <div className="relative pt-6" style={{ width: timelineWidth, minHeight: MARKER_EXTENT }}>
+            <div className="h-[19px]" aria-hidden />
+            {markers.map((marker, index) => {
+              const leftPx = dateToTimelineMinutes(marker.time, baseDay) * PX_PER_MINUTE
+              return (
+                <div
+                  key={`${marker.time.getTime()}-${marker.title}-${index}`}
+                  className="absolute top-0 -translate-x-1/2"
+                  style={{ left: leftPx }}
+                >
+                  <div className="flex items-center justify-center gap-1">
+                    <Text as="span" variant="caption" className="text-figma-typo-gray">
+                      {marker.timeLabel}
+                    </Text>
+                    <Text
+                      as="span"
+                      variant="caption"
+                      className="font-semibold text-figma-typo-black"
+                    >
+                      {marker.title}
+                    </Text>
+                  </div>
+                  <div className="absolute left-1/2 top-6 h-[19px] w-px -translate-x-1/2 bg-figma-typo-gray/40" />
+                  <div
+                    className={cn(
+                      'absolute left-1/2 top-5 flex size-7 -translate-x-1/2 items-center justify-center rounded-full text-white',
+                      marker.colorClass,
+                    )}
+                  >
+                    <Check className="size-4" />
+                  </div>
+                </div>
+              )
+            })}
             <div
-              className="relative pt-6"
-              style={{ width: timelineWidth, minHeight: MARKER_EXTENT }}
-            >
-              <div className="h-[19px]" aria-hidden />
-              {markers.map((marker, index) => {
-                const leftPx = dateToTimelineMinutes(marker.time, baseDate) * PX_PER_MINUTE
+              className="absolute top-6 h-[19px] w-[3px] -translate-x-1/2 rounded-full bg-figma-typo-gray/40"
+              style={{ left: currentTimeLeftPx }}
+              aria-label="현재 시간"
+            />
+          </div>
+        </div>
+        {/* 바만 스크롤 (rounded-full로 스크롤해도 바 양끝만 둥글게 보임, 마커 뒤로 가도록 z-0) */}
+        <div
+          ref={barScrollRef}
+          className="absolute left-0 right-0 z-0 overflow-x-auto overflow-y-hidden rounded-full"
+          style={{ top: LABEL_ROW_HEIGHT, height: BAR_HEIGHT, scrollbarWidth: 'none' }}
+          onScroll={() => syncScroll('bar')}
+        >
+          <div style={{ width: timelineWidth, height: BAR_HEIGHT }}>
+            <div className="relative h-[19px] w-full overflow-hidden rounded-full bg-figma-card-gray">
+              {segments.map((segment, index) => {
+                const startMin = dateToTimelineMinutes(segment.start, baseDay)
+                const endMin = dateToTimelineMinutes(segment.end, baseDay)
+                const left = startMin * PX_PER_MINUTE
+                const width = Math.max(0, endMin - startMin) * PX_PER_MINUTE
+                const isBreak = segment.type === 'break'
+
                 return (
                   <div
-                    key={`${marker.time.getTime()}-${marker.title}-${index}`}
-                    className="absolute top-0 -translate-x-1/2"
-                    style={{ left: leftPx }}
-                  >
-                    <div className="flex items-center justify-center gap-1">
-                      <Text as="span" variant="caption" className="text-figma-typo-gray">
-                        {marker.timeLabel}
-                      </Text>
-                      <Text
-                        as="span"
-                        variant="caption"
-                        className="font-semibold text-figma-typo-black"
-                      >
-                        {marker.title}
-                      </Text>
-                    </div>
-                    <div className="absolute left-1/2 top-6 h-[19px] w-px -translate-x-1/2 bg-figma-typo-gray/40" />
-                    <div
-                      className={cn(
-                        'absolute left-1/2 top-5 flex size-7 -translate-x-1/2 items-center justify-center rounded-full text-white',
-                        marker.colorClass,
-                      )}
-                    >
-                      <Check className="size-4" />
-                    </div>
-                  </div>
+                    key={`${segment.start.getTime()}-${segment.end.getTime()}-${index}`}
+                    className={cn(
+                      'absolute top-0 h-full max-h-full',
+                      segment.colorClass,
+                      isBreak && 'opacity-40',
+                    )}
+                    style={{
+                      left,
+                      width,
+                      height: 19,
+                    }}
+                  />
                 )
               })}
-              <div
-                className="absolute top-6 h-[19px] w-[3px] -translate-x-1/2 rounded-full bg-figma-typo-gray/40"
-                style={{ left: currentTimeLeftPx }}
-                aria-label="현재 시간"
-              />
-            </div>
-          </div>
-          {/* 바만 스크롤 (rounded-full로 스크롤해도 바 양끝만 둥글게 보임, 마커 뒤로 가도록 z-0) */}
-          <div
-            ref={barScrollRef}
-            className="absolute left-0 right-0 z-0 overflow-x-auto overflow-y-hidden rounded-full"
-            style={{ top: LABEL_ROW_HEIGHT, height: BAR_HEIGHT, scrollbarWidth: 'none' }}
-            onScroll={() => syncScroll('bar')}
-          >
-            <div style={{ width: timelineWidth, height: BAR_HEIGHT }}>
-              <div className="relative h-[19px] w-full overflow-hidden rounded-full bg-figma-card-gray">
-                {segments.map((segment, index) => {
-                  const startMin = dateToTimelineMinutes(segment.start, baseDate)
-                  const endMin = dateToTimelineMinutes(segment.end, baseDate)
-                  const left = startMin * PX_PER_MINUTE
-                  const width = Math.max(0, endMin - startMin) * PX_PER_MINUTE
-                  const isBreak = segment.type === 'break'
-
-                  return (
-                    <div
-                      key={`${segment.start.getTime()}-${segment.end.getTime()}-${index}`}
-                      className={cn(
-                        'absolute top-0 h-full max-h-full',
-                        segment.colorClass,
-                        isBreak && 'opacity-40',
-                      )}
-                      style={{
-                        left,
-                        width,
-                        height: 19,
-                      }}
-                    />
-                  )
-                })}
-              </div>
             </div>
           </div>
         </div>
+      </div>
     </div>
   )
 }
