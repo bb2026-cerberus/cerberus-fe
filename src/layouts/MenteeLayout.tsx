@@ -16,11 +16,13 @@ function MenteeLayout() {
   const isTodoCreate = location.pathname === routePaths.menteeTodoCreate
   const isAssignmentDetail = location.pathname.startsWith('/mentee/assignments/')
   const isTodoDetail = location.pathname.startsWith('/mentee/todos/')
+  const isMyPage = location.pathname === routePaths.menteeMyPage
+  const isWeeklyReport = location.pathname === routePaths.menteeWeeklyReport
 
   return (
     <AppShell
       header={
-        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail ? (
+        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport ? (
           <MenteePageHeader
             title={
               isTodoCreate
@@ -31,7 +33,11 @@ function MenteeLayout() {
                     ? '과제'
                     : isTodoDetail
                       ? '할 일'
-                      : '알림'
+                      : isMyPage
+                        ? '마이페이지'
+                        : isWeeklyReport
+                          ? '주간학습 리포트'
+                        : '알림'
             }
             menuName="김수험"
             menuActiveLabel={isTasks ? '과제/할 일' : '홈'}
@@ -41,7 +47,11 @@ function MenteeLayout() {
                   ? routePaths.menteeTasks
                   : isAssignmentDetail || isTodoDetail
                     ? routePaths.menteeTasks
-                    : routePaths.mentee,
+                    : isMyPage
+                      ? routePaths.mentee
+                      : isWeeklyReport
+                        ? routePaths.mentee
+                      : routePaths.mentee,
               )
             }
           />
@@ -55,7 +65,7 @@ function MenteeLayout() {
       }
       headerClassName={cn(
         'sticky top-0 z-10 border-0',
-        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail
+        isNotifications || isTasks || isTodoCreate || isAssignmentDetail || isTodoDetail || isMyPage || isWeeklyReport
           ? 'bg-figma-light-gray'
           : 'bg-white',
       )}

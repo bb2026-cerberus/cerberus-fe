@@ -6,6 +6,8 @@ const routePaths = {
   menteeTodoCreate: '/mentee/todos/new',
   menteeTodoDetail: '/mentee/todos/:todoId',
   menteeAssignmentDetail: '/mentee/assignments/:assignmentId',
+  menteeMyPage: '/mentee/my',
+  menteeWeeklyReport: '/mentee/weekly-report',
   mentor: '/mentor',
 }
 

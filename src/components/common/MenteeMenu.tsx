@@ -37,7 +37,7 @@ const menuItems: MenteeMenuItem[] = [
   { label: '과목별 피드백', icon: MessageSquare },
   { label: 'Q&A', icon: MessageCircle },
   { label: '타임블록', icon: Clock3 },
-  { label: '주간 리포트', icon: BarChart3 },
+  { label: '주간 리포트', icon: BarChart3, to: routePaths.menteeWeeklyReport },
 ]
 
 function MenteeMenu({
@@ -58,7 +58,10 @@ function MenteeMenu({
         className,
       )}
     >
-      <div className="flex w-full flex-col items-start gap-[5px] rounded-[14px] bg-white px-[10px] py-0">
+      <Link
+        to={routePaths.menteeMyPage}
+        className="flex w-full flex-col items-start gap-[5px] rounded-[14px] bg-white px-[10px] py-0"
+      >
         <div className="size-[79px] overflow-hidden rounded-full bg-figma-card-gray">
           {avatarUrl ? (
             <img
@@ -72,7 +75,11 @@ function MenteeMenu({
         </div>
         <div className="flex w-full items-center justify-between p-[10px]">
           <div className="flex flex-col">
-            <Text as="p" variant="title3" className="text-[20px] font-semibold text-figma-typo-black">
+            <Text
+              as="p"
+              variant="title3"
+              className="text-[20px] font-semibold text-figma-typo-black"
+            >
               {name}
             </Text>
             <Text as="p" variant="body2" className="text-[14px] text-figma-typo-gray">
@@ -83,7 +90,7 @@ function MenteeMenu({
             <ChevronRight className="size-5" />
           </div>
         </div>
-      </div>
+      </Link>
 
       <div className="h-px w-[218px] bg-figma-typo-gray/30" />
 

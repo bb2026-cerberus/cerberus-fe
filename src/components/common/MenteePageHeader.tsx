@@ -38,10 +38,7 @@ function MenteePageHeader({
         >
           <Icon icon={ChevronLeft} size={24} />
         </button>
-        <Text
-          as="p"
-          className="text-[20px] font-semibold leading-6 text-figma-typo-black"
-        >
+        <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
         <Sheet onOpenChange={onMenuOpenChange}>
