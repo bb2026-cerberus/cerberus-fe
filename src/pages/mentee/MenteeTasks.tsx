@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import MenteeSection from '@/components/common/MenteeSection'
+import FloatingActionButton from '@/components/common/FloatingActionButton'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskItem from '@/components/common/TaskItem'
 import TaskTabs, { type TaskTabValue } from '@/components/common/TaskTabs'
@@ -179,6 +180,9 @@ function MenteeTasks() {
           )}
         </MenteeSection>
       </div>
+      {activeTab === 'todos' ? (
+        <FloatingActionButton label="할 일 추가" />
+      ) : null}
     </div>
   )
 }
