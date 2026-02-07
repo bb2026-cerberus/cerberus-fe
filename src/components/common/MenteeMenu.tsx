@@ -1,5 +1,5 @@
 import type { ComponentType } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   BarChart3,
   ChevronRight,
@@ -8,7 +8,6 @@ import {
   Home,
   LogOut,
   MessageCircle,
-  MessageSquare,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -28,13 +27,13 @@ type MenteeMenuProps = {
   avatarUrl?: string
   activeLabel?: string
   side?: 'left' | 'right'
+  onNavigateClick?: () => void
   className?: string
 }
 
 const menuItems: MenteeMenuItem[] = [
   { label: '홈', icon: Home, to: routePaths.mentee },
-  { label: '과제/할 일', icon: FileText, to: routePaths.menteeTasks },
-  { label: '과목별 피드백', icon: MessageSquare },
+  { label: '과제 · 피드백', icon: FileText, to: routePaths.menteeTasks },
   { label: 'Q&A', icon: MessageCircle },
   { label: '타임블록', icon: Clock3, to: routePaths.menteeTimeBlock },
   { label: '주간 리포트', icon: BarChart3, to: routePaths.menteeWeeklyReport },
@@ -46,8 +45,12 @@ function MenteeMenu({
   avatarUrl,
   activeLabel,
   side = 'left',
+  onNavigateClick,
   className,
 }: MenteeMenuProps) {
+  const location = useLocation()
+  const pathname = location.pathname
+
   return (
     <div
       className={cn(
@@ -61,6 +64,7 @@ function MenteeMenu({
       <Link
         to={routePaths.menteeMyPage}
         className="flex w-full flex-col items-start gap-[5px] rounded-[14px] bg-white px-[10px] py-0"
+        onClick={onNavigateClick}
       >
         <div className="size-[79px] overflow-hidden rounded-full bg-figma-card-gray">
           {avatarUrl ? (
@@ -96,7 +100,13 @@ function MenteeMenu({
 
       <div className="flex w-full flex-col gap-[10px] p-5">
         {menuItems.map((item) => {
-          const isActive = item.label === activeLabel
+          const isActive = item.to
+            ? item.to === routePaths.mentee
+              ? pathname === item.to
+              : pathname.startsWith(item.to)
+            : activeLabel
+              ? item.label === activeLabel
+              : false
           const content = (
             <>
               <item.icon
@@ -116,6 +126,7 @@ function MenteeMenu({
               key={item.label}
               to={item.to}
               className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              onClick={onNavigateClick}
             >
               {content}
             </Link>

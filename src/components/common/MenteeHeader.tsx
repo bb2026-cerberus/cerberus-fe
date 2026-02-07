@@ -2,15 +2,12 @@ import { Bell, Menu } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
-import MenteeMenu from '@/components/common/MenteeMenu'
 import { Text } from '@/components/common/Text'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 
 type MenteeHeaderProps = {
   name: string
   dateText: string
   onNotificationClick?: () => void
-  onMenuOpenChange?: (open: boolean) => void
   onMenuClick?: () => void
   className?: string
 }
@@ -19,7 +16,6 @@ function MenteeHeader({
   name,
   dateText,
   onNotificationClick,
-  onMenuOpenChange,
   onMenuClick,
   className,
 }: MenteeHeaderProps) {
@@ -43,30 +39,14 @@ function MenteeHeader({
             >
               <Icon icon={Bell} size={24} />
             </button>
-            <Sheet onOpenChange={onMenuOpenChange}>
-              <SheetTrigger asChild>
-                <button
-                  className="flex size-6 items-center justify-center rounded-md text-figma-icon-color focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-figma-point-color-1 focus-visible:ring-offset-2 focus-visible:ring-offset-figma-white"
-                  type="button"
-                  onClick={onMenuClick}
-                  aria-label="메뉴"
-                >
-                  <Icon icon={Menu} size={24} />
-                </button>
-              </SheetTrigger>
-              <SheetContent
-                side="right"
-                hideClose
-                className="w-[260px] border-0 bg-transparent p-0 shadow-none"
-              >
-                <MenteeMenu
-                  name={name.replace('님', '')}
-                  subline="D-282 · 목표 1등급"
-                  activeLabel="홈"
-                  side="right"
-                />
-              </SheetContent>
-            </Sheet>
+            <button
+              className="flex size-6 items-center justify-center rounded-md text-figma-icon-color focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-figma-point-color-1 focus-visible:ring-offset-2 focus-visible:ring-offset-figma-white"
+              type="button"
+              onClick={onMenuClick}
+              aria-label="메뉴"
+            >
+              <Icon icon={Menu} size={24} />
+            </button>
           </div>
         </div>
         <Text as="p" variant="caption" className="leading-[1.2] text-figma-typo-gray">
