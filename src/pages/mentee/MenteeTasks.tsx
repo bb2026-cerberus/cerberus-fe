@@ -273,7 +273,12 @@ function MenteeTasks() {
                         completed={item.completed}
                         onClick={() =>
                           navigate(
-                            routePaths.menteeAssignmentDetail.replace(':assignmentId', item.id),
+                            activeTab === 'todos'
+                              ? routePaths.menteeTodoDetail.replace(':todoId', item.id)
+                              : routePaths.menteeAssignmentDetail.replace(
+                                  ':assignmentId',
+                                  item.id,
+                                ),
                           )
                         }
                       />
