@@ -1,18 +1,30 @@
 import * as React from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import MenteeSection from '@/components/common/MenteeSection'
 import FloatingActionButton from '@/components/common/FloatingActionButton'
 import FeedbackItem from '@/components/common/FeedbackItem'
 import FeedbackSummaryCard from '@/components/common/FeedbackSummaryCard'
-import SubjectFilterTabs, {
-  type SubjectFilterValue,
-} from '@/components/common/SubjectFilterTabs'
+import PillFilterTabs, { type PillFilterItem } from '@/components/common/PillFilterTabs'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskItem from '@/components/common/TaskItem'
-import TaskTabs, { type TaskTabValue } from '@/components/common/TaskTabs'
+import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/SegmentedTabs'
+import routePaths from '@/routes/routePaths'
 
-const tabValues: TaskTabValue[] = ['assignments', 'todos', 'feedback']
+type TaskTabValue = 'assignments' | 'todos' | 'feedback'
+type SubjectFilterValue = 'korean' | 'english' | 'math'
+
+const taskTabItems: SegmentedTabItem<TaskTabValue>[] = [
+  { label: '과제', value: 'assignments' },
+  { label: '할 일', value: 'todos' },
+  { label: '과목별 피드백', value: 'feedback' },
+]
+
+const subjectFilterItems: PillFilterItem<SubjectFilterValue>[] = [
+  { label: '국어', value: 'korean', activeClassName: 'bg-figma-sub-color-1 text-white' },
+  { label: '영어', value: 'english', activeClassName: 'bg-figma-sub-color-3 text-white' },
+  { label: '수학', value: 'math', activeClassName: 'bg-figma-sub-color-2 text-white' },
+]
 
 function isToday(dateText: string) {
   const [year, month, day] = dateText.split('.').map((value) => Number(value))
@@ -26,13 +38,14 @@ function isToday(dateText: string) {
 }
 
 function getTabValue(raw: string | null): TaskTabValue {
-  if (raw && tabValues.includes(raw as TaskTabValue)) {
+  if (raw && taskTabItems.some((item) => item.value === raw)) {
     return raw as TaskTabValue
   }
   return 'assignments'
 }
 
 function MenteeTasks() {
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = getTabValue(searchParams.get('tab'))
   const [activeSubject, setActiveSubject] = React.useState<SubjectFilterValue>('korean')
@@ -202,13 +215,18 @@ function MenteeTasks() {
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-4 pt-2">
         <MenteeSection className="flex flex-col gap-4">
-          <TaskTabs
+          <SegmentedTabs
             value={activeTab}
+            items={taskTabItems}
             onChange={(next) => setSearchParams({ tab: next })}
           />
           {activeTab === 'feedback' ? (
             <div className="flex flex-col gap-4">
-              <SubjectFilterTabs value={activeSubject} onChange={setActiveSubject} />
+              <PillFilterTabs
+                value={activeSubject}
+                items={subjectFilterItems}
+                onChange={setActiveSubject}
+              />
               <FeedbackSummaryCard
                 title="이번주 멘토 피드백 요약"
                 summary={feedbackSummary[activeSubject]}
@@ -263,7 +281,10 @@ function MenteeTasks() {
         </MenteeSection>
       </div>
       {activeTab === 'todos' ? (
-        <FloatingActionButton label="할 일 추가" />
+        <FloatingActionButton
+          label="할 일 추가"
+          onClick={() => navigate(routePaths.menteeTodoCreate)}
+        />
       ) : null}
     </div>
   )
