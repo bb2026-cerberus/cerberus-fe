@@ -16,6 +16,8 @@ type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   viewMode?: 'month' | 'week'
   selected?: Date | Date[] | DateRange | undefined
   onSelect?: (date: Date | undefined) => void
+  navButtonClassName?: string
+  navButtonStyle?: React.CSSProperties
 }
 
 function Calendar({
@@ -25,6 +27,8 @@ function Calendar({
   captionLayout = 'label',
   buttonVariant = 'ghost',
   viewMode = 'month',
+  navButtonClassName,
+  navButtonStyle,
   formatters,
   components,
   ...props
@@ -82,11 +86,11 @@ function Calendar({
       if (!entry) return
       const nextHeight = entry.contentRect.height
       lastMeasuredHeightRef.current = nextHeight
-      if (containerHeight === 0) setContainerHeight(nextHeight)
+      setContainerHeight(nextHeight)
     })
     observer.observe(content)
     return () => observer.disconnect()
-  }, [containerHeight])
+  }, [])
 
   React.useLayoutEffect(() => {
     const content = contentRef.current
@@ -136,6 +140,17 @@ function Calendar({
             className,
           )}
           captionLayout={captionLayout}
+          styles={{
+            ...props.styles,
+            button_previous: {
+              ...(props.styles?.button_previous ?? {}),
+              ...(navButtonStyle ?? {}),
+            },
+            button_next: {
+              ...(props.styles?.button_next ?? {}),
+              ...(navButtonStyle ?? {}),
+            },
+          }}
           formatters={{
             formatCaption: (date) => {
               if (viewMode === 'week') {
@@ -156,23 +171,25 @@ function Calendar({
           classNames={{
             root: cn('w-full', defaultClassNames.root),
             months: cn('relative flex flex-col gap-[12px]', defaultClassNames.months),
-            month: cn('flex w-full flex-col gap-[12px]', defaultClassNames.month),
+            month: cn('flex w-full flex-col gap-[6px]', defaultClassNames.month),
             nav: cn(
-              'absolute inset-x-0 top-0 z-10 flex w-full items-center justify-between',
+              'absolute inset-x-0 top-0 z-10 flex h-[44px] w-full items-center justify-between',
               defaultClassNames.nav,
             ),
             button_previous: cn(
               buttonVariants({ variant: buttonVariant }),
               'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_previous,
+              navButtonClassName,
             ),
             button_next: cn(
               buttonVariants({ variant: buttonVariant }),
               'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
               defaultClassNames.button_next,
+              navButtonClassName,
             ),
             month_caption: cn(
-              'relative flex w-full items-center justify-center py-[10px]',
+              'relative flex h-[44px] w-full shrink-0 items-center justify-center',
               defaultClassNames.month_caption,
             ),
             dropdowns: cn(
@@ -185,7 +202,7 @@ function Calendar({
             ),
             dropdown: cn('bg-popover absolute inset-0 opacity-0', defaultClassNames.dropdown),
             caption_label: cn(
-              'absolute left-1/2 -translate-x-1/2 select-none text-[18px] font-bold leading-[24px] text-figma-typo-black',
+              'absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[18px] font-bold leading-[24px] text-figma-typo-black',
               captionLayout === 'label'
                 ? 'pointer-events-none'
                 : '[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5',
@@ -193,17 +210,14 @@ function Calendar({
             ),
             table: 'w-full border-collapse',
             weekdays: cn(
-              'mt-[16px] bg-figma-light-gray flex h-[39px] items-center justify-between rounded-[31px]',
+              'mt-[8px] bg-figma-light-gray flex h-[39px] items-center justify-between rounded-[31px]',
               defaultClassNames.weekdays,
             ),
             weekday: cn(
               'flex w-[38px] select-none items-center justify-center text-[14px] font-semibold text-figma-typo-gray',
               defaultClassNames.weekday,
             ),
-            week: cn(
-              'mt-[29px] flex w-full items-center justify-between',
-              defaultClassNames.week,
-            ),
+            week: cn('mt-[29px] flex w-full items-center justify-between', defaultClassNames.week),
             day: cn(
               'group/day relative h-full w-full select-none p-0 text-center',
               defaultClassNames.day,
@@ -217,7 +231,10 @@ function Calendar({
               'bg-figma-point-color-2 text-white rounded-[25px]',
               defaultClassNames.range_end,
             ),
-            today: cn('rounded-[25px] data-[selected=true]:rounded-[25px]', defaultClassNames.today),
+            today: cn(
+              'rounded-[25px] data-[selected=true]:rounded-[25px]',
+              defaultClassNames.today,
+            ),
             outside: cn(
               'text-muted-foreground aria-selected:text-muted-foreground',
               defaultClassNames.outside,
@@ -242,7 +259,14 @@ function Calendar({
 
               return <ChevronDownIcon className={cn('size-4', className)} {...props} />
             },
-            Nav: ({ className, onNextClick, onPreviousClick, nextMonth, previousMonth, ...navProps }) => {
+            Nav: ({
+              className,
+              onNextClick,
+              onPreviousClick,
+              nextMonth,
+              previousMonth,
+              ...navProps
+            }) => {
               const isWeekMode = viewMode === 'week'
               return (
                 <nav className={cn(className)} {...navProps}>
@@ -251,7 +275,9 @@ function Calendar({
                     className={cn(
                       buttonVariants({ variant: buttonVariant }),
                       'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
+                      navButtonClassName,
                     )}
+                    style={navButtonStyle}
                     aria-label="Previous"
                     disabled={!isWeekMode && !previousMonth}
                     onClick={(e) => {
@@ -269,7 +295,9 @@ function Calendar({
                     className={cn(
                       buttonVariants({ variant: buttonVariant }),
                       'h-9 w-9 select-none p-0 text-figma-typo-black hover:bg-transparent aria-disabled:opacity-50',
+                      navButtonClassName,
                     )}
+                    style={navButtonStyle}
                     aria-label="Next"
                     disabled={!isWeekMode && !nextMonth}
                     onClick={(e) => {
@@ -287,7 +315,13 @@ function Calendar({
             },
             Weeks: ({ className, ...weeksProps }) => {
               const WeeksComponent = UserWeeks ?? 'tbody'
-              return <WeeksComponent {...weeksProps} className={cn(className)} data-view-mode={viewMode} />
+              return (
+                <WeeksComponent
+                  {...weeksProps}
+                  className={cn(className, viewMode === 'week' && 'min-h-[67px]')}
+                  data-view-mode={viewMode}
+                />
+              )
             },
             Week: ({ week, ...weekProps }) => {
               const shouldRender =
@@ -367,7 +401,6 @@ function CalendarDayButton({
   const isSelected =
     isSelectedSingle || isRangeStart || isRangeEnd || isRangeMiddle || isAriaSelected
 
-
   const ref = React.useRef<HTMLButtonElement>(null)
   React.useEffect(() => {
     if (modifiers.focused) ref.current?.focus()
@@ -393,17 +426,15 @@ function CalendarDayButton({
     >
       <span className="leading-[1.25]">{children}</span>
       <span className="flex h-[4px] items-center justify-center gap-[4px]" aria-hidden="true">
-        {activeDots.length > 0
-          ? activeDots.map(({ key, className: dotClassName }) => (
+        {activeDots.length > 0 ? (
+          activeDots.map(({ key, className: dotClassName }) => (
             <span key={key} className={cn('block size-[4px] rounded-full', dotClassName)} />
           ))
-          : hasGenericDot
-            ? (
-              <span className="block size-[4px] rounded-full bg-[#3b82f6]" />
-            )
-            : (
-              <span className="block size-[4px] rounded-full opacity-0" />
-            )}
+        ) : hasGenericDot ? (
+          <span className="block size-[4px] rounded-full bg-[#3b82f6]" />
+        ) : (
+          <span className="block size-[4px] rounded-full opacity-0" />
+        )}
       </span>
     </Button>
   )

@@ -114,18 +114,20 @@ function MenteeTimeBlock() {
               <Calendar
                 mode="single"
                 viewMode={viewMode}
+                navButtonClassName="rounded-[9px]"
+                navButtonStyle={{ backgroundColor: 'var(--figma-card-gray)' }}
                 selected={selected}
-              onSelect={setSelected}
-              modifiers={dummyMarkers}
-              defaultMonth={today}
-            />
-          </MenteeSection>
-          <MenteeSection className="flex items-center justify-end">
-            <CalendarToggle
-              label={viewMode === 'week' ? '캘린더 펼치기' : '캘린더 접기'}
-              isExpanded={viewMode === 'month'}
-              onClick={() => setViewMode((prev) => (prev === 'week' ? 'month' : 'week'))}
-            />
+                onSelect={setSelected}
+                modifiers={dummyMarkers}
+                defaultMonth={today}
+              />
+            </MenteeSection>
+            <MenteeSection className="flex items-center justify-end">
+              <CalendarToggle
+                label={viewMode === 'week' ? '캘린더 펼치기' : '캘린더 접기'}
+                isExpanded={viewMode === 'month'}
+                onClick={() => setViewMode((prev) => (prev === 'week' ? 'month' : 'week'))}
+              />
             </MenteeSection>
           </MenteeSection>
         </div>
