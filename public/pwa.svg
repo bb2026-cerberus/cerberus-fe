@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cerberus">
+  <rect width="512" height="512" rx="120" fill="#064092" />
+  <path
+    d="M256 124c73 0 132 59 132 132s-59 132-132 132-132-59-132-132 59-132 132-132zm0 56a76 76 0 1 0 0 152 76 76 0 0 0 0-152z"
+    fill="#F8FCFF"
+  />
+</svg>
