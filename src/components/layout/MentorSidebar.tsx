@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useMemo } from 'react'
 import {
   BarChart3,
@@ -25,16 +25,18 @@ type MentorSidebarProps = {
 function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarProps) {
   const menuItems = useMemo(
     () => [
-      { id: 'home', label: '홈', icon: Home, to: routePaths.mentor, isActive: true },
-      { id: 'paper', label: '과제', icon: FileText },
-      { id: 'feedback', label: '피드백', icon: MessageCircle },
-      { id: 'qna', label: 'Q&A', icon: MessageCircle },
-      { id: 'report', label: '주간 리포트', icon: BarChart3 },
-      { id: 'solution', label: '약점 맞춤 솔루션', icon: Lightbulb },
-      { id: 'mentee', label: '멘티 관리', icon: Users },
+      { id: 'home', label: '홈', icon: Home, to: routePaths.mentor },
+      { id: 'paper', label: '과제', icon: FileText, to: routePaths.mentorTasks },
+      { id: 'feedback', label: '피드백', icon: MessageCircle, to: routePaths.mentorFeedback },
+      { id: 'qna', label: 'Q&A', icon: MessageCircle, to: routePaths.mentorQna },
+      { id: 'report', label: '주간 리포트', icon: BarChart3, to: routePaths.mentorReports },
+      { id: 'solution', label: '약점 맞춤 솔루션', icon: Lightbulb, to: routePaths.mentorSolutions },
+      { id: 'mentee', label: '멘티 관리', icon: Users, to: routePaths.mentorMentees },
     ],
     [],
   )
+  const location = useLocation()
+  const pathname = location.pathname
 
   return (
     <aside
@@ -69,26 +71,31 @@ function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarP
             )}
           >
             {menuItems.map((item) => {
+              const isActive = item.to
+                ? item.to === routePaths.mentor
+                  ? pathname === item.to
+                  : pathname.startsWith(item.to)
+                : false
               const content = (
                 <div
                   className={cn(
                     expanded
                       ? 'flex h-[65px] w-full items-center gap-[10px] rounded-[15px] px-[8px]'
                       : 'flex size-[65px] items-center justify-center rounded-[15px]',
-                    item.isActive ? 'bg-figma-card-gray text-figma-point-color-2' : '',
+                    isActive ? 'bg-figma-card-gray text-figma-point-color-2' : '',
                   )}
                 >
                   <Icon
                     icon={item.icon}
                     size={26}
-                    className={cn(item.isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray')}
+                    className={cn(isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray')}
                   />
                   {expanded ? (
                     <Text
                       as="span"
                       className={cn(
                         'text-[22px] font-medium leading-[1.2] transition-opacity duration-200',
-                        item.isActive ? 'text-figma-typo-black' : 'text-figma-typo-gray',
+                        isActive ? 'text-figma-typo-black' : 'text-figma-typo-gray',
                       )}
                     >
                       {item.label}
@@ -126,7 +133,11 @@ function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarP
             expanded ? 'items-start w-full' : 'items-center',
           )}
         >
-          <button type="button" aria-label="settings" className={expanded ? 'w-full' : undefined}>
+          <Link
+            to={routePaths.mentorSettings}
+            aria-label="settings"
+            className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+          >
             <div
               className={cn(
                 expanded
@@ -144,18 +155,27 @@ function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarP
                 </Text>
               ) : null}
             </div>
-          </button>
+          </Link>
           <div className={cn('flex items-center', expanded ? 'w-full gap-[10px]' : '')}>
-            <div className="size-[63px] overflow-hidden rounded-full bg-figma-card-gray" />
+            <Link
+              to={routePaths.mentorProfile}
+              aria-label="profile"
+              className={cn(expanded ? 'flex w-full items-center gap-[10px]' : undefined)}
+            >
+              <div className="size-[63px] overflow-hidden rounded-full bg-figma-card-gray" />
+              {expanded ? (
+                <div className="flex flex-col gap-[2px] transition-opacity duration-200">
+                  <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+                    김멘토
+                  </Text>
+                  <Text as="p" className="text-[18px] font-medium leading-6 text-figma-typo-gray">
+                    kimmento@mail.com
+                  </Text>
+                </div>
+              ) : null}
+            </Link>
             {expanded ? (
-              <div className="flex flex-col gap-[2px] transition-opacity duration-200">
-                <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
-                  김멘토
-                </Text>
-                <Text as="p" className="text-[18px] font-medium leading-6 text-figma-typo-gray">
-                  kimmento@mail.com
-                </Text>
-              </div>
+              null
             ) : null}
           </div>
         </div>

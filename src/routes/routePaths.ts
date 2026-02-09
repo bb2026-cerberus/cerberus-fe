@@ -11,6 +11,14 @@ const routePaths = {
   menteeTimeBlock: '/mentee/time-block',
   menteeQna: '/mentee/qna',
   mentor: '/mentor',
+  mentorTasks: '/mentor/tasks',
+  mentorFeedback: '/mentor/feedback',
+  mentorQna: '/mentor/qna',
+  mentorReports: '/mentor/reports',
+  mentorSolutions: '/mentor/solutions',
+  mentorMentees: '/mentor/mentees',
+  mentorSettings: '/mentor/settings',
+  mentorProfile: '/mentor/profile',
 }
 
 export default routePaths
