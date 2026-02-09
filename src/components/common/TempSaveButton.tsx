@@ -23,8 +23,8 @@ function TempSaveButton({
     <div
       className={cn(
         isPc
-          ? 'flex h-[44px] items-center gap-[8px] rounded-[12px] bg-figma-card-gray px-[12px]'
-          : 'flex h-[55px] w-full items-center justify-between overflow-hidden rounded-[14px] bg-figma-card-gray px-5 py-2',
+          ? 'flex h-[44px] items-center gap-[8px] rounded-[var(--mentor-action-button-radius)] bg-figma-card-gray px-[12px]'
+          : 'flex h-[55px] w-full items-center justify-between overflow-hidden rounded-[var(--mentor-action-button-radius)] bg-figma-card-gray px-5 py-2',
         className,
       )}
     >

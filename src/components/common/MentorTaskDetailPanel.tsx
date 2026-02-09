@@ -1,16 +1,16 @@
 import DatePickerInput from '@/components/common/DatePickerInput'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
-import MentorTaskActionButtons, {
-  type MentorTaskActionMode,
-} from '@/components/common/MentorTaskActionButtons'
+import MentorActionButtons, {
+  type MentorActionMode,
+} from '@/components/common/MentorActionButtons'
 import { Text } from '@/components/common/Text'
 import UploadBox from '@/components/common/UploadBox'
 import { cn } from '@/lib/utils'
 
 type MentorTaskDetailPanelProps = {
   title: string
-  mode: MentorTaskActionMode
+  mode: MentorActionMode
   mentee: string
   onMenteeChange: (value: string) => void
   date: Date | undefined
@@ -61,12 +61,16 @@ function MentorTaskDetailPanel({
         <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <MentorTaskActionButtons
+        <MentorActionButtons
           mode={mode}
           onPrimary={onPrimary}
           onSecondary={onSecondary}
+          useTempSaveButton={mode === 'create'}
           tempSaveCount={tempSaveCount}
-          onTempSaveClick={onTempSaveClick}
+          onTempSaveListOpen={onTempSaveClick}
+          primaryLabel={mode === 'detail' ? '수정' : '등록'}
+          secondaryLabel={mode === 'detail' ? '삭제' : mode === 'edit' ? '취소' : '임시저장'}
+          size="mobile"
         />
       </div>
 

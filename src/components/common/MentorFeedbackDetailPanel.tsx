@@ -1,5 +1,5 @@
 import FormTextInput from '@/components/common/FormTextInput'
-import MentorTaskActionButtons from '@/components/common/MentorTaskActionButtons'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import SubjectChip from '@/components/common/SubjectChip'
 import { Text } from '@/components/common/Text'
 
@@ -47,12 +47,16 @@ function MentorFeedbackDetailPanel({
         <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <MentorTaskActionButtons
+        <MentorActionButtons
           mode="create"
           onPrimary={onSubmit}
           onSecondary={onTempSave}
+          useTempSaveButton
           tempSaveCount={tempSaveCount}
-          onTempSaveClick={onTempSaveListOpen}
+          onTempSaveListOpen={onTempSaveListOpen}
+          primaryLabel="등록"
+          secondaryLabel="임시저장"
+          size="mobile"
         />
       </div>
 

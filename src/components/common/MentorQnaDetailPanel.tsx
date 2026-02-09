@@ -1,5 +1,5 @@
-import ActionButton from '@/components/common/ActionButton'
 import FormTextInput from '@/components/common/FormTextInput'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { Text } from '@/components/common/Text'
 
 type MentorQnaDetailPanelProps = {
@@ -27,19 +27,15 @@ function MentorQnaDetailPanel({
         <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <div className="flex items-center gap-[8px]">
-          <ActionButton
-            label="임시저장"
-            variant="secondary"
-            onClick={onTempSave}
-            className="h-[48px] w-[100px] rounded-[12px] text-[18px]"
-          />
-          <ActionButton
-            label="등록"
-            onClick={onSubmit}
-            className="h-[48px] w-[100px] rounded-[12px] text-[18px]"
-          />
-        </div>
+        <MentorActionButtons
+          mode="create"
+          onPrimary={onSubmit}
+          onSecondary={onTempSave}
+          useTempSaveButton={false}
+          primaryLabel="등록"
+          secondaryLabel="임시저장"
+          size="pc"
+        />
       </div>
 
       <div className="flex flex-col gap-[20px] pl-[10px]">

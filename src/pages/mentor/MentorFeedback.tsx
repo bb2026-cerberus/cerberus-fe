@@ -6,6 +6,7 @@ import FormSelectInput from '@/components/common/FormSelectInput'
 import MentorFeedbackDetailPanel, {
   type FeedbackTaskInfo,
 } from '@/components/common/MentorFeedbackDetailPanel'
+import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import SegmentedTabs from '@/components/common/SegmentedTabs'
 import SubjectChip from '@/components/common/SubjectChip'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
@@ -131,98 +132,104 @@ function MentorFeedback() {
 
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
-      <div className="grid gap-[30px] xl:grid-cols-[800px_810px]">
-        <section className="flex flex-col gap-[25px]">
-          <div className="flex items-center">
-            <Text as="h1" className="text-[34px] font-bold leading-tight text-figma-typo-black">
-              피드백
-            </Text>
-          </div>
+      <MentorTwoColumnLayout
+        left={
+          <section className="flex flex-col gap-[25px]">
+            <div className="flex items-center">
+              <Text
+                as="h1"
+                className="text-[34px] font-bold leading-tight text-figma-typo-black"
+              >
+                피드백
+              </Text>
+            </div>
 
-          <SegmentedTabs
-            value={activeTab}
-            items={[
-              { label: '과제', value: 'assignments' },
-              { label: '할 일', value: 'todos' },
-            ]}
-            onChange={setActiveTab}
-            className="h-[71px] rounded-[18px] bg-figma-white p-[8px]"
-            buttonClassName="rounded-[10px] text-[20px] font-semibold leading-6"
-            activeClassName="bg-figma-point-color-2 text-white"
-            inactiveClassName="text-figma-typo-gray"
-          />
-
-          <div className="flex w-full flex-col gap-[15px]">
-            <WeekSelector
-              label={weekLabel}
-              buttonClassName="size-[32px] rounded-[9px] bg-figma-card-gray"
-              labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
-              labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
+            <SegmentedTabs
+              value={activeTab}
+              items={[
+                { label: '과제', value: 'assignments' },
+                { label: '할 일', value: 'todos' },
+              ]}
+              onChange={setActiveTab}
+              className="h-[71px] rounded-[18px] bg-figma-white p-[8px]"
+              buttonClassName="rounded-[10px] text-[20px] font-semibold leading-6"
+              activeClassName="bg-figma-point-color-2 text-white"
+              inactiveClassName="text-figma-typo-gray"
             />
-            <FormSelectInput
-              value={filter}
-              onChange={setFilter}
-              options={['전체', '김수험']}
-              size="lg"
-            />
-          </div>
 
-          <div className="flex w-full max-w-[800px] flex-col gap-[20px]">
-            {taskDates.map((dateBlock) => (
-              <div key={dateBlock.date} className="flex flex-col gap-[10px]">
-                <TaskDateMeta
-                  dateText={dateBlock.date}
-                  badgeText={dateBlock.isToday ? '오늘' : undefined}
-                  dateClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
-                  badgeClassName="text-[14px] font-semibold leading-6"
-                />
+            <div className="flex w-full flex-col gap-[15px]">
+              <WeekSelector
+                label={weekLabel}
+                buttonClassName="size-[32px] rounded-[9px] bg-figma-card-gray"
+                labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
+                labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
+              />
+              <FormSelectInput
+                value={filter}
+                onChange={setFilter}
+                options={['전체', '김수험']}
+                size="lg"
+              />
+            </div>
 
-                {dateBlock.groups.map((group) => (
-                  <div key={group.name} className="flex flex-col gap-[10px]">
-                    <div>
-                      <SubjectChip label={group.name} tone="muted" />
-                      <ChecklistGroup>
-                        {group.tasks.map((task) => (
-                          <button
-                            key={`${group.name}-${task.title}`}
-                            type="button"
-                            onClick={() => handleTaskSelect(task)}
-                            className="text-left"
-                          >
-                            <ChecklistItem
-                              title={task.title}
-                              subtitle={task.subtitle}
-                              subjectLabel={task.subjectLabel}
-                              subject={task.subject}
-                              className="h-[100px] px-[24px]"
-                            />
-                          </button>
-                        ))}
-                      </ChecklistGroup>
+            <div className="flex w-full max-w-[800px] flex-col gap-[20px]">
+              {taskDates.map((dateBlock) => (
+                <div key={dateBlock.date} className="flex flex-col gap-[10px]">
+                  <TaskDateMeta
+                    dateText={dateBlock.date}
+                    badgeText={dateBlock.isToday ? '오늘' : undefined}
+                    dateClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
+                    badgeClassName="text-[14px] font-semibold leading-6"
+                  />
+
+                  {dateBlock.groups.map((group) => (
+                    <div key={group.name} className="flex flex-col gap-[10px]">
+                      <div>
+                        <SubjectChip label={group.name} tone="muted" />
+                        <ChecklistGroup>
+                          {group.tasks.map((task) => (
+                            <button
+                              key={`${group.name}-${task.title}`}
+                              type="button"
+                              onClick={() => handleTaskSelect(task)}
+                              className="text-left"
+                            >
+                              <ChecklistItem
+                                title={task.title}
+                                subtitle={task.subtitle}
+                                subjectLabel={task.subjectLabel}
+                                subject={task.subject}
+                                className="h-[100px] px-[24px]"
+                              />
+                            </button>
+                          ))}
+                        </ChecklistGroup>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <MentorFeedbackDetailPanel
-          title="피드백 작성"
-          task={selectedTask}
-          studyImageUrl="/pwa-512.png"
-          feedback={feedback}
-          onFeedbackChange={setFeedback}
-          summary={summary}
-          onSummaryChange={setSummary}
-          overall={overall}
-          onOverallChange={setOverall}
-          onSubmit={handleSubmit}
-          onTempSave={handleTempSave}
-          tempSaveCount={tempSaveItems.length}
-          onTempSaveListOpen={handleTempSaveToggle}
-        />
-      </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </section>
+        }
+        right={
+          <MentorFeedbackDetailPanel
+            title="피드백 작성"
+            task={selectedTask}
+            studyImageUrl="/pwa-512.png"
+            feedback={feedback}
+            onFeedbackChange={setFeedback}
+            summary={summary}
+            onSummaryChange={setSummary}
+            overall={overall}
+            onOverallChange={setOverall}
+            onSubmit={handleSubmit}
+            onTempSave={handleTempSave}
+            tempSaveCount={tempSaveItems.length}
+            onTempSaveListOpen={handleTempSaveToggle}
+          />
+        }
+      />
 
       <TempSavePanel
         open={tempSaveOpen}

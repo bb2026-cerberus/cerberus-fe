@@ -140,6 +140,12 @@
     --ring: 222.2 84% 4.9%;
 
     --radius: 0.75rem;
+
+    --mentor-action-button-height-pc: 48px;
+    --mentor-action-button-width-pc: 100px;
+    --mentor-action-button-height-mobile: 44px;
+    --mentor-action-button-width-mobile: 96px;
+    --mentor-action-button-radius: 12px;
   }
 
   * {
