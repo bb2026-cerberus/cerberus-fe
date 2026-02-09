@@ -12,6 +12,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import { cn } from '@/lib/utils'
 
 type MentorTask = {
   id: string
@@ -35,6 +36,8 @@ type MentorTaskDate = {
 type DetailMode = 'create' | 'detail' | 'edit'
 
 function MentorTasks() {
+  const selectedItemClass =
+    "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const [filter, setFilter] = useState<string>('전체')
   const weekLabel = '2026년 2월 1주차'
   const [detailMode, setDetailMode] = useState<DetailMode>('create')
@@ -253,15 +256,18 @@ function MentorTasks() {
                               onClick={() => handleTaskSelect(task, group.name)}
                               className="text-left"
                             >
-                              <ChecklistItem
-                                title={task.title}
-                                subtitle={task.subtitle}
-                                subjectLabel={task.subjectLabel}
-                                subject={task.subject}
-                                className="h-[100px] px-[24px]"
-                              />
-                            </button>
-                          ))}
+                            <ChecklistItem
+                              title={task.title}
+                              subtitle={task.subtitle}
+                              subjectLabel={task.subjectLabel}
+                              subject={task.subject}
+                              className={cn(
+                                'h-[100px] px-[24px]',
+                                selectedTaskId === task.id && selectedItemClass,
+                              )}
+                            />
+                          </button>
+                        ))}
                         </ChecklistGroup>
                       </div>
                     </div>

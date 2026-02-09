@@ -7,6 +7,7 @@ import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import StatCard from '@/components/common/StatCard'
 import SubjectStatCard from '@/components/common/SubjectStatCard'
 import { Text } from '@/components/common/Text'
+import { cn } from '@/lib/utils'
 
 type MentorMenteeSummary = {
   id: string
@@ -27,6 +28,8 @@ type MentorMenteeSummary = {
 }
 
 function MentorMentees() {
+  const selectedItemClass =
+    "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const mentees = useMemo<MentorMenteeSummary[]>(
     () => [
       {
@@ -94,9 +97,7 @@ function MentorMentees() {
                   subtitle={mentee.subtitle}
                   avatarUrl={mentee.avatarUrl}
                   onClick={() => setSelectedId(mentee.id)}
-                  className={
-                    mentee.id === selectedId ? 'ring-1 ring-figma-point-color-2/20' : undefined
-                  }
+                  className={cn(mentee.id === selectedId && selectedItemClass)}
                 />
               ))}
             </div>

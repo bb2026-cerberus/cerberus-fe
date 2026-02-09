@@ -8,6 +8,7 @@ import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import { cn } from '@/lib/utils'
 
 type ReportMode = 'empty' | 'detail' | 'edit'
 
@@ -19,6 +20,8 @@ type WeeklyReportSummary = {
 }
 
 function MentorReports() {
+  const selectedItemClass =
+    "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const [mode, setMode] = useState<ReportMode>('empty')
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
@@ -133,13 +136,18 @@ function MentorReports() {
                     onClick={() => handleSelectReport(item)}
                     className="text-left"
                   >
-                    <MentorQnaCard name={item.mentee} question={item.title} />
+                    <MentorQnaCard
+                      name={item.mentee}
+                      question={item.title}
+                      className={cn(item.id === selectedReportId && selectedItemClass)}
+                    />
                   </button>
                 ) : (
                   <MentorWeeklyReportEmptyCard
                     key={item.id}
                     name={item.mentee}
                     onCreate={() => handleCreate(item)}
+                    className={cn(item.id === selectedReportId && selectedItemClass)}
                   />
                 ),
               )}

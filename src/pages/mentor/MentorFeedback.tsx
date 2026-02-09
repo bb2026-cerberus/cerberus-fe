@@ -13,6 +13,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import { cn } from '@/lib/utils'
 
 type FeedbackTask = FeedbackTaskInfo & {
   id: string
@@ -32,6 +33,8 @@ type FeedbackTaskDate = {
 type FeedbackTab = 'assignments' | 'todos'
 
 function MentorFeedback() {
+  const selectedItemClass =
+    "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const [activeTab, setActiveTab] = useState<FeedbackTab>('assignments')
   const [filter, setFilter] = useState<string>('전체')
   const weekLabel = '2026년 2월 1주차'
@@ -199,7 +202,10 @@ function MentorFeedback() {
                                 subtitle={task.subtitle}
                                 subjectLabel={task.subjectLabel}
                                 subject={task.subject}
-                                className="h-[100px] px-[24px]"
+                                className={cn(
+                                  'h-[100px] px-[24px]',
+                                  selectedTask.id === task.id && selectedItemClass,
+                                )}
                               />
                             </button>
                           ))}

@@ -6,6 +6,7 @@ import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
+import { cn } from '@/lib/utils'
 
 type MentorQnaItem = {
   id: string
@@ -14,6 +15,8 @@ type MentorQnaItem = {
 }
 
 function MentorQna() {
+  const selectedItemClass =
+    "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const today = useMemo(() => new Date(), [])
   const [selected, setSelected] = useState<Date | undefined>(today)
   const [viewMode, setViewMode] = useState<'month' | 'week'>('week')
@@ -96,7 +99,11 @@ function MentorQna() {
                   onClick={() => handleSelectQuestion(item)}
                   className="text-left"
                 >
-                  <MentorQnaCard name={item.name} question={item.question} />
+                  <MentorQnaCard
+                    name={item.name}
+                    question={item.question}
+                    className={cn(item.id === selectedQuestion.id && selectedItemClass)}
+                  />
                 </button>
               ))}
             </div>
