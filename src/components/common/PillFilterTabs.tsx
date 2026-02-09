@@ -29,7 +29,7 @@ function PillFilterTabs<T extends string>({
             type="button"
             onClick={() => onChange(item.value)}
             className={cn(
-              'flex h-[30px] w-[45px] items-center justify-center rounded-[40px] px-[10px] text-[12px] font-medium leading-[1.25]',
+              'flex h-[30px] w-[45px] items-center justify-center rounded-[40px] px-[10px] text-[12px] font-medium leading-tight',
               isActive
                 ? item.activeClassName ?? 'bg-figma-point-color-2 text-white'
                 : 'bg-[#f6f6f6] text-[#555]',

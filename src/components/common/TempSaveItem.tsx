@@ -24,7 +24,7 @@ function TempSaveItem({ title, dateText, onDelete, className }: TempSaveItemProp
           {title}
         </Text>
         <div className="inline-flex items-center rounded-[6px] bg-figma-card-gray px-2 py-1">
-          <Text as="span" className="text-[12px] font-medium leading-[1.25] text-[#6d6c6a]">
+          <Text as="span" className="text-[12px] font-medium leading-tight text-[#6d6c6a]">
             {dateText}
           </Text>
         </div>

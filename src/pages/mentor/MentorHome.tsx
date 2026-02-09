@@ -109,10 +109,10 @@ function MentorHome() {
     <div className="flex flex-col gap-[35px]">
       <div className="grid gap-[30px] xl:grid-cols-2">
         <section className="flex flex-col gap-[35px]">
-          <div className="flex items-center lg:flex">
+          <div className="hidden items-center lg:flex">
             <Text
               as="h1"
-              className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
+              className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
             >
               오늘의 학습 점검을 시작해볼까요?
             </Text>

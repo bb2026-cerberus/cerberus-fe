@@ -240,10 +240,10 @@ function MentorTasks() {
         }
         left={
           <section className="flex flex-col gap-[25px]">
-            <div className="flex items-center">
+            <div className="hidden items-center lg:flex">
               <Text
                 as="h1"
-                className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 과제
               </Text>
@@ -275,31 +275,29 @@ function MentorTasks() {
                   />
 
                   {dateBlock.groups.map((group) => (
-                    <div key={group.name} className="flex flex-col gap-[10px]">
-                      <div>
-                        <SubjectChip label={group.name} tone="muted" />
-                        <ChecklistGroup>
-                          {group.tasks.map((task) => (
-                            <button
-                              key={`${group.name}-${task.title}`}
-                              type="button"
-                              onClick={() => handleTaskSelect(task, group.name)}
-                              className="text-left"
-                            >
-                              <ChecklistItem
-                                title={task.title}
-                                subtitle={task.subtitle}
-                                subjectLabel={task.subjectLabel}
-                                subject={task.subject}
-                                className={cn(
-                                  'h-[84px] px-[20px]',
-                                  selectedTaskId === task.id && selectedItemClass,
-                                )}
-                              />
+                    <div key={group.name} className="flex w-full flex-col items-start gap-[10px]">
+                      <SubjectChip label={group.name} tone="muted" />
+                      <ChecklistGroup className="w-full">
+                        {group.tasks.map((task) => (
+                          <button
+                            key={`${group.name}-${task.title}`}
+                            type="button"
+                            onClick={() => handleTaskSelect(task, group.name)}
+                            className="text-left"
+                          >
+                            <ChecklistItem
+                              title={task.title}
+                              subtitle={task.subtitle}
+                              subjectLabel={task.subjectLabel}
+                              subject={task.subject}
+                              className={cn(
+                                'h-[84px] px-[20px]',
+                                selectedTaskId === task.id && selectedItemClass,
+                              )}
+                            />
                           </button>
                         ))}
-                        </ChecklistGroup>
-                      </div>
+                      </ChecklistGroup>
                     </div>
                   ))}
                 </div>

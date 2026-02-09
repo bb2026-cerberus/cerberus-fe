@@ -33,7 +33,7 @@ function MenteeMyPage() {
             </div>
           </div>
 
-          <p className="px-[10px] text-[12px] font-medium leading-[1.25] text-figma-typo-gray">
+          <p className="px-[10px] text-[12px] font-medium leading-tight text-figma-typo-gray">
             *상담은 외부 링크로 연결됩니다
           </p>
 

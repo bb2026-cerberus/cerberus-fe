@@ -141,10 +141,10 @@ function MentorReports() {
         }
         left={
           <section className="flex flex-col gap-[25px]">
-            <div className="flex items-center">
+            <div className="hidden items-center lg:flex">
               <Text
                 as="h1"
-                className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 주간 리포트
               </Text>

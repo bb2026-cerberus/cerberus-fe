@@ -161,10 +161,10 @@ function MentorFeedback() {
         }
         left={
           <section className="flex flex-col gap-[25px]">
-            <div className="flex items-center">
+            <div className="hidden items-center lg:flex">
               <Text
                 as="h1"
-                className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 피드백
               </Text>
@@ -186,12 +186,12 @@ function MentorFeedback() {
                 labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
                 labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
               />
-            <FormSelectInput
-              value={filter}
-              onChange={setFilter}
-              options={['전체', '김수험']}
-              size="md"
-            />
+              <FormSelectInput
+                value={filter}
+                onChange={setFilter}
+                options={['전체', '김수험']}
+                size="md"
+              />
             </div>
 
             <div className="flex w-full max-w-[800px] flex-col gap-[20px]">
@@ -205,31 +205,29 @@ function MentorFeedback() {
                   />
 
                   {dateBlock.groups.map((group) => (
-                    <div key={group.name} className="flex flex-col gap-[10px]">
-                      <div>
-                        <SubjectChip label={group.name} tone="muted" />
-                        <ChecklistGroup>
-                          {group.tasks.map((task) => (
-                            <button
-                              key={`${group.name}-${task.title}`}
-                              type="button"
-                              onClick={() => handleTaskSelect(task)}
-                              className="text-left"
-                            >
-                              <ChecklistItem
-                                title={task.title}
-                                subtitle={task.subtitle}
-                                subjectLabel={task.subjectLabel}
-                                subject={task.subject}
-                                className={cn(
-                                  'h-[84px] px-[20px]',
-                                  selectedTask.id === task.id && selectedItemClass,
-                                )}
-                              />
-                            </button>
-                          ))}
-                        </ChecklistGroup>
-                      </div>
+                    <div key={group.name} className="flex w-full flex-col items-start gap-[10px]">
+                      <SubjectChip label={group.name} tone="muted" />
+                      <ChecklistGroup className="w-full">
+                        {group.tasks.map((task) => (
+                          <button
+                            key={`${group.name}-${task.title}`}
+                            type="button"
+                            onClick={() => handleTaskSelect(task)}
+                            className="text-left"
+                          >
+                            <ChecklistItem
+                              title={task.title}
+                              subtitle={task.subtitle}
+                              subjectLabel={task.subjectLabel}
+                              subject={task.subject}
+                              className={cn(
+                                'h-[84px] px-[20px]',
+                                selectedTask.id === task.id && selectedItemClass,
+                              )}
+                            />
+                          </button>
+                        ))}
+                      </ChecklistGroup>
                     </div>
                   ))}
                 </div>

@@ -19,7 +19,7 @@ function TaskDateMeta({
     <div className={cn('flex items-center gap-2', className)}>
       <span
         className={cn(
-          'rounded-[6px] bg-figma-card-gray px-2 py-1 text-[12px] font-medium leading-[1.25] text-[#6d6c6a]',
+          'rounded-[6px] bg-figma-card-gray px-2 py-1 text-[12px] font-medium leading-tight text-[#6d6c6a]',
           dateClassName,
         )}
       >
@@ -28,7 +28,7 @@ function TaskDateMeta({
       {badgeText ? (
         <span
           className={cn(
-            'min-w-[48px] rounded-[6px] bg-figma-point-color-2 px-2 py-1 text-center text-[12px] font-medium leading-[1.25] text-white',
+            'min-w-[48px] rounded-[6px] bg-figma-point-color-2 px-2 py-1 text-center text-[12px] font-medium leading-tight text-white',
             badgeClassName,
           )}
         >
