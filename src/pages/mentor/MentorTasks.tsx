@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { startOfWeek } from 'date-fns'
 
 import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
@@ -40,7 +41,9 @@ function MentorTasks() {
   const selectedItemClass =
     "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const [filter, setFilter] = useState<string>('전체')
-  const weekLabel = '2026년 2월 1주차'
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 }),
+  )
   const [detailMode, setDetailMode] = useState<DetailMode>('create')
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
@@ -251,7 +254,8 @@ function MentorTasks() {
 
             <div className="flex w-full flex-col gap-[15px]">
               <WeekSelector
-                label={weekLabel}
+                value={weekStart}
+                onChange={setWeekStart}
                 buttonClassName="size-[32px] rounded-[9px] bg-figma-card-gray"
                 labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
                 labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"

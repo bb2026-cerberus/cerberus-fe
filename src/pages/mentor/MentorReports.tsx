@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { startOfWeek } from 'date-fns'
 
 import DeleteConfirmModal from '@/components/common/DeleteConfirmModal'
 import MentorQnaCard from '@/components/common/MentorQnaCard'
@@ -28,8 +29,9 @@ function MentorReports() {
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
   const [detailOpen, setDetailOpen] = useState(false)
-
-  const weekLabel = '2026년 2월 1주차'
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 }),
+  )
 
   const reportItems = useMemo<WeeklyReportSummary[]>(
     () => [
@@ -151,7 +153,8 @@ function MentorReports() {
             </div>
 
             <WeekSelector
-              label={weekLabel}
+              value={weekStart}
+              onChange={setWeekStart}
               buttonClassName="size-[32px] rounded-[9px] bg-figma-card-gray"
               labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
               labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"

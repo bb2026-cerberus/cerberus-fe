@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { startOfWeek } from 'date-fns'
+
 import BulletListCard from '@/components/common/BulletListCard'
 import MenteeSection from '@/components/common/MenteeSection'
 import MentorCommentCard from '@/components/common/MentorCommentCard'
@@ -8,12 +11,16 @@ import WeekSelector from '@/components/common/WeekSelector'
 import WeeklySummaryCard from '@/components/common/WeeklySummaryCard'
 
 function MenteeWeeklyReport() {
+  const [weekStart, setWeekStart] = useState(() =>
+    startOfWeek(new Date(), { weekStartsOn: 1 }),
+  )
+
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-[50px] pt-2">
         <MenteeSection className="flex flex-col gap-6">
           <div className="flex flex-col gap-[10px] px-[10px]">
-            <WeekSelector label="2월 1주차" />
+            <WeekSelector value={weekStart} onChange={setWeekStart} />
             <WeeklySummaryCard summary="이번 주 학습 흐름은 안정적으로 유지되고 있으며, 복습 비중을 조금 더 늘리면 전반적인 이해도 향상에 도움이 될 것으로 보입니다." />
           </div>
 
