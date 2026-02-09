@@ -44,7 +44,7 @@ function MentorWeeklyReportDetailPanel({
   const improvementsText = improvements.join('\n')
 
   return (
-    <section className={cn('flex flex-col gap-[20px] pt-[44px] xl:pt-[69px]', className)}>
+    <section className={cn('flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]', className)}>
       <div className="flex items-center justify-between">
         <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
           {title}
@@ -59,6 +59,7 @@ function MentorWeeklyReportDetailPanel({
           primaryLabel={mode === 'edit' ? '저장' : '수정'}
           secondaryLabel={mode === 'edit' ? '임시저장' : '삭제'}
           size="pc"
+          className="hidden lg:flex"
         />
       </div>
 

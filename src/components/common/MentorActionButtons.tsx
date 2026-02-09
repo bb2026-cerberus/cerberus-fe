@@ -17,6 +17,7 @@ type MentorActionButtonsProps = {
   className?: string
   primaryButtonClassName?: string
   secondaryButtonClassName?: string
+  tempSaveClassName?: string
 }
 
 function MentorActionButtons({
@@ -32,6 +33,7 @@ function MentorActionButtons({
   className,
   primaryButtonClassName,
   secondaryButtonClassName,
+  tempSaveClassName,
 }: MentorActionButtonsProps) {
   const sizeClass =
     size === 'pc'
@@ -52,6 +54,7 @@ function MentorActionButtons({
           size={tempSaveSize}
           onSave={onSecondary}
           onOpenList={onTempSaveListOpen}
+          className={tempSaveClassName}
         />
       ) : (
         <ActionButton

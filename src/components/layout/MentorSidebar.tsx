@@ -19,10 +19,16 @@ import routePaths from '@/routes/routePaths'
 type MentorSidebarProps = {
   expanded?: boolean
   onToggle?: () => void
+  showToggle?: boolean
   className?: string
 }
 
-function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarProps) {
+function MentorSidebar({
+  expanded = false,
+  onToggle,
+  showToggle = true,
+  className,
+}: MentorSidebarProps) {
   const menuItems = useMemo(
     () => [
       { id: 'home', label: '홈', icon: Home, to: routePaths.mentor },
@@ -181,20 +187,22 @@ function MentorSidebar({ expanded = false, onToggle, className }: MentorSidebarP
         </div>
       </div>
 
-      <button
-        type="button"
-        aria-label="expand"
-        onClick={onToggle}
-        className={cn(
-          'absolute top-[38px] flex size-[30px] items-center justify-center rounded-full bg-figma-white shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-[left,transform] duration-300 ease-out',
-          expanded ? '-translate-x-full rotate-180' : '',
-        )}
-        style={{
-          left: 'calc(var(--sidebar-width) - 6px)',
-        }}
-      >
-        <Icon icon={ChevronRight} size={18} className="text-figma-typo-gray" />
-      </button>
+      {showToggle ? (
+        <button
+          type="button"
+          aria-label="expand"
+          onClick={onToggle}
+          className={cn(
+            'absolute top-[38px] flex size-[30px] items-center justify-center rounded-full bg-figma-white shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-[left,transform] duration-300 ease-out',
+            expanded ? '-translate-x-full rotate-180' : '',
+          )}
+          style={{
+            left: 'calc(var(--sidebar-width) - 6px)',
+          }}
+        >
+          <Icon icon={ChevronRight} size={18} className="text-figma-typo-gray" />
+        </button>
+      ) : null}
     </aside>
   )
 }

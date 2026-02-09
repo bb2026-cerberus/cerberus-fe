@@ -30,6 +30,7 @@ type MentorMenteeSummary = {
 function MentorMentees() {
   const selectedItemClass =
     "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
+  const [detailOpen, setDetailOpen] = useState(false)
   const mentees = useMemo<MentorMenteeSummary[]>(
     () => [
       {
@@ -78,6 +79,9 @@ function MentorMentees() {
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
       <MentorTwoColumnLayout
+        mobileDetailOpen={detailOpen}
+        onMobileDetailClose={() => setDetailOpen(false)}
+        mobileDetailTitle="멘티 관리"
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="flex items-center">
@@ -96,7 +100,10 @@ function MentorMentees() {
                   name={mentee.name}
                   subtitle={mentee.subtitle}
                   avatarUrl={mentee.avatarUrl}
-                  onClick={() => setSelectedId(mentee.id)}
+                  onClick={() => {
+                    setSelectedId(mentee.id)
+                    setDetailOpen(true)
+                  }}
                   className={cn(mentee.id === selectedId && selectedItemClass)}
                 />
               ))}
@@ -105,7 +112,7 @@ function MentorMentees() {
         }
         right={
           selectedMentee ? (
-            <section className="flex flex-col gap-[20px] pt-[44px] xl:pt-[69px]">
+            <section className="flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]">
               <div className="flex items-center justify-between">
                 <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
                   {selectedMentee.name}

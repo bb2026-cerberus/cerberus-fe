@@ -12,6 +12,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { cn } from '@/lib/utils'
 
 type MentorTask = {
@@ -42,6 +43,7 @@ function MentorTasks() {
   const weekLabel = '2026년 2월 1주차'
   const [detailMode, setDetailMode] = useState<DetailMode>('create')
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+  const [detailOpen, setDetailOpen] = useState(false)
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
@@ -159,6 +161,7 @@ function MentorTasks() {
   const handleTaskSelect = (task: MentorTask, mentee: string) => {
     setSelectedTaskId(task.id)
     setDetailMode('detail')
+    setDetailOpen(true)
     setSelectedMentee(mentee)
     setSelectedSubject(
       task.subjectLabel === '수학' ? '수학' : task.subjectLabel === '영어' ? '영어' : '국어',
@@ -188,6 +191,7 @@ function MentorTasks() {
   const handleCreate = () => {
     setSelectedTaskId(null)
     setDetailMode('create')
+    setDetailOpen(true)
     setSelectedMentee('김수험')
     setSelectedDate(new Date('2026-02-02'))
     setSelectedSubject('국어')
@@ -208,6 +212,32 @@ function MentorTasks() {
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
       <MentorTwoColumnLayout
+        mobileDetailOpen={detailOpen}
+        onMobileDetailClose={() => setDetailOpen(false)}
+        mobileDetailTitle="과제"
+        mobileActionBar={
+          <MentorActionButtons
+            mode={detailMode}
+            onPrimary={detailMode === 'detail' ? handleEdit : handleSave}
+            onSecondary={
+              detailMode === 'create'
+                ? handleTempSave
+                : detailMode === 'detail'
+                  ? () => setDeleteOpen(true)
+                  : handleCancelEdit
+            }
+            useTempSaveButton={detailMode === 'create'}
+            tempSaveCount={tempSaveItems.length}
+            onTempSaveListOpen={handleTempSaveToggle}
+            primaryLabel={detailMode === 'detail' ? '수정' : '등록'}
+            secondaryLabel={detailMode === 'detail' ? '삭제' : detailMode === 'edit' ? '취소' : '임시저장'}
+            size="mobile"
+            className="w-full gap-[8px]"
+            primaryButtonClassName="w-full"
+            secondaryButtonClassName="w-full"
+            tempSaveClassName="w-full h-[var(--mentor-action-button-height-mobile)]"
+          />
+        }
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="flex items-center">

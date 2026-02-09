@@ -13,6 +13,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { cn } from '@/lib/utils'
 
 type FeedbackTask = FeedbackTaskInfo & {
@@ -39,6 +40,7 @@ function MentorFeedback() {
   const [filter, setFilter] = useState<string>('전체')
   const weekLabel = '2026년 2월 1주차'
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
+  const [detailOpen, setDetailOpen] = useState(false)
 
   const [selectedTask, setSelectedTask] = useState<FeedbackTask>({
     id: 't-2',
@@ -117,6 +119,7 @@ function MentorFeedback() {
 
   const handleTaskSelect = (task: FeedbackTask) => {
     setSelectedTask(task)
+    setDetailOpen(true)
   }
 
   const handleTempSaveToggle = () => {
@@ -136,6 +139,26 @@ function MentorFeedback() {
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
       <MentorTwoColumnLayout
+        mobileDetailOpen={detailOpen}
+        onMobileDetailClose={() => setDetailOpen(false)}
+        mobileDetailTitle="피드백"
+        mobileActionBar={
+          <MentorActionButtons
+            mode="create"
+            onPrimary={handleSubmit}
+            onSecondary={handleTempSave}
+            useTempSaveButton
+            tempSaveCount={tempSaveItems.length}
+            onTempSaveListOpen={handleTempSaveToggle}
+            primaryLabel="등록"
+            secondaryLabel="임시저장"
+            size="mobile"
+            className="w-full gap-[8px]"
+            primaryButtonClassName="w-full"
+            secondaryButtonClassName="w-full"
+            tempSaveClassName="w-full h-[var(--mentor-action-button-height-mobile)]"
+          />
+        }
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="flex items-center">

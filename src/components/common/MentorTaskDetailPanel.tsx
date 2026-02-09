@@ -56,7 +56,7 @@ function MentorTaskDetailPanel({
   readOnly = false,
 }: MentorTaskDetailPanelProps) {
   return (
-    <section className="flex flex-col gap-[20px] pt-[44px] xl:pt-[69px]">
+    <section className="flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]">
       <div className="flex items-center justify-between">
         <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
           {title}
@@ -71,6 +71,7 @@ function MentorTaskDetailPanel({
           primaryLabel={mode === 'detail' ? '수정' : '등록'}
           secondaryLabel={mode === 'detail' ? '삭제' : mode === 'edit' ? '취소' : '임시저장'}
           size="mobile"
+          className="hidden lg:flex"
         />
       </div>
 

@@ -6,6 +6,7 @@ import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { cn } from '@/lib/utils'
 
 type MentorQnaItem = {
@@ -21,6 +22,7 @@ function MentorQna() {
   const [selected, setSelected] = useState<Date | undefined>(today)
   const [viewMode, setViewMode] = useState<'month' | 'week'>('week')
   const [comment, setComment] = useState('')
+  const [detailOpen, setDetailOpen] = useState(false)
   const [selectedQuestion, setSelectedQuestion] = useState<MentorQnaItem>({
     id: 'q-1',
     name: '김수험',
@@ -45,6 +47,7 @@ function MentorQna() {
 
   const handleSelectQuestion = (item: MentorQnaItem) => {
     setSelectedQuestion(item)
+    setDetailOpen(true)
   }
 
   const handleSubmit = () => {
@@ -58,6 +61,23 @@ function MentorQna() {
   return (
     <div className="flex flex-col gap-[25px]">
       <MentorTwoColumnLayout
+        mobileDetailOpen={detailOpen}
+        onMobileDetailClose={() => setDetailOpen(false)}
+        mobileDetailTitle="Q&A"
+        mobileActionBar={
+          <MentorActionButtons
+            mode="create"
+            onPrimary={handleSubmit}
+            onSecondary={handleTempSave}
+            useTempSaveButton={false}
+            primaryLabel="등록"
+            secondaryLabel="임시저장"
+            size="mobile"
+            className="w-full gap-[8px]"
+            primaryButtonClassName="w-full"
+            secondaryButtonClassName="w-full"
+          />
+        }
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="flex items-center">

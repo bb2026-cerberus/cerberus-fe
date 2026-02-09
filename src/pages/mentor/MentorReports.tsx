@@ -8,6 +8,7 @@ import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
+import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { cn } from '@/lib/utils'
 
 type ReportMode = 'empty' | 'detail' | 'edit'
@@ -26,6 +27,7 @@ function MentorReports() {
   const [selectedReportId, setSelectedReportId] = useState<string | null>(null)
   const [deleteOpen, setDeleteOpen] = useState(false)
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
+  const [detailOpen, setDetailOpen] = useState(false)
 
   const weekLabel = '2026년 2월 1주차'
 
@@ -80,6 +82,7 @@ function MentorReports() {
   const handleSelectReport = (item: WeeklyReportSummary) => {
     setSelectedReportId(item.id)
     setMode(item.hasReport ? 'detail' : 'edit')
+    setDetailOpen(true)
   }
 
   const handleCreate = (item: WeeklyReportSummary) => {
@@ -88,6 +91,7 @@ function MentorReports() {
     setStrengths([])
     setImprovements([])
     setMode('edit')
+    setDetailOpen(true)
   }
 
   const handleEdit = () => {
@@ -101,6 +105,11 @@ function MentorReports() {
   const handleDelete = () => {
     setSelectedReportId(null)
     setMode('empty')
+    setDetailOpen(false)
+  }
+
+  const handleTempSave = () => {
+    setTempSaveOpen(false)
   }
 
   const showDetail = mode !== 'empty'
@@ -108,6 +117,28 @@ function MentorReports() {
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
       <MentorTwoColumnLayout
+        mobileDetailOpen={detailOpen}
+        onMobileDetailClose={() => setDetailOpen(false)}
+        mobileDetailTitle="주간 리포트"
+        mobileActionBar={
+          showDetail ? (
+            <MentorActionButtons
+              mode={mode === 'detail' ? 'detail' : 'edit'}
+              onPrimary={mode === 'detail' ? handleEdit : handleSave}
+              onSecondary={mode === 'detail' ? () => setDeleteOpen(true) : handleTempSave}
+              useTempSaveButton={mode !== 'detail'}
+              tempSaveCount={tempSaveItems.length}
+              onTempSaveListOpen={() => setTempSaveOpen(true)}
+              primaryLabel={mode === 'detail' ? '수정' : '저장'}
+              secondaryLabel={mode === 'detail' ? '삭제' : '임시저장'}
+              size="mobile"
+              className="w-full gap-[8px]"
+              primaryButtonClassName="w-full"
+              secondaryButtonClassName="w-full"
+              tempSaveClassName="w-full h-[var(--mentor-action-button-height-mobile)]"
+            />
+          ) : undefined
+        }
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="flex items-center">
