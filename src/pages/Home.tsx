@@ -13,7 +13,7 @@ import type { UserRole } from '@/types/shared/auth'
 
 function Home() {
   const navigate = useNavigate()
-  const { setRole } = useAuth()
+  const { setRole, setUserId } = useAuth()
   const { loading, error, setError, run } = useApiRequest()
   const [role, setRoleState] = useState<'mentor' | 'mentee'>('mentor')
   const [loginId, setLoginId] = useState('')
@@ -51,6 +51,9 @@ function Home() {
 
     const apiRole = normalizeRole(response?.data?.role)
     const nextRole = apiRole ?? role
+    if (typeof response?.data?.id === 'number') {
+      setUserId(response.data.id)
+    }
     setRole(nextRole)
     navigate(nextRole === 'mentor' ? routePaths.mentor : routePaths.mentee)
   }

@@ -8,8 +8,8 @@ type RoleGuardProps = {
 }
 
 function RoleGuard({ allow }: RoleGuardProps) {
-  const { role } = useAuth()
-  if (role !== allow) {
+  const { role, userId } = useAuth()
+  if (!userId || role !== allow) {
     return <Navigate to={routePaths.root} replace />
   }
   return <Outlet />

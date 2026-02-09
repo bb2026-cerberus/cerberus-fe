@@ -34,19 +34,8 @@ function AppRouter() {
           <Route index element={<Home />} />
         </Route>
 
-        {/* <Route element={<RoleGuard allow="mentee" />}>
+        <Route element={<RoleGuard allow="mentee" />}>
           <Route path={routePaths.mentee} element={<MenteeLayout />}>
-            <Route index element={<MenteeHome />} />
-          </Route>
-        </Route>
-
-        <Route element={<RoleGuard allow="mentor" />}>
-          <Route path={routePaths.mentor} element={<MentorLayout />}>
-            <Route index element={<MentorHome />} />
-          </Route>
-        </Route> */}
-
-        <Route path={routePaths.mentee} element={<MenteeLayout />}>
           <Route index element={<MenteeHome />} />
           <Route path="notifications" element={<MenteeNotifications />} />
           <Route path="tasks" element={<MenteeTasks />} />
@@ -57,9 +46,11 @@ function AppRouter() {
           <Route path="weekly-report" element={<MenteeWeeklyReport />} />
           <Route path="time-block" element={<MenteeTimeBlock />} />
           <Route path="qna" element={<MenteeQna />} />
+          </Route>
         </Route>
 
-        <Route path={routePaths.mentor} element={<MentorLayout />}>
+        <Route element={<RoleGuard allow="mentor" />}>
+          <Route path={routePaths.mentor} element={<MentorLayout />}>
           <Route index element={<MentorHome />} />
           <Route path="tasks" element={<MentorTasks />} />
           <Route path="feedback" element={<MentorFeedback />} />
@@ -69,6 +60,7 @@ function AppRouter() {
           <Route path="mentees" element={<MentorMentees />} />
           <Route path="settings" element={<MentorSettings />} />
           <Route path="profile" element={<MentorProfile />} />
+          </Route>
         </Route>
 
         <Route path="*" element={<NotFound />} />

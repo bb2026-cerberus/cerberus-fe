@@ -1,6 +1,6 @@
 import axios, { AxiosError, type AxiosRequestConfig } from 'axios'
 import { clearUserRole } from '../storage/authStorage'
-import { clearAccessToken, getAccessToken } from '../storage/tokenStorage'
+import { clearUserId } from '../storage/userStorage'
 
 type ApiError = {
   status?: number
@@ -16,14 +16,6 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-})
-
-api.interceptors.request.use((config) => {
-  const token = getAccessToken()
-  if (token) {
-    config.headers.set('Authorization', `Bearer ${token}`)
-  }
-  return config
 })
 
 const toApiError = (error: AxiosError): ApiError => {
@@ -47,8 +39,8 @@ api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401) {
-      clearAccessToken()
       clearUserRole()
+      clearUserId()
     }
     return Promise.reject(toApiError(error))
   },

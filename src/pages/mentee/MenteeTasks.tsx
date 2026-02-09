@@ -9,9 +9,16 @@ import PillFilterTabs, { type PillFilterItem } from '@/components/common/PillFil
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskItem from '@/components/common/TaskItem'
 import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/SegmentedTabs'
-import type { Subject } from '@/types/ui/subject'
-import type { TaskGroup } from '@/types/ui/task'
+import { Skeleton } from '@/components/ui/skeleton'
+import type { Subject, SubjectWithNeutral } from '@/types/ui/subject'
+import type { TaskGroup, TaskItem as TaskItemType } from '@/types/ui/task'
 import routePaths from '@/routes/routePaths'
+import { toDateText } from '@/lib/date'
+import assignmentsApi from '@/services/api/assignments'
+import todosApi from '@/services/api/todos'
+import useApiRequest from '@/hooks/useApiRequest'
+import useAuth from '@/store/auth/useAuth'
+import { Text } from '@/components/common/Text'
 
 type TaskTabValue = 'assignments' | 'todos' | 'feedback'
 type SubjectFilterValue = Subject
@@ -32,11 +39,7 @@ function isToday(dateText: string) {
   const [year, month, day] = dateText.split('.').map((value) => Number(value))
   if (!year || !month || !day) return false
   const today = new Date()
-  return (
-    today.getFullYear() === year &&
-    today.getMonth() + 1 === month &&
-    today.getDate() === day
-  )
+  return today.getFullYear() === year && today.getMonth() + 1 === month && today.getDate() === day
 }
 
 function getTabValue(raw: string | null): TaskTabValue {
@@ -50,116 +53,84 @@ function MenteeTasks() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const activeTab = getTabValue(searchParams.get('tab'))
+  const { userId } = useAuth()
+  const {
+    loading: todosLoading,
+    error: todosError,
+    run: runTodos,
+    setError: setTodosError,
+  } = useApiRequest()
+  const {
+    loading: assignmentsLoading,
+    error: assignmentsError,
+    run: runAssignments,
+    setError: setAssignmentsError,
+  } = useApiRequest()
   const [activeSubject, setActiveSubject] = React.useState<SubjectFilterValue>('korean')
+  const [assignmentGroups, setAssignmentGroups] = React.useState<TaskGroup[]>([])
+  const [todoGroups, setTodoGroups] = React.useState<TaskGroup[]>([])
 
-  const assignmentGroups = React.useMemo<TaskGroup[]>(
-    () => [
-      {
-        dateText: '2026.02.02',
-        items: [
-          {
-            id: 'a-1',
-            title: '미적분 30문제',
-            subtitle: '목표 30문제',
-            subject: 'math' as const,
-            subjectLabel: '수학',
-            completed: true,
-          },
-          {
-            id: 'a-2',
-            title: '문학 1지문 정리',
-            subtitle: '핵심 표현 5개',
-            subject: 'korean' as const,
-            subjectLabel: '국어',
-            completed: false,
-          },
-        ],
-      },
-      {
-        dateText: '2026.02.01',
-        items: [
-          {
-            id: 'a-3',
-            title: '미적분 30문제',
-            subtitle: '목표 30문제',
-            subject: 'math' as const,
-            subjectLabel: '수학',
-            completed: true,
-          },
-          {
-            id: 'a-4',
-            title: '단어 시험 공부',
-            subtitle: '1단원 단어리스트',
-            subject: 'english' as const,
-            subjectLabel: '영어',
-            completed: true,
-          },
-          {
-            id: 'a-5',
-            title: '문학 1지문 정리',
-            subtitle: '핵심 표현 5개',
-            subject: 'korean' as const,
-            subjectLabel: '국어',
-            completed: false,
-          },
-        ],
-      },
-      {
-        dateText: '2026.01.31',
-        items: [
-          {
-            id: 'a-6',
-            title: '미적분 1단원 개념 정리',
-            subtitle: '목표 30문제',
-            subject: 'math' as const,
-            subjectLabel: '수학',
-            completed: true,
-          },
-          {
-            id: 'a-7',
-            title: '문학 1지문 정리',
-            subtitle: '핵심 표현 5개',
-            subject: 'korean' as const,
-            subjectLabel: '국어',
-            completed: true,
-          },
-        ],
-      },
-    ],
-    [],
-  )
+  const toSubjectValue = (subject?: string): SubjectWithNeutral | undefined => {
+    const normalized = subject?.toLowerCase()
+    if (normalized === 'korean' || subject === '국어' || subject === 'KOREAN') return 'korean'
+    if (normalized === 'english' || subject === '영어' || subject === 'ENGLISH') return 'english'
+    if (normalized === 'math' || subject === '수학' || subject === 'MATH') return 'math'
+    return undefined
+  }
 
-  const todoGroups = React.useMemo<TaskGroup[]>(
-    () => [
-      {
-        dateText: '2026.02.02',
-        items: [
-          {
-            id: 't-1',
-            title: '단어 시험공부',
-            subtitle: '1단원 단어리스트',
-            subject: 'english' as const,
-            subjectLabel: '영어',
-            completed: false,
-          },
-        ],
+  const toSubjectLabel = (subject?: string) => subject ?? ''
+
+  React.useEffect(() => {
+    if (activeTab !== 'todos') return
+    if (!userId) return
+    runTodos(() => todosApi.getTodos({ menteeId: userId }), {
+      errorMessage: '할 일 정보를 불러오지 못했어요.',
+      onSuccess: (response) => {
+        const groups: TaskGroup[] =
+          response?.data?.map((group) => ({
+            dateText: toDateText(group.date),
+            items:
+              group.todos?.map((todo): TaskItemType => ({
+                id: todo.todoId ? String(todo.todoId) : undefined,
+                title: todo.title ?? '',
+                subtitle: todo.solution,
+                subject: toSubjectValue(todo.subject),
+                subjectLabel: toSubjectLabel(todo.subject),
+                completed: Boolean(todo.completed),
+              })) ?? [],
+          })) ?? []
+        setTodoGroups(groups)
       },
-      {
-        dateText: '2026.02.01',
-        items: [
-          {
-            id: 't-2',
-            title: '문학 1지문 정리',
-            subtitle: '핵심 표현 5개',
-            subject: 'korean' as const,
-            subjectLabel: '국어',
-            completed: false,
-          },
-        ],
+    })
+  }, [activeTab, runTodos, setTodosError, userId])
+
+  React.useEffect(() => {
+    if (activeTab !== 'assignments') return
+    if (!userId) {
+      setAssignmentsError('로그인 후 이용해주세요.')
+      setAssignmentGroups([])
+      return
+    }
+    runAssignments(() => assignmentsApi.getAssignments({ menteeId: userId }), {
+      errorMessage: '과제 정보를 불러오지 못했어요.',
+      onSuccess: (response) => {
+        const groups: TaskGroup[] =
+          response?.data?.map((group) => ({
+            dateText: toDateText(group.date),
+            items:
+              group.assignments?.map((assignment): TaskItemType => ({
+                id: assignment.assignmentId ? String(assignment.assignmentId) : undefined,
+                title: assignment.title ?? '',
+                subtitle: assignment.solution,
+                subject: toSubjectValue(assignment.subject),
+                subjectLabel: toSubjectLabel(assignment.subject),
+                completed: Boolean(assignment.completed),
+              })) ?? [],
+          })) ?? []
+        setAssignmentGroups(groups)
       },
-    ],
-    [],
-  )
+    })
+  }, [activeTab, runAssignments, setAssignmentsError, userId])
 
   const groups = activeTab === 'todos' ? todoGroups : assignmentGroups
 
@@ -177,9 +148,7 @@ function MenteeTasks() {
       korean: [
         {
           dateText: '2026.02.02',
-          items: [
-            { id: 'f-k-1', title: '풀이과정을 자세히 쓰기', subtitle: '비문학 1지문 정리' },
-          ],
+          items: [{ id: 'f-k-1', title: '풀이과정을 자세히 쓰기', subtitle: '비문학 1지문 정리' }],
         },
         {
           dateText: '2026.01.31',
@@ -196,17 +165,13 @@ function MenteeTasks() {
       english: [
         {
           dateText: '2026.02.01',
-          items: [
-            { id: 'f-e-1', title: '어휘 정리 꼼꼼히 하기', subtitle: '1단원 단어리스트' },
-          ],
+          items: [{ id: 'f-e-1', title: '어휘 정리 꼼꼼히 하기', subtitle: '1단원 단어리스트' }],
         },
       ],
       math: [
         {
           dateText: '2026.01.31',
-          items: [
-            { id: 'f-m-1', title: '오답 풀이에 조건 적기', subtitle: '미적분 1단원 문제' },
-          ],
+          items: [{ id: 'f-m-1', title: '오답 풀이에 조건 적기', subtitle: '미적분 1단원 문제' }],
         },
       ],
     }),
@@ -235,21 +200,14 @@ function MenteeTasks() {
               />
               <div className="flex flex-col gap-[10px] pt-[8px]">
                 {feedbackGroups[activeSubject].map((group) => (
-                  <div
-                    key={group.dateText}
-                    className="flex flex-col gap-[10px] px-[4px] pt-[12px]"
-                  >
+                  <div key={group.dateText} className="flex flex-col gap-[10px] px-[4px] pt-[12px]">
                     <TaskDateMeta
                       dateText={group.dateText}
                       badgeText={isToday(group.dateText) ? '오늘' : undefined}
                     />
                     <div className="flex w-full flex-col gap-[2px] overflow-hidden rounded-[18px]">
                       {group.items.map((item) => (
-                        <FeedbackItem
-                          key={item.id}
-                          title={item.title}
-                          subtitle={item.subtitle}
-                        />
+                        <FeedbackItem key={item.id} title={item.title} subtitle={item.subtitle} />
                       ))}
                     </div>
                   </div>
@@ -258,36 +216,83 @@ function MenteeTasks() {
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              {groups.map((group) => (
-                <div key={group.dateText} className="flex flex-col gap-3">
-                  <TaskDateMeta
-                    dateText={group.dateText}
-                    badgeText={isToday(group.dateText) ? '오늘' : undefined}
-                  />
-                  <div className="flex flex-col gap-2">
-                    {group.items.map((item) => (
-                      <TaskItem
-                        key={item.id}
-                        title={item.title}
-                        subtitle={item.subtitle}
-                        subject={item.subject}
-                        subjectLabel={item.subjectLabel}
-                        completed={item.completed}
-                        onClick={() =>
-                          navigate(
-                            activeTab === 'todos'
-                              ? routePaths.menteeTodoDetail.replace(':todoId', item.id)
-                              : routePaths.menteeAssignmentDetail.replace(
-                                  ':assignmentId',
-                                  item.id,
-                                ),
-                          )
-                        }
-                      />
-                    ))}
-                  </div>
+              {activeTab === 'todos' && todosLoading ? (
+                <div className="flex flex-col gap-3">
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <div key={`todo-skeleton-${index}`} className="flex flex-col gap-2">
+                      <Skeleton className="h-[18px] w-[110px] rounded-[6px] bg-figma-card-gray" />
+                      <div className="flex flex-col gap-2">
+                        {Array.from({ length: 2 }).map((__, itemIndex) => (
+                          <Skeleton
+                            key={`todo-item-skeleton-${index}-${itemIndex}`}
+                            className="h-[74px] w-full rounded-[18px] bg-figma-card-gray"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              ) : activeTab === 'assignments' && assignmentsLoading ? (
+                <div className="flex flex-col gap-3">
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <div key={`assignment-skeleton-${index}`} className="flex flex-col gap-2">
+                      <Skeleton className="h-[18px] w-[110px] rounded-[6px] bg-figma-card-gray" />
+                      <div className="flex flex-col gap-2">
+                        {Array.from({ length: 2 }).map((__, itemIndex) => (
+                          <Skeleton
+                            key={`assignment-item-skeleton-${index}-${itemIndex}`}
+                            className="h-[74px] w-full rounded-[18px] bg-figma-card-gray"
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  {activeTab === 'todos' && todosError ? (
+                    <Text as="p" className="text-[12px] font-semibold text-figma-sub-color-2">
+                      {todosError}
+                    </Text>
+                  ) : null}
+                  {activeTab === 'assignments' && assignmentsError ? (
+                    <Text as="p" className="text-[12px] font-semibold text-figma-sub-color-2">
+                      {assignmentsError}
+                    </Text>
+                  ) : null}
+                  {groups.map((group) => (
+                    <div key={group.dateText} className="flex flex-col gap-3">
+                      <TaskDateMeta
+                        dateText={group.dateText}
+                        badgeText={isToday(group.dateText) ? '오늘' : undefined}
+                      />
+                      <div className="flex flex-col gap-2">
+                        {group.items.map((item) => (
+                          <TaskItem
+                            key={item.id}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            subject={item.subject}
+                            subjectLabel={item.subjectLabel}
+                            completed={item.completed}
+                            onClick={() => {
+                              if (!item.id) return
+                              navigate(
+                                activeTab === 'todos'
+                                  ? routePaths.menteeTodoDetail.replace(':todoId', item.id)
+                                  : routePaths.menteeAssignmentDetail.replace(
+                                      ':assignmentId',
+                                      item.id,
+                                    ),
+                              )
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           )}
         </FormSectionGroup>

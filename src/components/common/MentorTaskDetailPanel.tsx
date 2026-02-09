@@ -3,16 +3,14 @@ import FormSection from '@/components/common/FormSection'
 import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
-import MentorActionButtons, {
-  type MentorActionMode,
-} from '@/components/common/MentorActionButtons'
+import ActionButtons, { type ActionMode } from '@/components/common/ActionButtons'
 import { Text } from '@/components/common/Text'
 import UploadBox from '@/components/common/UploadBox'
 import { cn } from '@/lib/utils'
 
 type MentorTaskDetailPanelProps = {
   title: string
-  mode: MentorActionMode
+  mode: ActionMode
   mentee: string
   onMenteeChange: (value: string) => void
   date: Date | undefined
@@ -63,7 +61,7 @@ function MentorTaskDetailPanel({
         <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <MentorActionButtons
+        <ActionButtons
           mode={mode}
           onPrimary={onPrimary}
           onSecondary={onSecondary}

@@ -8,7 +8,7 @@ import MentorSolutionTable, {
   type MentorSolutionItem,
 } from '@/components/common/MentorSolutionTable'
 import Modal from '@/components/common/Modal'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import FormTextInput from '@/components/common/FormTextInput'
 import FloatingActionButton from '@/components/common/FloatingActionButton'
 import { Text } from '@/components/common/Text'
@@ -171,7 +171,7 @@ function MentorSolutions() {
           />
         </div>
         <div className="mt-[16px]">
-          <MentorActionButtons
+          <ActionButtons
             mode="edit"
             onPrimary={handleSaveDraft}
             onSecondary={() => setModalOpen(false)}

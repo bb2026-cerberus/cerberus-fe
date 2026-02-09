@@ -2,6 +2,7 @@ import type { ReactNode } from 'react'
 import { useEffect } from 'react'
 
 import { useMentorMobileHeader } from '@/components/layout/MentorMobileHeaderContext'
+import FixedActionBar from '@/components/common/FixedActionBar'
 import { cn } from '@/lib/utils'
 
 type MentorTwoColumnLayoutProps = {
@@ -89,9 +90,9 @@ function MentorTwoColumnLayout({
               {right}
             </div>
             {hasMobileActionBar ? (
-              <div className="absolute bottom-0 left-0 right-0 border-t bg-white px-4 py-3">
+              <FixedActionBar className="absolute">
                 {mobileActionBar}
-              </div>
+              </FixedActionBar>
             ) : null}
           </div>
         </div>

@@ -6,7 +6,7 @@ import MentorTwoColumnLayout from '@/components/layout/MentorTwoColumnLayout'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import { cn } from '@/lib/utils'
 
 type MentorQnaItem = {
@@ -65,7 +65,7 @@ function MentorQna() {
         onMobileDetailClose={() => setDetailOpen(false)}
         mobileDetailTitle="Q&A"
         mobileActionBar={
-          <MentorActionButtons
+          <ActionButtons
             mode="create"
             onPrimary={handleSubmit}
             onSecondary={handleTempSave}

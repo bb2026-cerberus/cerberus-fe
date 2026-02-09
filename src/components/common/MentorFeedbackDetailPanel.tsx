@@ -1,7 +1,7 @@
 import FormSection from '@/components/common/FormSection'
 import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FormTextInput from '@/components/common/FormTextInput'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import SubjectChip from '@/components/common/SubjectChip'
 import { Text } from './Text'
 
@@ -49,7 +49,7 @@ function MentorFeedbackDetailPanel({
         <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <MentorActionButtons
+        <ActionButtons
           mode="create"
           onPrimary={onSubmit}
           onSecondary={onTempSave}
