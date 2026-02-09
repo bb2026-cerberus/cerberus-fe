@@ -11,6 +11,7 @@ type FormSelectInputProps = {
   placeholder?: string
   onChange?: (value: string) => void
   options?: string[]
+  size?: 'md' | 'lg'
   className?: string
 }
 
@@ -21,6 +22,7 @@ function FormSelectInput({
   placeholder = '선택해주세요',
   onChange,
   options = defaultOptions,
+  size = 'md',
   className,
 }: FormSelectInputProps) {
   const [open, setOpen] = React.useState(false)
@@ -38,14 +40,19 @@ function FormSelectInput({
         <button
           type="button"
           className={cn(
-            'flex h-[52px] w-full items-center justify-between rounded-[14px] bg-white px-4 text-left',
+            'flex w-full items-center justify-between bg-white text-left',
+            size === 'lg'
+              ? 'h-[64px] rounded-[16px] px-[20px]'
+              : 'h-[52px] rounded-[14px] px-4',
             className,
           )}
         >
           <Text
             as="span"
             className={cn(
-              'text-[14px] font-medium leading-[1.4]',
+              size === 'lg'
+                ? 'text-[18px] font-semibold leading-6'
+                : 'text-[14px] font-medium leading-[1.4]',
               value ? 'text-figma-typo-black' : 'text-figma-typo-gray',
             )}
           >

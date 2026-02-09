@@ -13,7 +13,7 @@ function MentorLayout() {
       mainClassName="relative w-full max-w-none px-0 py-0"
     >
       <div className="relative min-h-dvh">
-        <div className="mx-auto w-full max-w-[1600px] px-[24px] pb-[60px] pt-[48px] pl-[192px]">
+        <div className="mx-auto w-full max-w-[1600px] px-[24px] pb-[60px] pt-[48px]">
           <Outlet />
         </div>
         <div className="fixed left-[24px] top-[48px] z-50 h-[calc(100vh-96px)]">
