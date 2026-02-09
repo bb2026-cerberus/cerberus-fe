@@ -3,7 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
-const textVariants = cva('text-foreground', {
+const textVariants = cva('font-sans text-foreground', {
   variants: {
     variant: {
       headline1: 'text-[28px] font-bold leading-[1.35] tracking-[0]',
