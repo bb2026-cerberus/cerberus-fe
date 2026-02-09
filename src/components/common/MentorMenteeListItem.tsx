@@ -21,20 +21,20 @@ function MentorMenteeListItem({
       type="button"
       onClick={onClick}
       className={cn(
-        'flex h-[100px] w-full items-center gap-[16px] rounded-[18px] bg-figma-white px-[24px] text-left',
+        'flex h-[84px] w-full items-center gap-[14px] rounded-[16px] bg-figma-white px-[20px] text-left',
         className,
       )}
     >
-      <div className="flex size-[44px] items-center justify-center overflow-hidden rounded-full bg-figma-icon-color">
+      <div className="flex size-[40px] items-center justify-center overflow-hidden rounded-full bg-figma-icon-color">
         {avatarUrl ? (
           <img src={avatarUrl} alt="" className="h-full w-full object-cover" />
         ) : null}
       </div>
       <div className="flex flex-col gap-[8px]">
-        <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+        <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
           {name}
         </Text>
-        <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-gray">
+        <Text as="p" className="text-[14px] font-semibold leading-6 text-figma-typo-gray">
           {subtitle}
         </Text>
       </div>

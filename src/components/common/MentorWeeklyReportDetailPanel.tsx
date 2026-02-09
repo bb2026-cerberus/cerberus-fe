@@ -22,7 +22,7 @@ type MentorWeeklyReportDetailPanelProps = {
 }
 
 const textAreaBase =
-  'w-full rounded-[18px] bg-figma-white px-[24px] py-[18px] text-[18px] font-medium leading-[1.4] text-figma-typo-black outline-none placeholder:text-figma-typo-gray'
+  'w-full rounded-[16px] bg-figma-white px-[20px] py-[16px] text-[16px] font-medium leading-[1.4] text-figma-typo-black outline-none placeholder:text-figma-typo-gray'
 
 function MentorWeeklyReportDetailPanel({
   title,
@@ -46,7 +46,7 @@ function MentorWeeklyReportDetailPanel({
   return (
     <section className={cn('flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]', className)}>
       <div className="flex items-center justify-between">
-        <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
+        <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
         <MentorActionButtons
@@ -65,12 +65,12 @@ function MentorWeeklyReportDetailPanel({
 
       <div className="flex flex-col gap-[20px]">
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             멘토 총평
           </Text>
           {mode === 'detail' ? (
-            <div className="rounded-[18px] bg-figma-white p-[24px]">
-              <Text as="p" className="text-[18px] font-medium leading-[1.4] text-figma-typo-black">
+            <div className="rounded-[16px] bg-figma-white p-[20px]">
+              <Text as="p" className="text-[16px] font-medium leading-[1.4] text-figma-typo-black">
                 {summary}
               </Text>
             </div>
@@ -86,12 +86,12 @@ function MentorWeeklyReportDetailPanel({
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             이번주 잘한점
           </Text>
           {mode === 'detail' ? (
-            <div className="rounded-[18px] bg-figma-white p-[24px]">
-              <ul className="list-disc pl-[22px] text-[18px] font-medium leading-[1.4] text-figma-typo-black">
+            <div className="rounded-[16px] bg-figma-white p-[20px]">
+              <ul className="list-disc pl-[20px] text-[16px] font-medium leading-[1.4] text-figma-typo-black">
                 {strengths.map((item) => (
                   <li key={item}>{item}</li>
                 ))}
@@ -116,12 +116,12 @@ function MentorWeeklyReportDetailPanel({
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             다음주 보완점
           </Text>
           {mode === 'detail' ? (
-            <div className="rounded-[18px] bg-figma-white p-[24px]">
-              <ul className="list-disc pl-[22px] text-[18px] font-medium leading-[1.4] text-figma-typo-black">
+            <div className="rounded-[16px] bg-figma-white p-[20px]">
+              <ul className="list-disc pl-[20px] text-[16px] font-medium leading-[1.4] text-figma-typo-black">
                 {improvements.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

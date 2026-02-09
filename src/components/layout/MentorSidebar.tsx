@@ -65,17 +65,17 @@ function MentorSidebar({
       >
         <div
           className={cn(
-            'flex w-full flex-col gap-[52px]',
-            expanded ? 'items-start' : 'items-center',
+          'flex w-full flex-col gap-[32px]',
+          expanded ? 'items-start' : 'items-center',
+        )}
+      >
+        <div className="size-[52px] rounded-full bg-figma-typo-gray" />
+        <div
+          className={cn(
+            'flex flex-col gap-[8px]',
+            expanded ? 'items-start w-full' : 'items-center',
           )}
         >
-          <div className="size-[63px] rounded-full bg-figma-typo-gray" />
-          <div
-            className={cn(
-              'flex flex-col gap-[14px]',
-              expanded ? 'items-start w-full' : 'items-center',
-            )}
-          >
             {menuItems.map((item) => {
               const isActive = item.to
                 ? item.to === routePaths.mentor
@@ -86,21 +86,21 @@ function MentorSidebar({
                 <div
                   className={cn(
                     expanded
-                      ? 'flex h-[65px] w-full items-center gap-[10px] rounded-[15px] px-[8px]'
-                      : 'flex size-[65px] items-center justify-center rounded-[15px]',
+                      ? 'flex h-[54px] w-full items-center gap-[8px] rounded-[14px] px-[8px]'
+                      : 'flex size-[54px] items-center justify-center rounded-[14px]',
                     isActive ? 'bg-figma-card-gray text-figma-point-color-2' : '',
                   )}
                 >
                   <Icon
                     icon={item.icon}
-                    size={26}
+                    size={22}
                     className={cn(isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray')}
                   />
                   {expanded ? (
                     <Text
                       as="span"
                       className={cn(
-                        'text-[22px] font-medium leading-[1.2] transition-opacity duration-200',
+                        'text-[16px] font-medium leading-[1.2] transition-opacity duration-200',
                         isActive ? 'text-figma-typo-black' : 'text-figma-typo-gray',
                       )}
                     >
@@ -135,7 +135,7 @@ function MentorSidebar({
 
         <div
           className={cn(
-            'flex flex-col gap-[15px]',
+            'flex flex-col gap-[12px]',
             expanded ? 'items-start w-full' : 'items-center',
           )}
         >
@@ -147,15 +147,15 @@ function MentorSidebar({
             <div
               className={cn(
                 expanded
-                  ? 'flex h-[65px] w-full items-center gap-[10px] rounded-[15px] px-[8px]'
-                  : 'flex size-[65px] items-center justify-center rounded-[15px]',
+                  ? 'flex h-[54px] w-full items-center gap-[8px] rounded-[14px] px-[8px]'
+                  : 'flex size-[54px] items-center justify-center rounded-[14px]',
               )}
             >
-              <Icon icon={Settings} size={26} className="text-figma-typo-gray" />
+              <Icon icon={Settings} size={22} className="text-figma-typo-gray" />
               {expanded ? (
                 <Text
                   as="span"
-                  className="text-[22px] font-medium leading-[1.2] text-figma-typo-gray transition-opacity duration-200"
+                  className="text-[16px] font-medium leading-[1.2] text-figma-typo-gray transition-opacity duration-200"
                 >
                   환경설정
                 </Text>
@@ -168,15 +168,15 @@ function MentorSidebar({
               aria-label="profile"
               className={cn(expanded ? 'flex w-full items-center gap-[10px]' : undefined)}
             >
-              <div className="size-[63px] overflow-hidden rounded-full bg-figma-card-gray" />
+              <div className="size-[52px] overflow-hidden rounded-full bg-figma-card-gray" />
               {expanded ? (
                 <div className="flex flex-col gap-[2px] transition-opacity duration-200">
-                  <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
-                    김멘토
-                  </Text>
-                  <Text as="p" className="text-[18px] font-medium leading-6 text-figma-typo-gray">
-                    kimmento@mail.com
-                  </Text>
+                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
+                  김멘토
+                </Text>
+                <Text as="p" className="text-[14px] font-medium leading-6 text-figma-typo-gray">
+                  kimmento@mail.com
+                </Text>
                 </div>
               ) : null}
             </Link>

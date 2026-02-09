@@ -144,7 +144,7 @@ function MentorReports() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[34px] font-bold leading-[1.35] text-figma-typo-black"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 주간 리포트
               </Text>

@@ -15,13 +15,23 @@ type MentorSolutionItem = {
 type MentorSolutionTableProps = {
   title: string
   items: MentorSolutionItem[]
+  onEditItem?: (id: string) => void
+  onDeleteItem?: (id: string) => void
+  onAddItem?: () => void
   className?: string
 }
 
-function MentorSolutionTable({ title, items, className }: MentorSolutionTableProps) {
+function MentorSolutionTable({
+  title,
+  items,
+  onEditItem,
+  onDeleteItem,
+  onAddItem,
+  className,
+}: MentorSolutionTableProps) {
   return (
     <section className={cn('flex flex-col gap-[10px]', className)}>
-      <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+      <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
         {title}
       </Text>
       <div className="flex flex-col gap-[10px]">
@@ -34,6 +44,9 @@ function MentorSolutionTable({ title, items, className }: MentorSolutionTablePro
             isPlaceholder={item.isPlaceholder}
             showActions={item.showActions}
             showAdd={item.showAdd}
+            onEdit={() => onEditItem?.(item.id)}
+            onDelete={() => onDeleteItem?.(item.id)}
+            onAdd={item.showAdd ? onAddItem : undefined}
           />
         ))}
       </div>

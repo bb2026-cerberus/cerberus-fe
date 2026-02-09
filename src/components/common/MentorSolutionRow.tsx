@@ -1,4 +1,4 @@
-import { PencilLine, Trash2, Plus, ChevronDown, FileText } from 'lucide-react'
+import { PencilLine, Trash2, Plus, FileText } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
@@ -11,6 +11,9 @@ type MentorSolutionRowProps = {
   isPlaceholder?: boolean
   showActions?: boolean
   showAdd?: boolean
+  onEdit?: () => void
+  onDelete?: () => void
+  onAdd?: () => void
   className?: string
 }
 
@@ -21,35 +24,40 @@ function MentorSolutionRow({
   isPlaceholder = false,
   showActions = true,
   showAdd = false,
+  onEdit,
+  onDelete,
+  onAdd,
   className,
 }: MentorSolutionRowProps) {
   const textClass = isPlaceholder ? 'text-figma-typo-gray' : 'text-figma-typo-black'
 
+  const rowContainerClass = 'bg-figma-white'
+
   return (
     <div
       className={cn(
-        'grid w-full gap-[10px] rounded-[18px] bg-figma-white p-[16px] lg:items-center lg:gap-[20px] lg:bg-transparent lg:p-0 lg:grid-cols-[1fr_220px_260px_64px]',
+        'grid w-full gap-[10px] rounded-[18px] p-[16px] lg:items-center lg:gap-[20px] lg:bg-transparent lg:p-0 lg:grid-cols-[1fr_1fr_1fr_64px]',
+        rowContainerClass,
         className,
       )}
     >
-      <div className="flex h-[56px] items-center rounded-[14px] bg-figma-white px-[16px] lg:h-[70px] lg:rounded-[18px] lg:px-[24px]">
-        <Text as="p" className={cn('text-[20px] font-semibold leading-6', textClass)}>
+      <div className="flex h-[56px] w-full items-center rounded-[14px] bg-figma-white px-[16px] lg:h-[60px] lg:rounded-[16px] lg:px-[20px]">
+        <Text as="p" className={cn('text-[16px] font-medium leading-6', textClass)}>
+          {subject}
+        </Text>
+      </div>
+
+      <div className="flex h-[56px] w-full items-center rounded-[14px] bg-figma-white px-[16px] lg:h-[60px] lg:rounded-[16px] lg:px-[20px]">
+        <Text as="p" className={cn('text-[16px] font-medium leading-6', textClass)}>
           {improvement}
         </Text>
       </div>
 
-      <div className="flex h-[56px] items-center justify-between rounded-[14px] bg-figma-white px-[16px] lg:h-[70px] lg:rounded-[18px] lg:px-[24px]">
-        <Text as="p" className={cn('text-[20px] font-semibold leading-6', textClass)}>
-          {subject}
-        </Text>
+      <div className="flex h-[56px] w-full items-center gap-[6px] rounded-[14px] bg-figma-white px-[16px] lg:h-[60px] lg:rounded-[16px] lg:px-[20px]">
         {isPlaceholder ? (
-          <Icon icon={ChevronDown} size={20} className="text-figma-typo-gray" />
+          <Icon icon={FileText} size={18} className="text-figma-typo-gray" />
         ) : null}
-      </div>
-
-      <div className="flex h-[56px] items-center gap-[6px] rounded-[14px] bg-figma-white px-[16px] lg:h-[70px] lg:rounded-[18px] lg:px-[24px]">
-        {isPlaceholder ? <Icon icon={FileText} size={18} className="text-figma-typo-gray" /> : null}
-        <Text as="p" className={cn('text-[20px] font-semibold leading-6', textClass)}>
+        <Text as="p" className={cn('text-[16px] font-medium leading-6', textClass)}>
           {attachment}
         </Text>
       </div>
@@ -61,6 +69,7 @@ function MentorSolutionRow({
               type="button"
               className="flex size-[36px] items-center justify-center rounded-full bg-figma-card-gray lg:size-auto lg:rounded-none lg:bg-transparent"
               aria-label="수정"
+              onClick={onEdit}
             >
               <Icon icon={PencilLine} size={20} className="text-figma-typo-gray" />
             </button>
@@ -68,6 +77,7 @@ function MentorSolutionRow({
               type="button"
               className="flex size-[36px] items-center justify-center rounded-full bg-figma-card-gray lg:size-auto lg:rounded-none lg:bg-transparent"
               aria-label="삭제"
+              onClick={onDelete}
             >
               <Icon icon={Trash2} size={20} className="text-figma-typo-gray" />
             </button>
@@ -78,6 +88,7 @@ function MentorSolutionRow({
             type="button"
             className="flex size-[36px] items-center justify-center rounded-full bg-figma-card-gray lg:size-auto lg:rounded-none lg:bg-transparent"
             aria-label="추가"
+            onClick={onAdd}
           >
             <Icon icon={Plus} size={20} className="text-figma-typo-gray" />
           </button>

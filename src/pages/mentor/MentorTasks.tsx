@@ -243,7 +243,7 @@ function MentorTasks() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[34px] font-bold leading-tight text-figma-typo-black"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 과제
               </Text>
@@ -260,7 +260,7 @@ function MentorTasks() {
                 value={filter}
                 onChange={setFilter}
                 options={['전체', '김수험', '박모의']}
-                size="lg"
+                size="md"
               />
             </div>
 
@@ -286,16 +286,16 @@ function MentorTasks() {
                               onClick={() => handleTaskSelect(task, group.name)}
                               className="text-left"
                             >
-                            <ChecklistItem
-                              title={task.title}
-                              subtitle={task.subtitle}
-                              subjectLabel={task.subjectLabel}
-                              subject={task.subject}
-                              className={cn(
-                                'h-[100px] px-[24px]',
-                                selectedTaskId === task.id && selectedItemClass,
-                              )}
-                            />
+                              <ChecklistItem
+                                title={task.title}
+                                subtitle={task.subtitle}
+                                subjectLabel={task.subjectLabel}
+                                subject={task.subject}
+                                className={cn(
+                                  'h-[84px] px-[20px]',
+                                  selectedTaskId === task.id && selectedItemClass,
+                                )}
+                              />
                           </button>
                         ))}
                         </ChecklistGroup>

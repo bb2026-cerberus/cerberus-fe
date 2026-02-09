@@ -83,7 +83,7 @@ function MentorQna() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[34px] font-bold leading-[1.35] text-figma-typo-black"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 Q&amp;A
               </Text>

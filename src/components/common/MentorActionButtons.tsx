@@ -38,7 +38,7 @@ function MentorActionButtons({
   const sizeClass =
     size === 'pc'
       ? 'h-[var(--mentor-action-button-height-pc)] w-[var(--mentor-action-button-width-pc)] rounded-[var(--mentor-action-button-radius)] text-[18px]'
-      : 'h-[var(--mentor-action-button-height-mobile)] w-[var(--mentor-action-button-width-mobile)] rounded-[var(--mentor-action-button-radius)] text-[18px]'
+      : 'h-[var(--mentor-action-button-height-mobile)] w-[var(--mentor-action-button-width-mobile)] rounded-[var(--mentor-action-button-radius)] text-[16px]'
   const tempSaveSize = size === 'pc' ? 'pc' : 'mobile'
   const resolvedSecondaryLabel =
     secondaryLabel ?? (mode === 'detail' ? '삭제' : mode === 'edit' ? '취소' : '임시저장')

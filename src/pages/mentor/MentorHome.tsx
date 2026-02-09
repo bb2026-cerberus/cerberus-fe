@@ -112,7 +112,7 @@ function MentorHome() {
           <div className="flex items-center">
             <Text
               as="h1"
-              className="text-[40px] font-bold leading-[1.35] text-figma-typo-black"
+              className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
             >
               오늘의 학습 점검을 시작해볼까요?
             </Text>
@@ -141,7 +141,7 @@ function MentorHome() {
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <SectionLinkHeader title="과제" />
+            <SectionLinkHeader title="과제" size="sm" />
             <ChecklistGroup>
               {assignments.map((item) => (
                 <ChecklistItem
@@ -151,14 +151,14 @@ function MentorHome() {
                   subjectLabel={item.subjectLabel}
                   subject={item.subject}
                   completed={item.completed}
-                  className="h-[100px] px-[24px]"
+                  className="h-[84px] px-[20px]"
                 />
               ))}
             </ChecklistGroup>
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <SectionLinkHeader title="피드백" />
+            <SectionLinkHeader title="피드백" size="sm" />
             <ChecklistGroup>
               {feedbacks.map((item) => (
                 <ChecklistItem
@@ -168,7 +168,7 @@ function MentorHome() {
                   subjectLabel={item.subjectLabel}
                   subject={item.subject}
                   completed={item.completed}
-                  className="h-[100px] px-[24px]"
+                  className="h-[84px] px-[20px]"
                 />
               ))}
             </ChecklistGroup>
@@ -177,7 +177,7 @@ function MentorHome() {
 
         <section className="flex flex-col gap-[32px] pt-[34px]">
           <div className="flex flex-col gap-[24px]">
-            <SectionLinkHeader title="Q&A" />
+            <SectionLinkHeader title="Q&A" size="sm" />
             <div className="flex flex-col gap-[10px]">
               {qnaItems.map((item) => (
                 <MentorQnaCard key={item.name} name={item.name} question={item.question} />
@@ -186,7 +186,7 @@ function MentorHome() {
           </div>
 
           <div className="flex flex-col gap-[24px]">
-            <SectionLinkHeader title="멘티 관리" />
+            <SectionLinkHeader title="멘티 관리" size="sm" />
             <div className="flex flex-col gap-[14px]">
               {menteeProgress.map((item) => (
                 <MentorMenteeProgressCard

@@ -58,7 +58,7 @@ function MentorTaskDetailPanel({
   return (
     <section className="flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]">
       <div className="flex items-center justify-between">
-        <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
+        <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
         <MentorActionButtons
@@ -81,19 +81,19 @@ function MentorTaskDetailPanel({
           onChange={onMenteeChange}
           options={['김수험', '박모의']}
           placeholder="멘티 선택"
-          size="lg"
+          size="md"
           readOnly={readOnly}
         />
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[20px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
             날짜 선택
           </Text>
-          <DatePickerInput value={date} onChange={onDateChange} size="lg" readOnly={readOnly} />
+          <DatePickerInput value={date} onChange={onDateChange} size="md" readOnly={readOnly} />
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[20px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
             과목
           </Text>
           <div className="grid w-full grid-cols-3 gap-[10px]">
@@ -104,7 +104,7 @@ function MentorTaskDetailPanel({
                   key={item}
                   type="button"
                   onClick={() => onSubjectChange(item)}
-                  className={`h-[60px] rounded-[16px] px-[18px] text-[17px] font-semibold leading-6 transition-colors ${
+                  className={`h-[48px] rounded-[14px] px-[16px] text-[14px] font-semibold leading-6 transition-colors ${
                     isActive
                       ? 'bg-figma-sub-color-1 text-white'
                       : 'bg-figma-white text-figma-typo-gray hover:bg-figma-card-gray'
@@ -119,41 +119,41 @@ function MentorTaskDetailPanel({
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[20px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
             정보
           </Text>
           <FormTextInput
             placeholder="제목"
             value={taskTitle}
             onChange={onTitleChange}
-            size="lg"
+            size="md"
             readOnly={readOnly}
           />
           <FormTextInput
             placeholder="설명"
             value={description}
             onChange={onDescriptionChange}
-            size="lg"
+            size="md"
             readOnly={readOnly}
           />
           <FormSelectInput
             value={solution}
             onChange={onSolutionChange}
             options={['솔루션 방안']}
-            size="lg"
+            size="md"
             readOnly={readOnly}
           />
         </div>
 
         <div className="flex flex-col gap-[8px]">
-          <Text as="p" className="text-[20px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
             학습지 등록
           </Text>
           <FormTextInput
             placeholder="| 학습지를 작성해주세요"
             value={worksheetText}
             onChange={onWorksheetTextChange}
-            size="lg"
+            size="md"
             readOnly={readOnly}
           />
           <UploadBox

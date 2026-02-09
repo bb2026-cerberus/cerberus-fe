@@ -15,19 +15,19 @@ function MentorWeeklyReportEmptyCard({
   return (
     <div
       className={cn(
-        'flex h-[80px] items-center justify-between rounded-[18px] bg-figma-white px-[24px]',
+        'flex h-[72px] items-center justify-between rounded-[16px] bg-figma-white px-[20px]',
         className,
       )}
     >
-      <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+      <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
         {name}
       </Text>
       <button
         type="button"
         onClick={onCreate}
-        className="flex h-[50px] w-[130px] items-center justify-center rounded-[var(--mentor-action-button-radius)] bg-figma-point-color-2"
+        className="flex h-[44px] w-[110px] items-center justify-center rounded-[var(--mentor-action-button-radius)] bg-figma-point-color-2"
       >
-        <Text as="span" className="text-[20px] font-semibold leading-6 text-white">
+        <Text as="span" className="text-[16px] font-semibold leading-6 text-white">
           작성하기
         </Text>
       </button>

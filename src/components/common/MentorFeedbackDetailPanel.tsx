@@ -44,7 +44,7 @@ function MentorFeedbackDetailPanel({
   return (
     <section className="flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]">
       <div className="flex items-center justify-between">
-        <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
+        <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
         <MentorActionButtons
@@ -63,19 +63,19 @@ function MentorFeedbackDetailPanel({
 
       <div className="flex flex-col gap-[20px] pl-[10px]">
         <div className="flex flex-col gap-[8px]">
-          <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
             {task.title}
           </Text>
           <div className="flex items-center gap-[8px]">
             <SubjectChip label={task.subjectLabel} subject={task.subject} />
-            <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-gray">
+            <Text as="p" className="text-[14px] font-semibold leading-6 text-figma-typo-gray">
               {task.subtitle}
             </Text>
           </div>
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             공부 인증 업로드
           </Text>
           <div className="h-[305px] w-full overflow-hidden rounded-[18px] bg-figma-white">
@@ -84,38 +84,38 @@ function MentorFeedbackDetailPanel({
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             피드백
           </Text>
           <FormTextInput
             placeholder="자유 작성"
             value={feedback}
             onChange={onFeedbackChange}
-            size="lg"
+            size="md"
           />
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             중요 요약
           </Text>
           <FormTextInput
             placeholder="요약 포인트 3개 이내"
             value={summary}
             onChange={onSummaryChange}
-            size="lg"
+            size="md"
           />
         </div>
 
         <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             총평
           </Text>
           <FormTextInput
             placeholder="자유 작성"
             value={overall}
             onChange={onOverallChange}
-            size="lg"
+            size="md"
           />
         </div>
       </div>

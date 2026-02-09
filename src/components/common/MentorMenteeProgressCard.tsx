@@ -28,9 +28,9 @@ function MentorMenteeProgressCard({
           <SubjectChip label={name} tone="muted" />
         </div>
       ) : null}
-      <div className="h-[122px] rounded-[18px] bg-figma-white px-[24px] py-[18px]">
+      <div className="h-[104px] rounded-[16px] bg-figma-white px-[20px] py-[14px]">
         <div className="flex flex-col gap-[8px]">
-          <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+          <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
             오늘 제출 {submitted} / {total}
           </Text>
           <div className="h-[6px] w-full rounded-full bg-figma-card-gray">
@@ -39,7 +39,7 @@ function MentorMenteeProgressCard({
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-gray">
+          <Text as="p" className="text-[14px] font-semibold leading-6 text-figma-typo-gray">
             {pendingLabel}
           </Text>
         </div>

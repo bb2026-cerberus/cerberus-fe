@@ -164,7 +164,7 @@ function MentorFeedback() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[34px] font-bold leading-tight text-figma-typo-black"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 피드백
               </Text>
@@ -177,10 +177,6 @@ function MentorFeedback() {
                 { label: '할 일', value: 'todos' },
               ]}
               onChange={setActiveTab}
-              className="h-[71px] rounded-[18px] bg-figma-white p-[8px]"
-              buttonClassName="rounded-[10px] text-[20px] font-semibold leading-6"
-              activeClassName="bg-figma-point-color-2 text-white"
-              inactiveClassName="text-figma-typo-gray"
             />
 
             <div className="flex w-full flex-col gap-[15px]">
@@ -190,12 +186,12 @@ function MentorFeedback() {
                 labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
                 labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
               />
-              <FormSelectInput
-                value={filter}
-                onChange={setFilter}
-                options={['전체', '김수험']}
-                size="lg"
-              />
+            <FormSelectInput
+              value={filter}
+              onChange={setFilter}
+              options={['전체', '김수험']}
+              size="md"
+            />
             </div>
 
             <div className="flex w-full max-w-[800px] flex-col gap-[20px]">
@@ -226,7 +222,7 @@ function MentorFeedback() {
                                 subjectLabel={task.subjectLabel}
                                 subject={task.subject}
                                 className={cn(
-                                  'h-[100px] px-[24px]',
+                                  'h-[84px] px-[20px]',
                                   selectedTask.id === task.id && selectedItemClass,
                                 )}
                               />

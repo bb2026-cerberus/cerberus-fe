@@ -6,14 +6,21 @@ import { Text } from '@/components/common/Text'
 
 type SectionLinkHeaderProps = {
   title: string
+  size?: 'md' | 'sm'
   onClick?: () => void
   className?: string
 }
 
-function SectionLinkHeader({ title, onClick, className }: SectionLinkHeaderProps) {
+function SectionLinkHeader({ title, size = 'md', onClick, className }: SectionLinkHeaderProps) {
   return (
     <div className={cn('flex w-full items-center justify-between', className)}>
-      <Text as="h3" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
+      <Text
+        as="h3"
+        className={cn(
+          'font-semibold leading-6 text-figma-typo-black',
+          size === 'sm' ? 'text-[16px]' : 'text-[20px]',
+        )}
+      >
         {title}
       </Text>
       <button

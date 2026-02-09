@@ -87,7 +87,7 @@ function MentorMentees() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[34px] font-bold leading-[1.35] text-figma-typo-black"
+                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
               >
                 멘티 관리
               </Text>
@@ -114,13 +114,13 @@ function MentorMentees() {
           selectedMentee ? (
             <section className="flex flex-col gap-[20px] pt-[20px] lg:pt-[44px] xl:pt-[69px]">
               <div className="flex items-center justify-between">
-                <Text as="h2" className="text-[22px] font-semibold leading-6 text-figma-typo-black">
+                <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
                   {selectedMentee.name}
                 </Text>
               </div>
 
               <div className="flex flex-col gap-[10px]">
-                <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
                   과제 제출 상태
                 </Text>
                 <MentorMenteeProgressCard
@@ -133,17 +133,17 @@ function MentorMentees() {
               </div>
 
               <div className="flex flex-col gap-[10px]">
-                <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
                   이번주 달성률
                 </Text>
                 <div className="flex gap-[10px]">
-                  <StatCard label="멘토 과제" value={selectedMentee.mentorRate} />
-                  <StatCard label="할 일" value={selectedMentee.todoRate} />
+                  <StatCard label="멘토 과제" value={selectedMentee.mentorRate} size="sm" />
+                  <StatCard label="할 일" value={selectedMentee.todoRate} size="sm" />
                 </div>
               </div>
 
               <div className="flex flex-col gap-[10px]">
-                <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
                   이번주 과목별 달성률
                 </Text>
                 <div className="flex gap-[10px]">
@@ -153,13 +153,14 @@ function MentorMentees() {
                       subjectLabel={item.label}
                       subject={item.subject}
                       value={item.value}
+                      size="sm"
                     />
                   ))}
                 </div>
               </div>
 
               <div className="flex flex-col gap-[10px]">
-                <Text as="p" className="text-[22px] font-medium leading-[1.2] text-figma-typo-black">
+                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
                   이번주 피드백 요약
                 </Text>
                 <MentorCommentCard comment={selectedMentee.feedbackSummary} size="lg" />
