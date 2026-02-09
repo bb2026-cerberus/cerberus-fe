@@ -9,34 +9,34 @@ import type {
 const createAssignment = (payload: OperationRequestBody<'createAssignment'>) =>
   request<OperationResponse<'createAssignment'>>({
     method: 'POST',
-    url: '/api/mentors/assignments',
+    url: '/mentors/assignments',
     data: payload,
   })
 
 const getAssignments = (query: OperationQuery<'getAssignments'>) =>
   request<OperationResponse<'getAssignments'>>({
     method: 'GET',
-    url: '/api/assignments',
+    url: '/assignments',
     params: query,
   })
 
 const getAssignmentDetail = (path: OperationPath<'getAssignmentDetail'>) =>
   request<OperationResponse<'getAssignmentDetail'>>({
     method: 'GET',
-    url: `/api/assignments/${path.assignmentId}`,
+    url: `/assignments/${path.assignmentId}`,
   })
 
 const getAssignmentsWeekly = (query: OperationQuery<'getAssignmentsWeekly'>) =>
   request<OperationResponse<'getAssignmentsWeekly'>>({
     method: 'GET',
-    url: '/api/assignments/weekly',
+    url: '/assignments/weekly',
     params: query,
   })
 
 const downloadAssignmentFile = (query: OperationQuery<'downloadFile_1'>) =>
   request<OperationResponse<'downloadFile_1'>>({
     method: 'GET',
-    url: '/api/assignments/download',
+    url: '/assignments/download',
     params: query,
   })
 
@@ -46,7 +46,7 @@ const uploadAssignmentVerification = (
 ) =>
   request<OperationResponse<'uploadVerification_1'>>({
     method: 'POST',
-    url: `/api/assignments/${path.assignmentId}/verification`,
+    url: `/assignments/${path.assignmentId}/verification`,
     data: payload,
   })
 
@@ -56,14 +56,14 @@ const updateAssignmentVerification = (
 ) =>
   request<OperationResponse<'updateVerification_1'>>({
     method: 'PUT',
-    url: `/api/assignments/${path.assignmentId}/verification`,
+    url: `/assignments/${path.assignmentId}/verification`,
     data: payload,
   })
 
 const deleteAssignmentVerification = (path: OperationPath<'deleteVerification_1'>) =>
   request<OperationResponse<'deleteVerification_1'>>({
     method: 'DELETE',
-    url: `/api/assignments/${path.assignmentId}/verification`,
+    url: `/assignments/${path.assignmentId}/verification`,
   })
 
 const assignmentsApi = {

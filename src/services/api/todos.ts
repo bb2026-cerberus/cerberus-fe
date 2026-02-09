@@ -9,27 +9,27 @@ import type {
 const getTodos = (query: OperationQuery<'getTodos'>) =>
   request<OperationResponse<'getTodos'>>({
     method: 'GET',
-    url: '/api/todos',
+    url: '/todos',
     params: query,
   })
 
 const createTodo = (payload: OperationRequestBody<'createTodo'>) =>
   request<OperationResponse<'createTodo'>>({
     method: 'POST',
-    url: '/api/todos',
+    url: '/todos',
     data: payload,
   })
 
 const getTodoDetail = (path: OperationPath<'getTodoDetail'>) =>
   request<OperationResponse<'getTodoDetail'>>({
     method: 'GET',
-    url: `/api/todos/${path.todoId}`,
+    url: `/todos/${path.todoId}`,
   })
 
 const toggleTodoStatus = (path: OperationPath<'toggleStatus'>) =>
   request<OperationResponse<'toggleStatus'>>({
     method: 'PATCH',
-    url: `/api/todos/${path.todoId}/completed`,
+    url: `/todos/${path.todoId}/completed`,
   })
 
 const addTimerSession = (
@@ -38,49 +38,49 @@ const addTimerSession = (
 ) =>
   request<OperationResponse<'addTimerSession'>>({
     method: 'POST',
-    url: `/api/todos/${path.todoId}/timer/sessions`,
+    url: `/todos/${path.todoId}/timer/sessions`,
     data: payload,
   })
 
 const getTodosWeekly = (query: OperationQuery<'getTodosWeekly'>) =>
   request<OperationResponse<'getTodosWeekly'>>({
     method: 'GET',
-    url: '/api/todos/weekly',
+    url: '/todos/weekly',
     params: query,
   })
 
 const getTimersByDate = (query: OperationQuery<'getTimersByDate'>) =>
   request<OperationResponse<'getTimersByDate'>>({
     method: 'GET',
-    url: '/api/todos/timers/daily',
+    url: '/todos/timers/daily',
     params: query,
   })
 
 const downloadTodoFile = (query: OperationQuery<'downloadFile'>) =>
   request<OperationResponse<'downloadFile'>>({
     method: 'GET',
-    url: '/api/todos/download',
+    url: '/todos/download',
     params: query,
   })
 
 const getDraftTodos = (query: OperationQuery<'getDraftTodos'>) =>
   request<OperationResponse<'getDraftTodos'>>({
     method: 'GET',
-    url: '/api/todos/drafts',
+    url: '/todos/drafts',
     params: query,
   })
 
 const createDraftTodo = (payload: OperationRequestBody<'createDraftTodo'>) =>
   request<OperationResponse<'createDraftTodo'>>({
     method: 'POST',
-    url: '/api/todos/drafts',
+    url: '/todos/drafts',
     data: payload,
   })
 
 const deleteDraftTodo = (path: OperationPath<'deleteDraftTodo'>) =>
   request<OperationResponse<'deleteDraftTodo'>>({
     method: 'DELETE',
-    url: `/api/todos/drafts/${path.todoId}`,
+    url: `/todos/drafts/${path.todoId}`,
   })
 
 const uploadTodoVerification = (
@@ -89,7 +89,7 @@ const uploadTodoVerification = (
 ) =>
   request<OperationResponse<'uploadVerification'>>({
     method: 'POST',
-    url: `/api/todos/${path.todoId}/verification`,
+    url: `/todos/${path.todoId}/verification`,
     data: payload,
   })
 
@@ -99,14 +99,14 @@ const updateTodoVerification = (
 ) =>
   request<OperationResponse<'updateVerification'>>({
     method: 'PUT',
-    url: `/api/todos/${path.todoId}/verification`,
+    url: `/todos/${path.todoId}/verification`,
     data: payload,
   })
 
 const deleteTodoVerification = (path: OperationPath<'deleteVerification'>) =>
   request<OperationResponse<'deleteVerification'>>({
     method: 'DELETE',
-    url: `/api/todos/${path.todoId}/verification`,
+    url: `/todos/${path.todoId}/verification`,
   })
 
 const todosApi = {

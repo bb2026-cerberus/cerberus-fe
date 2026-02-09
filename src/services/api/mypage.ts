@@ -11,20 +11,20 @@ const getMentorHomeData = (
 ) =>
   request<OperationResponse<'getMentorHomeData'>>({
     method: 'GET',
-    url: `/api/mentors/${path.mentorId}/home`,
+    url: `/mentors/${path.mentorId}/home`,
     params: query,
   })
 
 const getDraftCounts = (path: OperationPath<'getDraftCounts'>) =>
   request<OperationResponse<'getDraftCounts'>>({
     method: 'GET',
-    url: `/api/mentors/${path.mentorId}/draft-counts`,
+    url: `/mentors/${path.mentorId}/draft-counts`,
   })
 
 const getNotifications = (query: OperationQuery<'getNotifications'>) =>
   request<OperationResponse<'getNotifications'>>({
     method: 'GET',
-    url: '/api/notifications',
+    url: '/notifications',
     params: query,
   })
 

@@ -9,33 +9,33 @@ import type {
 const saveFeedback = (payload: OperationRequestBody<'saveFeedback'>) =>
   request<OperationResponse<'saveFeedback'>>({
     method: 'POST',
-    url: '/api/feedbacks',
+    url: '/feedbacks',
     data: payload,
   })
 
 const getFeedbackDetail = (path: OperationPath<'getFeedbackDetail'>) =>
   request<OperationResponse<'getFeedbackDetail'>>({
     method: 'GET',
-    url: `/api/feedbacks/${path.todoId}`,
+    url: `/feedbacks/${path.todoId}`,
   })
 
 const getWeeklyFeedbacks = (query: OperationQuery<'getWeeklyFeedbacks'>) =>
   request<OperationResponse<'getWeeklyFeedbacks'>>({
     method: 'GET',
-    url: '/api/feedbacks/weekly',
+    url: '/feedbacks/weekly',
     params: query,
   })
 
 const getDraftFeedbacks = (path: OperationPath<'getDraftFeedbacks'>) =>
   request<OperationResponse<'getDraftFeedbacks'>>({
     method: 'GET',
-    url: `/api/feedbacks/drafts/${path.mentorId}`,
+    url: `/feedbacks/drafts/${path.mentorId}`,
   })
 
 const triggerImageAnalysis = (path: OperationPath<'triggerImageAnalysis'>) =>
   request<OperationResponse<'triggerImageAnalysis'>>({
     method: 'POST',
-    url: `/api/feedbacks/analyze/${path.todoId}`,
+    url: `/feedbacks/analyze/${path.todoId}`,
   })
 
 const feedbacksApi = {

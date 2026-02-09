@@ -12,7 +12,7 @@ const createWeeklyReport = (
 ) =>
   request<OperationResponse<'createWeeklyReport'>>({
     method: 'POST',
-    url: `/api/mentors/weekly-reports/${path.mentorId}`,
+    url: `/mentors/weekly-reports/${path.mentorId}`,
     data: payload,
   })
 
@@ -22,20 +22,20 @@ const updateWeeklyReport = (
 ) =>
   request<OperationResponse<'updateWeeklyReport'>>({
     method: 'PUT',
-    url: `/api/mentors/weekly-reports/${path.mentorId}`,
+    url: `/mentors/weekly-reports/${path.mentorId}`,
     data: payload,
   })
 
 const deleteWeeklyReport = (path: OperationPath<'deleteWeeklyReport'>) =>
   request<OperationResponse<'deleteWeeklyReport'>>({
     method: 'DELETE',
-    url: `/api/mentors/weekly-reports/${path.mentorId}/${path.reportId}`,
+    url: `/mentors/weekly-reports/${path.mentorId}/${path.reportId}`,
   })
 
 const getWeeklyReportDetail = (path: OperationPath<'getWeeklyReportDetail'>) =>
   request<OperationResponse<'getWeeklyReportDetail'>>({
     method: 'GET',
-    url: `/api/mentors/weekly-reports/${path.reportId}`,
+    url: `/mentors/weekly-reports/${path.reportId}`,
   })
 
 const getWeeklyReportsByMentor = (
@@ -44,7 +44,7 @@ const getWeeklyReportsByMentor = (
 ) =>
   request<OperationResponse<'getWeeklyReportsByMentor'>>({
     method: 'GET',
-    url: `/api/mentors/weekly-reports/by-mentor/${path.mentorId}`,
+    url: `/mentors/weekly-reports/by-mentor/${path.mentorId}`,
     params: query,
   })
 
@@ -53,7 +53,7 @@ const getWeeklyReportsByMentee = (
 ) =>
   request<OperationResponse<'getWeeklyReportsByMentee'>>({
     method: 'GET',
-    url: `/api/mentors/weekly-reports/by-mentee/${path.menteeId}/week/${path.yearMonthWeek}`,
+    url: `/mentors/weekly-reports/by-mentee/${path.menteeId}/week/${path.yearMonthWeek}`,
   })
 
 const reportsApi = {

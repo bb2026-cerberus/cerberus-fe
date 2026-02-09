@@ -8,7 +8,7 @@ type LoginResponse = operations['login']['responses']['200']['content']['*/*']
 const login = (payload: LoginRequest) => {
   return request<LoginResponse>({
     method: 'POST',
-    url: '/api/member/login',
+    url: '/member/login',
     data: payload,
   })
 }

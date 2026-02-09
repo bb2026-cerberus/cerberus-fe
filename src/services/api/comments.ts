@@ -9,7 +9,7 @@ import type {
 const getQna = (query: OperationQuery<'getQna'>) =>
   request<OperationResponse<'getQna'>>({
     method: 'GET',
-    url: '/api/mentees/qnas',
+    url: '/mentees/qnas',
     params: query,
   })
 
@@ -19,7 +19,7 @@ const createQna = (
 ) =>
   request<OperationResponse<'createQna'>>({
     method: 'POST',
-    url: '/api/mentees/qnas',
+    url: '/mentees/qnas',
     params: query,
     data: payload,
   })
@@ -30,7 +30,7 @@ const updateQna = (
 ) =>
   request<OperationResponse<'updateQna'>>({
     method: 'PUT',
-    url: '/api/mentees/qnas',
+    url: '/mentees/qnas',
     params: query,
     data: payload,
   })
@@ -38,7 +38,7 @@ const updateQna = (
 const deleteQna = (query: OperationQuery<'deleteQna'>) =>
   request<OperationResponse<'deleteQna'>>({
     method: 'DELETE',
-    url: '/api/mentees/qnas',
+    url: '/mentees/qnas',
     params: query,
   })
 
@@ -48,20 +48,20 @@ const answerQna = (
 ) =>
   request<OperationResponse<'answerQna'>>({
     method: 'PUT',
-    url: `/api/mentors/qnas/answer/${path.userId}/${path.userRole}`,
+    url: `/mentors/qnas/answer/${path.userId}/${path.userRole}`,
     data: payload,
   })
 
 const getQnaDetail = (path: OperationPath<'getQnaDetail'>) =>
   request<OperationResponse<'getQnaDetail'>>({
     method: 'GET',
-    url: `/api/mentors/qnas/${path.qnaId}`,
+    url: `/mentors/qnas/${path.qnaId}`,
   })
 
 const getQnasByMentorId = (path: OperationPath<'getQnasByMentorId'>) =>
   request<OperationResponse<'getQnasByMentorId'>>({
     method: 'GET',
-    url: `/api/mentors/qnas/by-mentor/${path.mentorId}/${path.userRole}`,
+    url: `/mentors/qnas/by-mentor/${path.mentorId}/${path.userRole}`,
   })
 
 const commentsApi = {
