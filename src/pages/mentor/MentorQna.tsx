@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 
 import MentorQnaCard from '@/components/common/MentorQnaCard'
 import MentorQnaDetailPanel from '@/components/common/MentorQnaDetailPanel'
-import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
+import MentorTwoColumnLayout from '@/components/layout/MentorTwoColumnLayout'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'

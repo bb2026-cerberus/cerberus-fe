@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import FormSelectInput from '@/components/common/FormSelectInput'
-import MentorSingleColumnLayout from '@/components/common/MentorSingleColumnLayout'
+import MentorSingleColumnLayout from '@/components/layout/MentorSingleColumnLayout'
 import MentorSolutionTable, {
   type MentorSolutionItem,
 } from '@/components/common/MentorSolutionTable'

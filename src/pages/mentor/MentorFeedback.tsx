@@ -7,7 +7,7 @@ import FormSelectInput from '@/components/common/FormSelectInput'
 import MentorFeedbackDetailPanel, {
   type FeedbackTaskInfo,
 } from '@/components/common/MentorFeedbackDetailPanel'
-import MentorTwoColumnLayout from '@/components/common/MentorTwoColumnLayout'
+import MentorTwoColumnLayout from '@/components/layout/MentorTwoColumnLayout'
 import SegmentedTabs from '@/components/common/SegmentedTabs'
 import SubjectChip from '@/components/common/SubjectChip'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
