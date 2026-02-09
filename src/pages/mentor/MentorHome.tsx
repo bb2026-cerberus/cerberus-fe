@@ -5,6 +5,7 @@ import ChecklistItem from '@/components/common/ChecklistItem'
 import MentorMenteeProgressCard from '@/components/common/MentorMenteeProgressCard'
 import MentorQnaCard from '@/components/common/MentorQnaCard'
 import FormSection from '@/components/common/FormSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
@@ -118,7 +119,7 @@ function MentorHome() {
             </Text>
           </div>
 
-          <div className="flex flex-col gap-[12px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <div className="rounded-[20px] bg-figma-white px-[30px] pb-[36px] pt-[18px]">
               <Calendar
                 mode="single"
@@ -138,9 +139,9 @@ function MentorHome() {
               onClick={() => setViewMode((prev) => (prev === 'week' ? 'month' : 'week'))}
               className="justify-end text-figma-typo-gray"
             />
-          </div>
+          </FormSectionGroup>
 
-          <div className="flex flex-col gap-[20px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <FormSection title="과제">
               <ChecklistGroup>
                 {assignments.map((item) => (
@@ -156,9 +157,9 @@ function MentorHome() {
                 ))}
               </ChecklistGroup>
             </FormSection>
-          </div>
+          </FormSectionGroup>
 
-          <div className="flex flex-col gap-[20px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <FormSection title="피드백">
               <ChecklistGroup>
                 {feedbacks.map((item) => (
@@ -174,11 +175,11 @@ function MentorHome() {
                 ))}
               </ChecklistGroup>
             </FormSection>
-          </div>
+          </FormSectionGroup>
         </section>
 
         <section className="flex flex-col gap-[32px] pt-[34px]">
-          <div className="flex flex-col gap-[24px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <FormSection title="Q&A">
               <div className="flex flex-col gap-[10px]">
                 {qnaItems.map((item) => (
@@ -186,9 +187,9 @@ function MentorHome() {
                 ))}
               </div>
             </FormSection>
-          </div>
+          </FormSectionGroup>
 
-          <div className="flex flex-col gap-[24px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <FormSection title="멘티 관리">
               <div className="flex flex-col gap-[14px]">
                 {menteeProgress.map((item) => (
@@ -202,7 +203,7 @@ function MentorHome() {
                 ))}
               </div>
             </FormSection>
-          </div>
+          </FormSectionGroup>
         </section>
       </div>
     </div>

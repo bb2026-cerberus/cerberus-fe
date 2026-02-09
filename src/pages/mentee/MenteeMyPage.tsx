@@ -1,4 +1,4 @@
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import ActionButton from '@/components/common/ActionButton'
 import FormSection from '@/components/common/FormSection'
 import ProfileCard from '@/components/common/ProfileCard'
@@ -9,7 +9,7 @@ function MenteeMyPage() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-[36px] pt-[8px]">
-        <MenteeSection className="flex flex-col gap-4">
+        <FormSectionGroup className="flex flex-col gap-4">
           <ProfileCard
             name="김수험"
             subline="D-282 · 목표 1등급"
@@ -40,7 +40,7 @@ function MenteeMyPage() {
               <ActionButton label="상담 받아보기" />
             </div>
           </div>
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
     </div>
   )

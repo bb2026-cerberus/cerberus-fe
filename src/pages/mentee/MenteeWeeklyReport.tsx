@@ -3,7 +3,7 @@ import { startOfWeek } from 'date-fns'
 
 import BulletListCard from '@/components/common/BulletListCard'
 import FormSection from '@/components/common/FormSection'
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import MentorCommentCard from '@/components/common/MentorCommentCard'
 import StatCard from '@/components/common/StatCard'
 import SubjectStatCard from '@/components/common/SubjectStatCard'
@@ -18,7 +18,7 @@ function MenteeWeeklyReport() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-[36px] pt-[8px]">
-        <MenteeSection className="flex flex-col gap-4">
+        <FormSectionGroup className="flex flex-col gap-4">
           <div className="flex flex-col gap-[8px] px-[10px]">
             <WeekSelector value={weekStart} onChange={setWeekStart} />
             <WeeklySummaryCard summary="이번 주 학습 흐름은 안정적으로 유지되고 있으며, 복습 비중을 조금 더 늘리면 전반적인 이해도 향상에 도움이 될 것으로 보입니다." />
@@ -71,7 +71,7 @@ function MenteeWeeklyReport() {
               ]}
             />
           </div>
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
     </div>
   )

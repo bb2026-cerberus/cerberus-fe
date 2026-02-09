@@ -39,9 +39,7 @@ function MentorFeedback() {
     "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
   const [activeTab, setActiveTab] = useState<FeedbackTab>('assignments')
   const [filter, setFilter] = useState<string>('전체')
-  const [weekStart, setWeekStart] = useState(() =>
-    startOfWeek(new Date(), { weekStartsOn: 1 }),
-  )
+  const [weekStart, setWeekStart] = useState(() => startOfWeek(new Date(), { weekStartsOn: 1 }))
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
   const [detailOpen, setDetailOpen] = useState(false)
 
@@ -165,10 +163,7 @@ function MentorFeedback() {
         left={
           <section className="flex flex-col gap-[25px]">
             <div className="hidden items-center lg:flex">
-              <Text
-                as="h1"
-                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
-              >
+              <Text as="h1" className="text-[28px] font-bold leading-[1.3] text-figma-typo-black">
                 피드백
               </Text>
             </div>
@@ -190,11 +185,7 @@ function MentorFeedback() {
                 labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
                 labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
               />
-              <FormSelectInput
-                value={filter}
-                onChange={setFilter}
-                options={['전체', '김수험']}
-              />
+              <FormSelectInput value={filter} onChange={setFilter} options={['전체', '김수험']} />
             </div>
 
             <div className="flex w-full max-w-[800px] flex-col gap-[20px]">

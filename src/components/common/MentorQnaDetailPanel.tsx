@@ -1,4 +1,5 @@
 import FormSection from '@/components/common/FormSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FormTextInput from '@/components/common/FormTextInput'
 import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { Text } from '@/components/common/Text'
@@ -40,7 +41,7 @@ function MentorQnaDetailPanel({
         />
       </div>
 
-      <div className="flex flex-col gap-[20px] pl-[10px]">
+      <FormSectionGroup className="flex flex-col gap-4 pl-[10px]">
         <div className="flex flex-col gap-[10px]">
           <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
             멘티 질문
@@ -62,7 +63,7 @@ function MentorQnaDetailPanel({
             onChange={onCommentChange}
           />
         </FormSection>
-      </div>
+      </FormSectionGroup>
     </section>
   )
 }

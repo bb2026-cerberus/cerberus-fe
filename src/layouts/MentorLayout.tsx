@@ -34,17 +34,17 @@ function MentorMobileHeader() {
   return (
     <>
       <div className="lg:hidden">
-        <div className="flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between px-4 py-2">
           <button
             type="button"
             aria-label="뒤로가기"
             onClick={headerState.onBack}
             className={cn(
-              'flex size-[40px] items-center justify-center rounded-[12px] bg-figma-white',
+              'flex size-[30px] items-center justify-center rounded-[10px] bg-figma-white',
               headerState.showBack ? 'visible' : 'invisible pointer-events-none',
             )}
           >
-            <Icon icon={ChevronLeft} size={20} className="text-figma-typo-black" />
+            <Icon icon={ChevronLeft} size={18} className="text-figma-typo-black" />
           </button>
           <Text as="span" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
             {mobileTitle}
@@ -53,11 +53,11 @@ function MentorMobileHeader() {
             type="button"
             aria-label="open menu"
             onClick={() => setMobileMenuOpen(true)}
-            className="flex size-[40px] items-center justify-center rounded-[12px] bg-figma-white"
+            className="flex size-[30px] items-center justify-center rounded-[10px] bg-figma-white"
           >
             <span
               aria-hidden
-              className="block size-[20px] bg-figma-typo-black"
+              className="block size-[18px] bg-figma-typo-black"
               style={{
                 maskImage: `url("${menuIcon}")`,
                 WebkitMaskImage: `url("${menuIcon}")`,

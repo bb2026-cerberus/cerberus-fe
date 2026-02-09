@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import FormSection from '@/components/common/FormSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import MentorSingleColumnLayout from '@/components/layout/MentorSingleColumnLayout'
 import MentorSolutionTable, {
@@ -108,7 +109,7 @@ function MentorSolutions() {
   return (
     <div className="relative flex w-full flex-col gap-[25px] pb-[80px]">
       <MentorSingleColumnLayout>
-        <section className="flex flex-col gap-[25px]">
+        <FormSectionGroup className="flex flex-col gap-4">
           <div className="hidden items-center lg:flex">
             <Text
               as="h1"
@@ -133,7 +134,7 @@ function MentorSolutions() {
             onDeleteItem={handleDeleteItem}
             onAddItem={undefined}
           />
-        </section>
+        </FormSectionGroup>
       </MentorSingleColumnLayout>
 
       <FloatingActionButton

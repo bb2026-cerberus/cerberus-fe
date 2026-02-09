@@ -42,10 +42,7 @@ function ChecklistItem({
         <Text
           as="p"
           variant="title3"
-          className={cn(
-            'text-figma-typo-black',
-            completed && 'line-through opacity-80',
-          )}
+          className={cn('text-figma-typo-black', completed && 'line-through opacity-80')}
         >
           {title}
         </Text>
@@ -62,9 +59,7 @@ function ChecklistItem({
             <Text
               as="p"
               variant="caption"
-              className={cn(
-                completed ? 'text-figma-typo-gray-b' : 'text-figma-typo-gray',
-              )}
+              className={cn(completed ? 'text-figma-typo-gray-b' : 'text-figma-typo-gray')}
             >
               {subtitle}
             </Text>

@@ -1,5 +1,5 @@
 import FormSection from '@/components/common/FormSection'
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskDetailHeader from '@/components/common/TaskDetailHeader'
 import UploadBox from '@/components/common/UploadBox'
@@ -9,7 +9,7 @@ function MenteeTodoDetail() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-[36px] pt-[8px]">
-        <MenteeSection className="flex flex-col gap-4">
+        <FormSectionGroup className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 px-1 pt-2">
             <TaskDetailHeader title="단어 시험 공부" subtitle="1단원 단어 리스트" />
             <div className="flex items-center gap-2">
@@ -26,7 +26,7 @@ function MenteeTodoDetail() {
               <UploadBox />
             </div>
           </FormSection>
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
     </div>
   )

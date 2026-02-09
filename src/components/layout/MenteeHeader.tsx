@@ -25,7 +25,7 @@ function MenteeHeader({
           <Text
             as="p"
             variant="headline1"
-            className="text-[24px] font-semibold leading-[1.2] text-figma-typo-black"
+            className="text-[18px] font-semibold leading-6 text-figma-typo-black"
           >
             {name}
           </Text>

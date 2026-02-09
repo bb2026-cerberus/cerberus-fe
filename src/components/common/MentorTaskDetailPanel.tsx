@@ -1,5 +1,6 @@
 import DatePickerInput from '@/components/common/DatePickerInput'
 import FormSection from '@/components/common/FormSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
 import MentorActionButtons, {
@@ -76,7 +77,9 @@ function MentorTaskDetailPanel({
         />
       </div>
 
-      <div className={cn('flex flex-col gap-[16px] pl-[10px]', readOnly && 'pointer-events-none opacity-90')}>
+      <FormSectionGroup
+        className={cn('flex flex-col gap-4 pl-[10px]', readOnly && 'pointer-events-none opacity-90')}
+      >
         <FormSection title="멘티 선택">
           <FormSelectInput
             value={mentee}
@@ -152,7 +155,7 @@ function MentorTaskDetailPanel({
             />
           </div>
         </FormSection>
-      </div>
+      </FormSectionGroup>
     </section>
   )
 }

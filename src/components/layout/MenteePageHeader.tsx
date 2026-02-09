@@ -31,7 +31,7 @@ function MenteePageHeader({ title, onBackClick, onMenuClick, className }: Mentee
         </button>
         <Text
           as="p"
-          className="justify-self-center text-center text-[20px] font-semibold leading-6 text-figma-typo-black"
+          className="justify-self-center text-center text-[18px] font-semibold leading-6 text-figma-typo-black"
         >
           {title}
         </Text>

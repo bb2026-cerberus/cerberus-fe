@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import FormSection from '@/components/common/FormSection'
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskDetailHeader from '@/components/common/TaskDetailHeader'
 import StudyMaterialCard from '@/components/common/StudyMaterialCard'
@@ -19,7 +19,7 @@ function MenteeAssignmentDetail() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-[36px] pt-[8px]">
-        <MenteeSection className="flex flex-col gap-4">
+        <FormSectionGroup className="flex flex-col gap-4">
           <div className="flex flex-col gap-3 px-1 pt-2">
             <TaskDetailHeader title="문학 1지문 정리" subtitle="핵심 표현 5개" />
             <div className="flex items-center gap-2">
@@ -43,7 +43,7 @@ function MenteeAssignmentDetail() {
               <UploadBox onClick={() => setUploadedImageUrl(demoImageUrl)} />
             )}
           </FormSection>
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
     </div>
   )

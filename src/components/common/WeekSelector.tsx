@@ -62,20 +62,14 @@ function WeekSelector({
   }, [displayDate, label, weekStartsOn])
 
   const [pickerOpen, setPickerOpen] = useState(false)
-  const [currentMonth, setCurrentMonth] = useState<Date>(() =>
-    startOfMonth(displayDate),
-  )
+  const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfMonth(displayDate))
 
   useEffect(() => {
     setCurrentMonth(startOfMonth(displayDate))
   }, [displayDate])
 
-  const handlePrev =
-    onPrev ??
-    (value && onChange ? () => onChange(subWeeks(value, 1)) : undefined)
-  const handleNext =
-    onNext ??
-    (value && onChange ? () => onChange(addWeeks(value, 1)) : undefined)
+  const handlePrev = onPrev ?? (value && onChange ? () => onChange(subWeeks(value, 1)) : undefined)
+  const handleNext = onNext ?? (value && onChange ? () => onChange(addWeeks(value, 1)) : undefined)
   const prevDisabled = !handlePrev
   const nextDisabled = !handleNext
 
@@ -88,13 +82,13 @@ function WeekSelector({
   }, [currentMonth, weekStartsOn])
 
   return (
-    <div className={cn('flex items-center gap-[15px]', className)}>
+    <div className={cn('flex items-center gap-[10px]', className)}>
       <button
         type="button"
         onClick={handlePrev}
         disabled={prevDisabled}
         className={cn(
-          'flex size-[30px] items-center justify-center rounded-[9px] bg-figma-card-gray transition-opacity disabled:cursor-not-allowed disabled:opacity-50',
+          'flex size-[32px] items-center justify-center rounded-[9px] bg-figma-card-gray transition-opacity disabled:cursor-not-allowed disabled:opacity-50',
           buttonClassName,
         )}
         aria-label="이전 주"
@@ -113,7 +107,7 @@ function WeekSelector({
           <button
             type="button"
             className={cn(
-              'flex min-w-[200px] items-center justify-center gap-1 rounded-[34px] bg-white px-[10px] py-[5px] transition-colors disabled:cursor-default',
+              'flex min-w-[200px] items-center justify-center gap-1 rounded-[6px] bg-figma-card-gray px-2 py-1 transition-colors disabled:cursor-default',
               labelClassName,
             )}
             aria-label="주차 선택"
@@ -121,15 +115,12 @@ function WeekSelector({
             <Text
               as="span"
               className={cn(
-                'text-[20px] font-semibold leading-6 text-figma-typo-black',
+                'text-[14px] font-semibold leading-6 text-figma-typo-black',
                 labelTextClassName,
               )}
             >
               {displayLabel}
             </Text>
-            {pickerEnabled ? (
-              <Icon icon={ChevronDown} size={16} className="text-figma-typo-gray" />
-            ) : null}
           </button>
         </PopoverTrigger>
         {pickerEnabled ? (
@@ -147,10 +138,7 @@ function WeekSelector({
               >
                 <Icon icon={ChevronLeft} size={16} className="text-figma-typo-black" />
               </button>
-              <Text
-                as="span"
-                className="text-[16px] font-semibold leading-6 text-figma-typo-black"
-              >
+              <Text as="span" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
                 {format(currentMonth, 'yyyy년 M월')}
               </Text>
               <button
@@ -172,9 +160,7 @@ function WeekSelector({
                     { weekStartsOn },
                   ) + 1
                 const weekEnd = endOfWeek(weekStart, { weekStartsOn })
-                const selected = value
-                  ? isSameWeek(value, weekStart, { weekStartsOn })
-                  : false
+                const selected = value ? isSameWeek(value, weekStart, { weekStartsOn }) : false
                 return (
                   <button
                     key={weekStart.toISOString()}
@@ -206,7 +192,7 @@ function WeekSelector({
         onClick={handleNext}
         disabled={nextDisabled}
         className={cn(
-          'flex size-[30px] items-center justify-center rounded-[9px] bg-figma-card-gray transition-opacity disabled:cursor-not-allowed disabled:opacity-50',
+          'flex size-[32px] items-center justify-center rounded-[9px] bg-figma-card-gray transition-opacity disabled:cursor-not-allowed disabled:opacity-50',
           buttonClassName,
         )}
         aria-label="다음 주"

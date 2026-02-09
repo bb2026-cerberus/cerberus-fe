@@ -24,7 +24,8 @@ type TextProps<T extends ElementType> = {
 } & Omit<ComponentPropsWithoutRef<T>, 'as' | 'className'> &
   VariantProps<typeof textVariants>
 
-function Text<T extends ElementType = 'p'>({
+/** DOM 전역 Text와의 이름 충돌을 피하기 위해 Typography로 정의 후 export */
+function Typography<T extends ElementType = 'p'>({
   as,
   variant,
   className,
@@ -35,4 +36,4 @@ function Text<T extends ElementType = 'p'>({
 }
 
 export type { TextProps }
-export { Text, textVariants }
+export { Typography as Text, textVariants }

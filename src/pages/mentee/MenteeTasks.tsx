@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FloatingActionButton from '@/components/common/FloatingActionButton'
 import FeedbackItem from '@/components/common/FeedbackItem'
 import FeedbackSummaryCard from '@/components/common/FeedbackSummaryCard'
@@ -216,7 +216,7 @@ function MenteeTasks() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-4 pt-[8px]">
-        <MenteeSection className="flex flex-col gap-3">
+        <FormSectionGroup className="flex flex-col gap-4">
           <SegmentedTabs
             value={activeTab}
             items={taskTabItems}
@@ -290,7 +290,7 @@ function MenteeTasks() {
               ))}
             </div>
           )}
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
       {activeTab === 'todos' ? (
         <FloatingActionButton

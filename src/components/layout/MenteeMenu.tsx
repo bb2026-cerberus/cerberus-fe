@@ -1,9 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import {
-  Clock3,
-  ChevronRight,
-  LogOut,
-} from 'lucide-react'
+import { ChevronRight, LogOut } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
@@ -12,11 +8,11 @@ import homeIcon from '@/assets/home.svg'
 import taskIcon from '@/assets/paper.svg'
 import qnaIcon from '@/assets/qna.svg'
 import reportIcon from '@/assets/report.svg'
+import time from '@/assets/time.svg'
 
 type MenteeMenuItem = {
   label: string
   iconSvg?: string
-  iconLucide?: typeof Clock3
   onClick?: () => void
   to?: string
 }
@@ -35,7 +31,7 @@ const menuItems: MenteeMenuItem[] = [
   { label: '홈', iconSvg: homeIcon, to: routePaths.mentee },
   { label: '과제 · 피드백', iconSvg: taskIcon, to: routePaths.menteeTasks },
   { label: 'Q&A', iconSvg: qnaIcon, to: routePaths.menteeQna },
-  { label: '타임블록', iconLucide: Clock3, to: routePaths.menteeTimeBlock },
+  { label: '타임블록', iconSvg: time, to: routePaths.menteeTimeBlock },
   { label: '주간 리포트', iconSvg: reportIcon, to: routePaths.menteeWeeklyReport },
 ]
 
@@ -52,10 +48,13 @@ function MenteeMenu({
   const pathname = location.pathname
   const navigate = useNavigate()
 
-  const renderMaskIcon = (src: string, className?: string) => (
+  const renderMaskIcon = (src: string, active: boolean) => (
     <span
       aria-hidden
-      className={cn('block size-6 shrink-0 bg-current', className)}
+      className={cn(
+        'flex size-[40px] shrink-0 items-center justify-center',
+        active ? 'bg-figma-point-color-2' : 'bg-figma-typo-gray',
+      )}
       style={{
         maskImage: `url("${src}")`,
         WebkitMaskImage: `url("${src}")`,
@@ -78,10 +77,10 @@ function MenteeMenu({
   return (
     <div
       className={cn(
-        'flex h-full w-full flex-col items-center gap-[16px] bg-white px-[18px] py-[24px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)]',
+        'flex h-full w-full flex-col gap-[16px] bg-figma-white px-[18px] py-[24px] shadow-[0_0_30px_rgba(0,0,0,0.05)]',
         side === 'right'
-          ? 'rounded-tl-[25px] rounded-bl-[25px]'
-          : 'rounded-tr-[25px] rounded-br-[25px]',
+          ? 'rounded-tl-[19px] rounded-bl-[19px]'
+          : 'rounded-tr-[19px] rounded-br-[19px]',
         className,
       )}
     >
@@ -131,30 +130,32 @@ function MenteeMenu({
             : activeLabel
               ? item.label === activeLabel
               : false
-          const iconColorClass = isActive
-            ? 'text-figma-point-color-2'
-            : 'text-figma-typo-gray-b'
-          const LucideIcon = item.iconLucide
           const content = (
-            <>
-              {item.iconSvg
-                ? renderMaskIcon(item.iconSvg, cn('size-[32px]', iconColorClass))
-                : LucideIcon
-                  ? (
-                    <LucideIcon className={cn('size-5', iconColorClass)} />
-                  )
-                  : null}
-              <Text as="span" variant="title3" className="text-[16px] font-medium">
+            <div
+              className={cn(
+                'flex h-[54px] w-full items-center gap-[8px] rounded-[14px] px-[8px]',
+                isActive ? 'bg-figma-card-gray' : '',
+              )}
+            >
+              {item.iconSvg ? renderMaskIcon(item.iconSvg, isActive) : null}
+              <Text
+                as="span"
+                variant="title3"
+                className={cn(
+                  'text-[16px] font-medium leading-[1.2]',
+                  isActive ? 'text-figma-typo-black' : 'text-figma-typo-gray',
+                )}
+              >
                 {item.label}
               </Text>
-            </>
+            </div>
           )
 
           return item.to ? (
             <Link
               key={item.label}
               to={item.to}
-              className="flex w-full items-center gap-[10px] rounded-[14px] px-[8px] py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              className="w-full outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
               onClick={onNavigateClick}
             >
               {content}
@@ -163,7 +164,7 @@ function MenteeMenu({
             <button
               key={item.label}
               type="button"
-              className="flex w-full items-center gap-[10px] rounded-[14px] px-[8px] py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              className="w-full outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
               onClick={item.onClick}
             >
               {content}

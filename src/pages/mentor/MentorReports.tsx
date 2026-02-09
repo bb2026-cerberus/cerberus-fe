@@ -155,10 +155,6 @@ function MentorReports() {
             <WeekSelector
               value={weekStart}
               onChange={setWeekStart}
-              buttonClassName="size-[32px] rounded-[9px] bg-figma-card-gray"
-              labelClassName="rounded-[6px] bg-figma-card-gray px-2 py-1"
-              labelTextClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
-              className="gap-[10px]"
             />
 
             <div className="flex flex-col gap-[10px]">
