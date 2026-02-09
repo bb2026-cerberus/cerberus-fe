@@ -20,6 +20,8 @@ type MentorSidebarProps = {
   expanded?: boolean
   onToggle?: () => void
   showToggle?: boolean
+  onNavigate?: () => void
+  panelClassName?: string
   className?: string
 }
 
@@ -27,6 +29,8 @@ function MentorSidebar({
   expanded = false,
   onToggle,
   showToggle = true,
+  onNavigate,
+  panelClassName,
   className,
 }: MentorSidebarProps) {
   const menuItems = useMemo(
@@ -61,21 +65,22 @@ function MentorSidebar({
           expanded
             ? 'w-[306px] items-start px-[18px] py-[24px]'
             : 'w-[102px] items-center px-[12px] py-[20px]',
+          panelClassName,
         )}
       >
         <div
           className={cn(
-          'flex w-full flex-col gap-[32px]',
-          expanded ? 'items-start' : 'items-center',
-        )}
-      >
-        <div className="size-[52px] rounded-full bg-figma-typo-gray" />
-        <div
-          className={cn(
-            'flex flex-col gap-[8px]',
-            expanded ? 'items-start w-full' : 'items-center',
+            'flex w-full flex-col gap-[32px]',
+            expanded ? 'items-start' : 'items-center',
           )}
         >
+          <div className="size-[52px] rounded-full bg-figma-typo-gray" />
+          <div
+            className={cn(
+              'flex flex-col gap-[8px]',
+              expanded ? 'items-start w-full' : 'items-center',
+            )}
+          >
             {menuItems.map((item) => {
               const isActive = item.to
                 ? item.to === routePaths.mentor
@@ -116,6 +121,7 @@ function MentorSidebar({
                   to={item.to}
                   aria-label={item.id}
                   className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+                  onClick={onNavigate}
                 >
                   {content}
                 </Link>
@@ -125,6 +131,7 @@ function MentorSidebar({
                   type="button"
                   aria-label={item.id}
                   className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+                  onClick={onNavigate}
                 >
                   {content}
                 </button>
@@ -143,6 +150,7 @@ function MentorSidebar({
             to={routePaths.mentorSettings}
             aria-label="settings"
             className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+            onClick={onNavigate}
           >
             <div
               className={cn(
@@ -167,16 +175,17 @@ function MentorSidebar({
               to={routePaths.mentorProfile}
               aria-label="profile"
               className={cn(expanded ? 'flex w-full items-center gap-[10px]' : undefined)}
+              onClick={onNavigate}
             >
               <div className="size-[52px] overflow-hidden rounded-full bg-figma-card-gray" />
               {expanded ? (
                 <div className="flex flex-col gap-[2px] transition-opacity duration-200">
-                <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-                  김멘토
-                </Text>
-                <Text as="p" className="text-[14px] font-medium leading-6 text-figma-typo-gray">
-                  kimmento@mail.com
-                </Text>
+                  <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
+                    김멘토
+                  </Text>
+                  <Text as="p" className="text-[14px] font-medium leading-6 text-figma-typo-gray">
+                    kimmento@mail.com
+                  </Text>
                 </div>
               ) : null}
             </Link>
@@ -193,11 +202,13 @@ function MentorSidebar({
           aria-label="expand"
           onClick={onToggle}
           className={cn(
-            'absolute top-[38px] flex size-[30px] items-center justify-center rounded-full bg-figma-white shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-[left,transform] duration-300 ease-out',
+            'absolute top-[32px] flex size-[30px] items-center justify-center rounded-full bg-figma-white shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-[left,transform] duration-300 ease-out',
             expanded ? '-translate-x-full rotate-180' : '',
           )}
           style={{
-            left: 'calc(var(--sidebar-width) - 6px)',
+            left: expanded
+              ? 'calc(var(--sidebar-width) - 44px)'
+              : 'calc(var(--sidebar-width) - 28px)',
           }}
         >
           <Icon icon={ChevronRight} size={18} className="text-figma-typo-gray" />

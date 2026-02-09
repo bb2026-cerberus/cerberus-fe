@@ -87,7 +87,7 @@ function MentorMentees() {
             <div className="flex items-center">
               <Text
                 as="h1"
-                className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
+                className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
               >
                 멘티 관리
               </Text>

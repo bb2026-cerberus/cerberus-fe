@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
+import { useEffect } from 'react'
 
+import { useMentorMobileHeader } from '@/components/layout/MentorMobileHeaderContext'
 import { cn } from '@/lib/utils'
 
 type MentorTwoColumnLayoutProps = {
@@ -24,11 +26,24 @@ function MentorTwoColumnLayout({
   columnsClassName,
   mobileDetailOpen = false,
   onMobileDetailClose,
-  mobileDetailTitle,
   mobileActionBar,
 }: MentorTwoColumnLayoutProps) {
   const hasRight = Boolean(right)
   const hasMobileActionBar = Boolean(mobileActionBar)
+  const { setHeaderState } = useMentorMobileHeader()
+
+  useEffect(() => {
+    if (!hasRight) return
+    if (mobileDetailOpen && onMobileDetailClose) {
+      setHeaderState({ showBack: true, onBack: onMobileDetailClose })
+    } else {
+      setHeaderState({ showBack: false })
+    }
+
+    return () => {
+      setHeaderState({ showBack: false })
+    }
+  }, [hasRight, mobileDetailOpen, onMobileDetailClose, setHeaderState])
 
   return (
     <>
@@ -61,33 +76,10 @@ function MentorTwoColumnLayout({
           />
           <div
             className={cn(
-              'relative flex h-full w-full flex-col bg-figma-light-gray transition-transform duration-200',
+              'relative flex h-full w-full flex-col bg-figma-light-gray pt-[72px] transition-transform duration-200',
               mobileDetailOpen ? 'translate-y-0' : 'translate-y-full',
             )}
           >
-            <div className="flex items-center gap-2 border-b bg-white px-4 py-3">
-              <button
-                type="button"
-                onClick={onMobileDetailClose}
-                className="flex items-center text-figma-typo-black"
-                aria-label="뒤로가기"
-              >
-                <svg
-                  viewBox="0 0 20 20"
-                  className="size-[20px] text-figma-typo-black"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.5 4.375L7.5 10L12.5 15.625"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
             <div
               className={cn(
                 'flex-1 overflow-y-auto px-4 pt-[16px]',

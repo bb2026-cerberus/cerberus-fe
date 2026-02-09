@@ -68,11 +68,11 @@ function MentorSolutions() {
       prev.map((item) =>
         item.id === editingId
           ? {
-              ...item,
-              improvement: draftImprovement,
-              subject: draftSubject,
-              attachment: draftAttachment,
-            }
+            ...item,
+            improvement: draftImprovement,
+            subject: draftSubject,
+            attachment: draftAttachment,
+          }
           : item,
       ),
     )
@@ -111,7 +111,7 @@ function MentorSolutions() {
           <div className="flex items-center">
             <Text
               as="h1"
-              className="text-[28px] font-bold leading-[1.3] text-figma-typo-black"
+              className="hidden text-[28px] font-bold leading-[1.3] text-figma-typo-black lg:block"
             >
               약점 맞춤 솔루션
             </Text>
@@ -123,20 +123,20 @@ function MentorSolutions() {
             </Text>
             <FormSelectInput
               value="김수험"
-              onChange={() => {}}
+              onChange={() => { }}
               options={['김수험', '박모의']}
               size="md"
             />
           </div>
 
-            <MentorSolutionTable
-              title="보완점"
-              items={solutionItems}
-              onEditItem={handleEditItem}
-              onDeleteItem={handleDeleteItem}
-              onAddItem={undefined}
-            />
-          </section>
+          <MentorSolutionTable
+            title="보완점"
+            items={solutionItems}
+            onEditItem={handleEditItem}
+            onDeleteItem={handleDeleteItem}
+            onAddItem={undefined}
+          />
+        </section>
       </MentorSingleColumnLayout>
 
       <FloatingActionButton
@@ -152,8 +152,6 @@ function MentorSolutions() {
           setModalOpen(open)
           if (!open) setEditingId(null)
         }}
-        title="보완점 편집"
-        description=""
         contentPaddingClassName="px-[24px] py-[24px] pb-[28px]"
         contentClassName="max-w-[720px]"
       >
