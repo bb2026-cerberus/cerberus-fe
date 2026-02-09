@@ -7,6 +7,7 @@ type MentorMenteeProgressCardProps = {
   submitted: number
   total: number
   pendingLabel: string
+  showNameChip?: boolean
   className?: string
 }
 
@@ -15,15 +16,18 @@ function MentorMenteeProgressCard({
   submitted,
   total,
   pendingLabel,
+  showNameChip = true,
   className,
 }: MentorMenteeProgressCardProps) {
   const progressPercent = Math.round((submitted / total) * 100)
 
   return (
     <div className={cn('flex flex-col gap-[8px]', className)}>
-      <div className="flex items-center">
-        <SubjectChip label={name} tone="muted" />
-      </div>
+      {showNameChip ? (
+        <div className="flex items-center">
+          <SubjectChip label={name} tone="muted" />
+        </div>
+      ) : null}
       <div className="h-[122px] rounded-[18px] bg-figma-white px-[24px] py-[18px]">
         <div className="flex flex-col gap-[8px]">
           <Text as="p" className="text-[20px] font-semibold leading-6 text-figma-typo-black">
