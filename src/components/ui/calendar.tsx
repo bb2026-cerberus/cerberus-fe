@@ -210,16 +210,16 @@ function Calendar({
             ),
             table: 'w-full border-collapse',
             weekdays: cn(
-              'mt-[8px] bg-figma-light-gray flex h-[39px] items-center justify-between rounded-[31px]',
+              'mt-[8px] grid h-[39px] w-full grid-cols-7 items-center rounded-[31px] bg-figma-light-gray',
               defaultClassNames.weekdays,
             ),
             weekday: cn(
-              'flex w-[38px] select-none items-center justify-center text-[14px] font-semibold text-figma-typo-gray',
+              'flex w-full select-none items-center justify-center text-[14px] font-semibold text-figma-typo-gray',
               defaultClassNames.weekday,
             ),
-            week: cn('mt-[29px] flex w-full items-center justify-between', defaultClassNames.week),
+            week: cn('mt-[29px] grid w-full grid-cols-7 items-center', defaultClassNames.week),
             day: cn(
-              'group/day relative h-full w-full select-none p-0 text-center',
+              'group/day relative flex h-full w-full select-none items-center justify-center p-0 text-center',
               defaultClassNames.day,
             ),
             range_start: cn(
