@@ -1,8 +1,7 @@
-import { Bell, Menu } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
-import { Icon } from '@/components/common/Icon'
 import { Text } from '@/components/common/Text'
+import bellIcon from '@/assets/bell.svg'
+import menuIcon from '@/assets/menu.svg'
 
 type MenteeHeaderProps = {
   name: string
@@ -26,7 +25,7 @@ function MenteeHeader({
           <Text
             as="p"
             variant="headline1"
-            className="text-[24px] font-semibold leading-[1.2] text-figma-typo-black"
+            className="text-[18px] font-semibold leading-6 text-figma-typo-black"
           >
             {name}
           </Text>
@@ -37,7 +36,20 @@ function MenteeHeader({
               onClick={onNotificationClick}
               aria-label="알림"
             >
-              <Icon icon={Bell} size={24} />
+              <span
+                aria-hidden
+                className="block size-6 bg-current"
+                style={{
+                  maskImage: `url("${bellIcon}")`,
+                  WebkitMaskImage: `url("${bellIcon}")`,
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                }}
+              />
             </button>
             <button
               className="flex size-6 items-center justify-center rounded-md text-figma-icon-color focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-figma-point-color-1 focus-visible:ring-offset-2 focus-visible:ring-offset-figma-white"
@@ -45,7 +57,20 @@ function MenteeHeader({
               onClick={onMenuClick}
               aria-label="메뉴"
             >
-              <Icon icon={Menu} size={24} />
+              <span
+                aria-hidden
+                className="block size-6 bg-current"
+                style={{
+                  maskImage: `url("${menuIcon}")`,
+                  WebkitMaskImage: `url("${menuIcon}")`,
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'center',
+                  WebkitMaskPosition: 'center',
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                }}
+              />
             </button>
           </div>
         </div>

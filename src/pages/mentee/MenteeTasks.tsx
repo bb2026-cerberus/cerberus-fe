@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import FloatingActionButton from '@/components/common/FloatingActionButton'
 import FeedbackItem from '@/components/common/FeedbackItem'
 import FeedbackSummaryCard from '@/components/common/FeedbackSummaryCard'
@@ -215,15 +215,15 @@ function MenteeTasks() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full px-4 pb-4 pt-2">
-        <MenteeSection className="flex flex-col gap-4">
+      <div className="w-full px-4 pb-4 pt-[8px]">
+        <FormSectionGroup className="flex flex-col gap-4">
           <SegmentedTabs
             value={activeTab}
             items={taskTabItems}
             onChange={(next) => setSearchParams({ tab: next })}
           />
           {activeTab === 'feedback' ? (
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-3">
               <PillFilterTabs
                 value={activeSubject}
                 items={subjectFilterItems}
@@ -233,11 +233,11 @@ function MenteeTasks() {
                 title="이번주 멘토 피드백 요약"
                 summary={feedbackSummary[activeSubject]}
               />
-              <div className="flex flex-col gap-[10px] pt-[10px]">
+              <div className="flex flex-col gap-[10px] pt-[8px]">
                 {feedbackGroups[activeSubject].map((group) => (
                   <div
                     key={group.dateText}
-                    className="flex flex-col gap-[10px] px-[4px] pt-[16px]"
+                    className="flex flex-col gap-[10px] px-[4px] pt-[12px]"
                   >
                     <TaskDateMeta
                       dateText={group.dateText}
@@ -257,7 +257,7 @@ function MenteeTasks() {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-4">
               {groups.map((group) => (
                 <div key={group.dateText} className="flex flex-col gap-3">
                   <TaskDateMeta
@@ -290,7 +290,7 @@ function MenteeTasks() {
               ))}
             </div>
           )}
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
       {activeTab === 'todos' ? (
         <FloatingActionButton

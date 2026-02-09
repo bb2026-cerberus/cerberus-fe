@@ -26,7 +26,7 @@ function TaskDetailHeader({
           {title}
         </Text>
         {subtitle ? (
-          <Text as="p" className="text-[16px] font-medium leading-[1.25] text-figma-typo-gray">
+          <Text as="p" className="text-[16px] font-medium leading-tight text-figma-typo-gray">
             {subtitle}
           </Text>
         ) : null}
@@ -40,7 +40,7 @@ function TaskDetailHeader({
         >
           <Icon icon={Play} size={20} className="text-white" />
         </button>
-        <Text as="span" className="text-[12px] font-medium leading-[1.25] text-figma-typo-gray">
+        <Text as="span" className="text-[12px] font-medium leading-tight text-figma-typo-gray">
           {timeText}
         </Text>
       </div>

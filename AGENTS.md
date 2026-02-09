@@ -53,6 +53,8 @@
 ## 색상/디자인 토큰
 
 - 색상은 `src/index.css`에 정의된 Figma 디자인 토큰(CSS 변수)만 사용한다. `--color-figma-white`, `--color-figma-point-color-1`, `--color-figma-point-color-2`, `--color-figma-card-color`, `--color-figma-light-gray`, `--color-figma-typo-black`, `--color-figma-typo-gray`, `--color-figma-icon-color`, `--color-figma-sub-color-1`, `--color-figma-sub-color-2`, `--color-figma-sub-color-3`, `--color-figma-typo-gray-b`, `--color-figma-card-gray`, `--color-figma-start-color` 등(`src/index.css` 29–42라인 근처)을 참고한다.
+- 멘토 공통 액션 버튼 크기는 `src/index.css`의 CSS 변수 `--mentor-action-button-height-pc`, `--mentor-action-button-width-pc`, `--mentor-action-button-height-mobile`, `--mentor-action-button-width-mobile`를 사용한다.
+- 멘토 공통 액션 버튼 라운드는 `--mentor-action-button-radius`를 사용한다.
 
 ## 로딩 규칙
 

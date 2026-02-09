@@ -1,7 +1,5 @@
-import { MessageCircle } from 'lucide-react'
-
 import { cn } from '@/lib/utils'
-import { Icon } from '@/components/common/Icon'
+import qnaIcon from '@/assets/qna.svg'
 
 type FloatingChatButtonProps = {
   onClick?: () => void
@@ -19,7 +17,20 @@ function FloatingChatButton({ onClick, className }: FloatingChatButtonProps) {
       )}
       aria-label="채팅"
     >
-      <Icon icon={MessageCircle} size={28} className="text-white" />
+      <span
+        aria-hidden
+        className="block size-[46px] bg-white"
+        style={{
+          maskImage: `url("${qnaIcon}")`,
+          WebkitMaskImage: `url("${qnaIcon}")`,
+          maskRepeat: 'no-repeat',
+          WebkitMaskRepeat: 'no-repeat',
+          maskPosition: 'center',
+          WebkitMaskPosition: 'center',
+          maskSize: 'contain',
+          WebkitMaskSize: 'contain',
+        }}
+      />
     </button>
   )
 }

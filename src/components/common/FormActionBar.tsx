@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
 import Modal from '@/components/common/Modal'
 import ModalHeader from '@/components/common/ModalHeader'
+import TempSaveButton from '@/components/common/TempSaveButton'
 import TempSaveList from '@/components/common/TempSaveList'
 
 type FormActionBarProps = {
@@ -17,7 +18,7 @@ function FormActionBar({ tempCount = 0, onTempSave, onSubmit, className }: FormA
   const [open, setOpen] = React.useState(false)
   const items = React.useMemo(
     () => [
-      { title: '비문학 1지문 정리', dateText: '2026.02.02' },
+      { title: '비문학 12지문 정리', dateText: '2026.02.02' },
       { title: '제목없음', dateText: '2026.02.01' },
     ],
     [],
@@ -25,22 +26,13 @@ function FormActionBar({ tempCount = 0, onTempSave, onSubmit, className }: FormA
 
   return (
     <div className={cn('flex w-full gap-1 px-2', className)}>
-      <button
-        type="button"
-        onClick={() => {
-          onTempSave?.()
-          setOpen(true)
-        }}
-        className="flex h-[55px] w-full items-center justify-between overflow-hidden rounded-[14px] bg-figma-card-gray px-5 py-2"
-      >
-        <Text as="span" className="text-[16px] font-semibold leading-6 text-figma-point-color-2">
-          임시저장
-        </Text>
-        <span className="mx-2 h-[18px] w-px bg-figma-point-color-2/40" />
-        <Text as="span" className="text-[16px] font-semibold leading-6 text-figma-point-color-2">
-          {tempCount}
-        </Text>
-      </button>
+      <TempSaveButton
+        count={tempCount}
+        size="mobile"
+        onSave={onTempSave}
+        onOpenList={() => setOpen(true)}
+        className="w-full"
+      />
       <button
         type="button"
         onClick={onSubmit}
@@ -50,7 +42,11 @@ function FormActionBar({ tempCount = 0, onTempSave, onSubmit, className }: FormA
           등록하기
         </Text>
       </button>
-      <Modal open={open} onOpenChange={setOpen}>
+      <Modal
+        open={open}
+        onOpenChange={setOpen}
+        contentPaddingClassName="px-[16px] py-[18px] pb-[30px]"
+      >
         <ModalHeader title={`임시저장 목록 (${items.length})`} onClose={() => setOpen(false)} />
         <TempSaveList items={items} />
       </Modal>

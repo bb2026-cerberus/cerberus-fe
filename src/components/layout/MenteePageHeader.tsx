@@ -1,8 +1,9 @@
-import { ChevronLeft, Menu } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
 import { Text } from '@/components/common/Text'
+import menuIcon from '@/assets/menu.svg'
 
 type MenteePageHeaderProps = {
   title: string
@@ -30,7 +31,7 @@ function MenteePageHeader({ title, onBackClick, onMenuClick, className }: Mentee
         </button>
         <Text
           as="p"
-          className="justify-self-center text-center text-[20px] font-semibold leading-6 text-figma-typo-black"
+          className="justify-self-center text-center text-[18px] font-semibold leading-6 text-figma-typo-black"
         >
           {title}
         </Text>
@@ -40,7 +41,20 @@ function MenteePageHeader({ title, onBackClick, onMenuClick, className }: Mentee
           onClick={onMenuClick}
           aria-label="메뉴"
         >
-          <Icon icon={Menu} size={24} />
+          <span
+            aria-hidden
+            className="block size-6 bg-current"
+            style={{
+              maskImage: `url("${menuIcon}")`,
+              WebkitMaskImage: `url("${menuIcon}")`,
+              maskRepeat: 'no-repeat',
+              WebkitMaskRepeat: 'no-repeat',
+              maskPosition: 'center',
+              WebkitMaskPosition: 'center',
+              maskSize: 'contain',
+              WebkitMaskSize: 'contain',
+            }}
+          />
         </button>
       </div>
     </div>

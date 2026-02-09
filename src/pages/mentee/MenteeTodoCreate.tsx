@@ -5,7 +5,7 @@ import FormActionBar from '@/components/common/FormActionBar'
 import FormSection from '@/components/common/FormSection'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/SegmentedTabs'
 import type { Subject } from '@/types/ui/subject'
 
@@ -26,8 +26,8 @@ function MenteeTodoCreate() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full px-4 pb-[50px] pt-2">
-        <MenteeSection className="flex flex-col gap-4">
+      <div className="w-full px-4 pb-[36px] pt-[8px]">
+        <FormSectionGroup className="flex flex-col gap-4">
           <FormSection title="날짜 선택">
             <DatePickerInput value={date} onChange={setDate} />
           </FormSection>
@@ -60,8 +60,8 @@ function MenteeTodoCreate() {
             />
           </FormSection>
 
-          <FormActionBar tempCount={2} className="pt-4" />
-        </MenteeSection>
+          <FormActionBar tempCount={2} className="pt-3" />
+        </FormSectionGroup>
       </div>
     </div>
   )

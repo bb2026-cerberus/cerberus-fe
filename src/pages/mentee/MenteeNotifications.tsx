@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import NotificationItem from '@/components/common/NotificationItem'
 
 function MenteeNotifications() {
@@ -27,7 +27,7 @@ function MenteeNotifications() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-4 pt-4">
-        <MenteeSection className="flex flex-col gap-2.5">
+        <FormSectionGroup className="flex flex-col gap-4">
           {notifications.map((item) => (
             <NotificationItem
               key={item.id}
@@ -37,7 +37,7 @@ function MenteeNotifications() {
               variant={item.variant}
             />
           ))}
-        </MenteeSection>
+        </FormSectionGroup>
       </div>
     </div>
   )

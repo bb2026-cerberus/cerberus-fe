@@ -15,6 +15,14 @@ import MenteeWeeklyReport from '../pages/mentee/MenteeWeeklyReport'
 import MenteeTimeBlock from '../pages/mentee/MenteeTimeBlock'
 import MenteeQna from '../pages/mentee/MenteeQna'
 import MentorHome from '../pages/mentor/MentorHome'
+import MentorTasks from '../pages/mentor/MentorTasks'
+import MentorFeedback from '../pages/mentor/MentorFeedback'
+import MentorQna from '../pages/mentor/MentorQna'
+import MentorReports from '../pages/mentor/MentorReports'
+import MentorSolutions from '../pages/mentor/MentorSolutions'
+import MentorMentees from '../pages/mentor/MentorMentees'
+import MentorSettings from '../pages/mentor/MentorSettings'
+import MentorProfile from '../pages/mentor/MentorProfile'
 import RoleGuard from './RoleGuard'
 import routePaths from './routePaths'
 
@@ -53,6 +61,14 @@ function AppRouter() {
 
         <Route path={routePaths.mentor} element={<MentorLayout />}>
           <Route index element={<MentorHome />} />
+          <Route path="tasks" element={<MentorTasks />} />
+          <Route path="feedback" element={<MentorFeedback />} />
+          <Route path="qna" element={<MentorQna />} />
+          <Route path="reports" element={<MentorReports />} />
+          <Route path="solutions" element={<MentorSolutions />} />
+          <Route path="mentees" element={<MentorMentees />} />
+          <Route path="settings" element={<MentorSettings />} />
+          <Route path="profile" element={<MentorProfile />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

@@ -43,12 +43,12 @@ function TimeBlockItem({
         <div className="flex w-full items-center gap-2">
           <SubjectChip label={subjectLabel} subject={subject} />
           {subtitle ? (
-            <Text as="p" className="text-[12px] font-medium leading-[1.25] text-figma-typo-gray">
+            <Text as="p" className="text-[12px] font-medium leading-tight text-figma-typo-gray">
               {subtitle}
             </Text>
           ) : null}
           <div className="ml-auto rounded-[6px] bg-figma-card-gray px-2 py-1">
-            <Text as="span" className="text-[12px] font-medium leading-[1.25] text-[#6d6c6a]">
+            <Text as="span" className="text-[12px] font-medium leading-tight text-[#6d6c6a]">
               {startTime}~{endTime}
             </Text>
           </div>

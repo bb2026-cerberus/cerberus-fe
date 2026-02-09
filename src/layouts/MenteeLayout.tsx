@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 
-import MenteeHeader from '@/components/common/MenteeHeader'
-import MenteeMenu from '@/components/common/MenteeMenu'
-import MenteePageHeader from '@/components/common/MenteePageHeader'
+import MenteeHeader from '@/components/layout/MenteeHeader'
+import MenteeMenu from '@/components/layout/MenteeMenu'
+import MenteePageHeader from '@/components/layout/MenteePageHeader'
 import AppShell from '@/components/layout/AppShell'
 import { Sheet, SheetContent } from '@/components/ui/sheet'
 import { formatKoreanDate } from '@/lib/date'

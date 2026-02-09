@@ -2,14 +2,14 @@ import type { ReactNode } from 'react'
 
 import { cn } from '@/lib/utils'
 
-type MenteeSectionProps = {
+type FormSectionGroupProps = {
   children: ReactNode
   className?: string
 }
 
-function MenteeSection({ children, className }: MenteeSectionProps) {
+function FormSectionGroup({ children, className }: FormSectionGroupProps) {
   return <div className={cn('mx-auto w-full max-w-full', className)}>{children}</div>
 }
 
-export type { MenteeSectionProps }
-export default MenteeSection
+export type { FormSectionGroupProps }
+export default FormSectionGroup

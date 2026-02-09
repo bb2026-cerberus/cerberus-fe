@@ -1,0 +1,235 @@
+import { Link, useLocation } from 'react-router-dom'
+import { useMemo } from 'react'
+import { ChevronRight } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+import { Icon } from '@/components/common/Icon'
+import { Text } from '@/components/common/Text'
+import routePaths from '@/routes/routePaths'
+import feedbackIcon from '@/assets/feed.svg'
+import settingsIcon from '@/assets/gear.svg'
+import homeIcon from '@/assets/home.svg'
+import taskIcon from '@/assets/paper.svg'
+import profileIcon from '@/assets/person.svg'
+import qnaIcon from '@/assets/qna.svg'
+import reportIcon from '@/assets/report.svg'
+import solutionIcon from '@/assets/solution.svg'
+
+type MentorSidebarProps = {
+  expanded?: boolean
+  onToggle?: () => void
+  showToggle?: boolean
+  onNavigate?: () => void
+  panelClassName?: string
+  className?: string
+}
+
+function MentorSidebar({
+  expanded = false,
+  onToggle,
+  showToggle = true,
+  onNavigate,
+  panelClassName,
+  className,
+}: MentorSidebarProps) {
+  const renderIcon = (src: string, active: boolean) => (
+    <span
+      aria-hidden
+      className={cn(
+        'flex size-[40px] shrink-0 items-center justify-center',
+        active ? 'bg-figma-point-color-2' : 'bg-figma-typo-gray',
+      )}
+      style={{
+        maskImage: `url("${src}")`,
+        WebkitMaskImage: `url("${src}")`,
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain',
+      }}
+    />
+  )
+  const menuItems = useMemo(
+    () => [
+      { id: 'home', label: '홈', icon: homeIcon, to: routePaths.mentor },
+      { id: 'paper', label: '과제', icon: taskIcon, to: routePaths.mentorTasks },
+      { id: 'feedback', label: '피드백', icon: feedbackIcon, to: routePaths.mentorFeedback },
+      { id: 'qna', label: 'Q&A', icon: qnaIcon, to: routePaths.mentorQna },
+      { id: 'report', label: '주간 리포트', icon: reportIcon, to: routePaths.mentorReports },
+      { id: 'solution', label: '약점 맞춤 솔루션', icon: solutionIcon, to: routePaths.mentorSolutions },
+      { id: 'mentee', label: '멘티 관리', icon: profileIcon, to: routePaths.mentorMentees },
+    ],
+    [],
+  )
+  const location = useLocation()
+  const pathname = location.pathname
+
+  return (
+    <aside
+      className={cn(
+        'relative h-full transition-[width] duration-300 ease-out',
+        expanded ? 'w-[362px]' : 'w-[138px]',
+        className,
+      )}
+      style={{
+        '--sidebar-width': expanded ? '362px' : '138px',
+      } as React.CSSProperties}
+    >
+      <div
+        className={cn(
+          'flex h-full flex-col justify-between overflow-hidden rounded-[19px] bg-figma-white shadow-[0_0_30px_rgba(0,0,0,0.05)] transition-[width,padding] duration-300 ease-out',
+          expanded
+            ? 'w-[306px] items-start px-[18px] py-[24px]'
+            : 'w-[102px] items-center px-[12px] py-[20px]',
+          panelClassName,
+        )}
+      >
+        <div
+          className={cn(
+            'flex w-full flex-col gap-[32px]',
+            expanded ? 'items-start' : 'items-center',
+          )}
+        >
+          <div className="size-[52px] rounded-full bg-figma-typo-gray" />
+          <div
+            className={cn(
+              'flex flex-col gap-[8px]',
+              expanded ? 'items-start w-full' : 'items-center',
+            )}
+          >
+            {menuItems.map((item) => {
+              const isActive = item.to
+                ? item.to === routePaths.mentor
+                  ? pathname === item.to
+                  : pathname.startsWith(item.to)
+                : false
+              const content = (
+                <div
+                  className={cn(
+                    expanded
+                      ? 'flex h-[54px] w-full items-center gap-[8px] rounded-[14px] px-[8px]'
+                      : 'flex size-[54px] items-center justify-center rounded-[14px]',
+                    isActive ? 'bg-figma-card-gray text-figma-point-color-2' : '',
+                  )}
+                >
+                  {renderIcon(item.icon, isActive)}
+                  {expanded ? (
+                    <Text
+                      as="span"
+                      className={cn(
+                        'text-[16px] font-medium leading-[1.2] transition-opacity duration-200',
+                        isActive ? 'text-figma-typo-black' : 'text-figma-typo-gray',
+                      )}
+                    >
+                      {item.label}
+                    </Text>
+                  ) : null}
+                </div>
+              )
+
+              return item.to ? (
+                <Link
+                  key={item.id}
+                  to={item.to}
+                  aria-label={item.id}
+                  className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+                  onClick={onNavigate}
+                >
+                  {content}
+                </Link>
+              ) : (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-label={item.id}
+                  className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+                  onClick={onNavigate}
+                >
+                  {content}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <div
+          className={cn(
+            'flex flex-col gap-[12px]',
+            expanded ? 'items-start w-full' : 'items-center',
+          )}
+        >
+          <Link
+            to={routePaths.mentorSettings}
+            aria-label="settings"
+            className={cn(expanded ? 'w-full' : 'w-full flex justify-center')}
+            onClick={onNavigate}
+          >
+            <div
+              className={cn(
+                expanded
+                  ? 'flex h-[54px] w-full items-center gap-[8px] rounded-[14px] px-[8px]'
+                  : 'flex size-[54px] items-center justify-center rounded-[14px]',
+              )}
+            >
+              {renderIcon(settingsIcon, false)}
+              {expanded ? (
+                <Text
+                  as="span"
+                  className="text-[16px] font-medium leading-[1.2] text-figma-typo-gray transition-opacity duration-200"
+                >
+                  환경설정
+                </Text>
+              ) : null}
+            </div>
+          </Link>
+          <div className={cn('flex items-center', expanded ? 'w-full gap-[10px]' : '')}>
+            <Link
+              to={routePaths.mentorProfile}
+              aria-label="profile"
+              className={cn(expanded ? 'flex w-full items-center gap-[10px]' : undefined)}
+              onClick={onNavigate}
+            >
+              <div className="size-[52px] overflow-hidden rounded-full bg-figma-card-gray" />
+              {expanded ? (
+                <div className="flex flex-col gap-[2px] transition-opacity duration-200">
+                  <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
+                    김멘토
+                  </Text>
+                  <Text as="p" className="text-[14px] font-medium leading-6 text-figma-typo-gray">
+                    kimmento@mail.com
+                  </Text>
+                </div>
+              ) : null}
+            </Link>
+            {expanded ? (
+              null
+            ) : null}
+          </div>
+        </div>
+      </div>
+
+      {showToggle ? (
+        <button
+          type="button"
+          aria-label="expand"
+          onClick={onToggle}
+          className={cn(
+            'absolute top-[32px] flex size-[30px] items-center justify-center rounded-full bg-figma-white shadow-[0_0_20px_rgba(0,0,0,0.15)] transition-[left,transform] duration-300 ease-out',
+            expanded ? '-translate-x-full rotate-180' : '',
+          )}
+          style={{
+            left: expanded
+              ? 'calc(var(--sidebar-width) - 44px)'
+              : 'calc(var(--sidebar-width) - 28px)',
+          }}
+        >
+          <Icon icon={ChevronRight} size={18} className="text-figma-typo-gray" />
+        </button>
+      ) : null}
+    </aside>
+  )
+}
+
+export default MentorSidebar

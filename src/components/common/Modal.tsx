@@ -7,10 +7,20 @@ type ModalProps = {
   onOpenChange: (open: boolean) => void
   children: React.ReactNode
   className?: string
+  contentClassName?: string
+  contentPaddingClassName?: string
   overlayClassName?: string
 }
 
-function Modal({ open, onOpenChange, children, className, overlayClassName }: ModalProps) {
+function Modal({
+  open,
+  onOpenChange,
+  children,
+  className,
+  contentClassName,
+  contentPaddingClassName = 'px-[5px] py-[20px]',
+  overlayClassName,
+}: ModalProps) {
   React.useEffect(() => {
     if (!open) return
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -23,7 +33,7 @@ function Modal({ open, onOpenChange, children, className, overlayClassName }: Mo
   if (!open) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 z-70 flex items-center justify-center">
       <button
         type="button"
         className={cn('absolute inset-0 bg-black/60', overlayClassName)}
@@ -32,7 +42,9 @@ function Modal({ open, onOpenChange, children, className, overlayClassName }: Mo
       />
       <div
         className={cn(
-          'relative w-[calc(100vw-56px)] max-w-[346px] rounded-[20px] bg-figma-light-gray px-[5px] py-[20px] shadow-[0px_8px_20px_0px_rgba(0,0,0,0.1)]',
+          'relative w-[calc(100vw-56px)] max-w-[346px] rounded-[20px] bg-figma-light-gray shadow-[0px_8px_20px_0px_rgba(0,0,0,0.1)]',
+          contentPaddingClassName,
+          contentClassName,
           className,
         )}
       >

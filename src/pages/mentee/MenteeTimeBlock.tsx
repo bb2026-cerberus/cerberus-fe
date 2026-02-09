@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import MenteeSection from '@/components/common/MenteeSection'
+import FormSectionGroup from '@/components/common/FormSectionGroup'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
 import TimeBlockSchedule from '@/components/common/TimeBlockSchedule'
@@ -107,10 +107,10 @@ function MenteeTimeBlock() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full pb-[50px] pt-0">
+      <div className="w-full pb-[36px] pt-0">
         <div className="w-full bg-white pb-4 pt-0">
-          <MenteeSection className="flex flex-col gap-4 px-4">
-            <MenteeSection>
+          <FormSectionGroup className="flex flex-col gap-4 px-4">
+            <FormSectionGroup>
               <Calendar
                 mode="single"
                 viewMode={viewMode}
@@ -121,32 +121,32 @@ function MenteeTimeBlock() {
                 modifiers={dummyMarkers}
                 defaultMonth={today}
               />
-            </MenteeSection>
-            <MenteeSection className="flex items-center justify-end">
+            </FormSectionGroup>
+            <FormSectionGroup className="flex items-center justify-end">
               <CalendarToggle
                 label={viewMode === 'week' ? '캘린더 펼치기' : '캘린더 접기'}
                 isExpanded={viewMode === 'month'}
                 onClick={() => setViewMode((prev) => (prev === 'week' ? 'month' : 'week'))}
               />
-            </MenteeSection>
-          </MenteeSection>
+            </FormSectionGroup>
+          </FormSectionGroup>
         </div>
-        <div className="w-full bg-figma-light-gray px-4 pt-[20px]">
-          <MenteeSection className="flex flex-col gap-4">
+        <div className="w-full bg-figma-light-gray px-4 pt-[16px]">
+          <FormSectionGroup className="flex flex-col gap-4">
             <div className="px-[10px]">
               <TimeSummaryCard
                 totalLabel="총 공부 시간"
                 totalValue="12h 54m"
                 averageLabel="평균 집중"
                 averageValue="48분"
-                className="w-[233px]"
+                className="w-full max-w-[260px]"
               />
             </div>
             <div className="flex gap-[10px] px-[10px]">
               <TimeLabelColumn labels={timeLabels} />
               <TimeBlockSchedule items={scheduleItems} className="w-full" />
             </div>
-          </MenteeSection>
+          </FormSectionGroup>
         </div>
       </div>
     </div>
