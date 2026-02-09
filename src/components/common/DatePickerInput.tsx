@@ -12,6 +12,7 @@ type DatePickerInputProps = {
   onChange?: (date: Date | undefined) => void
   placeholder?: string
   size?: 'md' | 'lg'
+  readOnly?: boolean
   className?: string
   closeOnSelect?: boolean
 }
@@ -26,6 +27,7 @@ function DatePickerInput({
   onChange,
   placeholder = '날짜를 선택해주세요',
   size = 'md',
+  readOnly = false,
   className,
   closeOnSelect = true,
 }: DatePickerInputProps) {
@@ -46,12 +48,14 @@ function DatePickerInput({
         <button
           type="button"
           className={cn(
-            'flex w-full items-center justify-between bg-white text-left',
+            'flex w-full items-center justify-between text-left',
             size === 'lg'
               ? 'h-[64px] rounded-[16px] px-[20px]'
               : 'h-[52px] rounded-[14px] px-4',
+            readOnly ? 'bg-figma-card-gray' : 'bg-white',
             className,
           )}
+          disabled={readOnly}
         >
           <Text
             as="span"
@@ -59,7 +63,11 @@ function DatePickerInput({
               size === 'lg'
                 ? 'text-[18px] font-semibold leading-6'
                 : 'text-[14px] font-semibold leading-6',
-              value ? 'text-figma-typo-black' : 'text-figma-typo-gray',
+              readOnly
+                ? 'text-figma-typo-gray-b'
+                : value
+                  ? 'text-figma-typo-black'
+                  : 'text-figma-typo-gray',
             )}
           >
             {value ? formatDate(value) : placeholder}
