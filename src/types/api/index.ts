@@ -6,3 +6,5 @@ export type {
   Pagination,
   PaginatedResponse,
 } from './common'
+
+export type { components, operations, paths } from './generated'
