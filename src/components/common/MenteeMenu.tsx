@@ -1,22 +1,22 @@
-import type { ComponentType } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
-  BarChart3,
-  ChevronRight,
   Clock3,
-  FileText,
-  Home,
+  ChevronRight,
   LogOut,
-  MessageCircle,
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Text } from '@/components/common/Text'
 import routePaths from '@/routes/routePaths'
+import homeIcon from '@/assets/home.svg'
+import taskIcon from '@/assets/paper.svg'
+import qnaIcon from '@/assets/qna.svg'
+import reportIcon from '@/assets/report.svg'
 
 type MenteeMenuItem = {
   label: string
-  icon: ComponentType<{ className?: string }>
+  iconSvg?: string
+  iconLucide?: typeof Clock3
   onClick?: () => void
   to?: string
 }
@@ -32,11 +32,11 @@ type MenteeMenuProps = {
 }
 
 const menuItems: MenteeMenuItem[] = [
-  { label: '홈', icon: Home, to: routePaths.mentee },
-  { label: '과제 · 피드백', icon: FileText, to: routePaths.menteeTasks },
-  { label: 'Q&A', icon: MessageCircle, to: routePaths.menteeQna },
-  { label: '타임블록', icon: Clock3, to: routePaths.menteeTimeBlock },
-  { label: '주간 리포트', icon: BarChart3, to: routePaths.menteeWeeklyReport },
+  { label: '홈', iconSvg: homeIcon, to: routePaths.mentee },
+  { label: '과제 · 피드백', iconSvg: taskIcon, to: routePaths.menteeTasks },
+  { label: 'Q&A', iconSvg: qnaIcon, to: routePaths.menteeQna },
+  { label: '타임블록', iconLucide: Clock3, to: routePaths.menteeTimeBlock },
+  { label: '주간 리포트', iconSvg: reportIcon, to: routePaths.menteeWeeklyReport },
 ]
 
 function MenteeMenu({
@@ -51,6 +51,23 @@ function MenteeMenu({
   const location = useLocation()
   const pathname = location.pathname
   const navigate = useNavigate()
+
+  const renderMaskIcon = (src: string, className?: string) => (
+    <span
+      aria-hidden
+      className={cn('block size-6 shrink-0 bg-current', className)}
+      style={{
+        maskImage: `url("${src}")`,
+        WebkitMaskImage: `url("${src}")`,
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain',
+      }}
+    />
+  )
 
   const handleLogoutClick = () => {
     navigate(routePaths.root)
@@ -114,14 +131,19 @@ function MenteeMenu({
             : activeLabel
               ? item.label === activeLabel
               : false
+          const iconColorClass = isActive
+            ? 'text-figma-point-color-2'
+            : 'text-figma-typo-gray-b'
+          const LucideIcon = item.iconLucide
           const content = (
             <>
-              <item.icon
-                className={cn(
-                  'size-6',
-                  isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray-b',
-                )}
-              />
+              {item.iconSvg
+                ? renderMaskIcon(item.iconSvg, cn('size-[40px]', iconColorClass))
+                : LucideIcon
+                  ? (
+                    <LucideIcon className={cn('size-6', iconColorClass)} />
+                  )
+                  : null}
               <Text as="span" variant="title3" className="text-[18px] font-medium">
                 {item.label}
               </Text>

@@ -1,20 +1,19 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useMemo } from 'react'
-import {
-  BarChart3,
-  ChevronRight,
-  FileText,
-  Home,
-  Lightbulb,
-  MessageCircle,
-  Settings,
-  Users,
-} from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
 import { Text } from '@/components/common/Text'
 import routePaths from '@/routes/routePaths'
+import feedbackIcon from '@/assets/feed.svg'
+import settingsIcon from '@/assets/gear.svg'
+import homeIcon from '@/assets/home.svg'
+import taskIcon from '@/assets/paper.svg'
+import profileIcon from '@/assets/person.svg'
+import qnaIcon from '@/assets/qna.svg'
+import reportIcon from '@/assets/report.svg'
+import solutionIcon from '@/assets/solution.svg'
 
 type MentorSidebarProps = {
   expanded?: boolean
@@ -33,15 +32,34 @@ function MentorSidebar({
   panelClassName,
   className,
 }: MentorSidebarProps) {
+  const renderIcon = (src: string, active: boolean) => (
+    <span
+      aria-hidden
+      className={cn(
+        'flex size-[40px] shrink-0 items-center justify-center',
+        active ? 'bg-figma-point-color-2' : 'bg-figma-typo-gray',
+      )}
+      style={{
+        maskImage: `url("${src}")`,
+        WebkitMaskImage: `url("${src}")`,
+        maskRepeat: 'no-repeat',
+        WebkitMaskRepeat: 'no-repeat',
+        maskPosition: 'center',
+        WebkitMaskPosition: 'center',
+        maskSize: 'contain',
+        WebkitMaskSize: 'contain',
+      }}
+    />
+  )
   const menuItems = useMemo(
     () => [
-      { id: 'home', label: '홈', icon: Home, to: routePaths.mentor },
-      { id: 'paper', label: '과제', icon: FileText, to: routePaths.mentorTasks },
-      { id: 'feedback', label: '피드백', icon: MessageCircle, to: routePaths.mentorFeedback },
-      { id: 'qna', label: 'Q&A', icon: MessageCircle, to: routePaths.mentorQna },
-      { id: 'report', label: '주간 리포트', icon: BarChart3, to: routePaths.mentorReports },
-      { id: 'solution', label: '약점 맞춤 솔루션', icon: Lightbulb, to: routePaths.mentorSolutions },
-      { id: 'mentee', label: '멘티 관리', icon: Users, to: routePaths.mentorMentees },
+      { id: 'home', label: '홈', icon: homeIcon, to: routePaths.mentor },
+      { id: 'paper', label: '과제', icon: taskIcon, to: routePaths.mentorTasks },
+      { id: 'feedback', label: '피드백', icon: feedbackIcon, to: routePaths.mentorFeedback },
+      { id: 'qna', label: 'Q&A', icon: qnaIcon, to: routePaths.mentorQna },
+      { id: 'report', label: '주간 리포트', icon: reportIcon, to: routePaths.mentorReports },
+      { id: 'solution', label: '약점 맞춤 솔루션', icon: solutionIcon, to: routePaths.mentorSolutions },
+      { id: 'mentee', label: '멘티 관리', icon: profileIcon, to: routePaths.mentorMentees },
     ],
     [],
   )
@@ -96,11 +114,7 @@ function MentorSidebar({
                     isActive ? 'bg-figma-card-gray text-figma-point-color-2' : '',
                   )}
                 >
-                  <Icon
-                    icon={item.icon}
-                    size={22}
-                    className={cn(isActive ? 'text-figma-point-color-2' : 'text-figma-typo-gray')}
-                  />
+                  {renderIcon(item.icon, isActive)}
                   {expanded ? (
                     <Text
                       as="span"
@@ -159,7 +173,7 @@ function MentorSidebar({
                   : 'flex size-[54px] items-center justify-center rounded-[14px]',
               )}
             >
-              <Icon icon={Settings} size={22} className="text-figma-typo-gray" />
+              {renderIcon(settingsIcon, false)}
               {expanded ? (
                 <Text
                   as="span"

@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-import { ChevronLeft, Menu } from 'lucide-react'
+import { ChevronLeft } from 'lucide-react'
 
 import { Icon } from '@/components/common/Icon'
 import { Text } from '@/components/common/Text'
 import AppShell from '@/components/layout/AppShell'
 import MentorSidebar from '@/components/layout/MentorSidebar'
+import menuIcon from '@/assets/menu.svg'
 import {
   MentorMobileHeaderProvider,
   useMentorMobileHeader,
@@ -54,7 +55,20 @@ function MentorMobileHeader() {
             onClick={() => setMobileMenuOpen(true)}
             className="flex size-[40px] items-center justify-center rounded-[12px] bg-figma-white"
           >
-            <Icon icon={Menu} size={20} className="text-figma-typo-black" />
+            <span
+              aria-hidden
+              className="block size-[20px] bg-figma-typo-black"
+              style={{
+                maskImage: `url("${menuIcon}")`,
+                WebkitMaskImage: `url("${menuIcon}")`,
+                maskRepeat: 'no-repeat',
+                WebkitMaskRepeat: 'no-repeat',
+                maskPosition: 'center',
+                WebkitMaskPosition: 'center',
+                maskSize: 'contain',
+                WebkitMaskSize: 'contain',
+              }}
+            />
           </button>
         </div>
       </div>
