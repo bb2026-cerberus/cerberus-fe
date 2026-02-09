@@ -26,8 +26,8 @@ function MenteeTodoCreate() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full px-4 pb-[50px] pt-2">
-        <MenteeSection className="flex flex-col gap-4">
+      <div className="w-full px-4 pb-[36px] pt-[8px]">
+        <MenteeSection className="flex flex-col gap-3">
           <FormSection title="날짜 선택">
             <DatePickerInput value={date} onChange={setDate} />
           </FormSection>
@@ -60,7 +60,7 @@ function MenteeTodoCreate() {
             />
           </FormSection>
 
-          <FormActionBar tempCount={2} className="pt-4" />
+          <FormActionBar tempCount={2} className="pt-3" />
         </MenteeSection>
       </div>
     </div>

@@ -1,7 +1,7 @@
+import FormSection from '@/components/common/FormSection'
 import FormTextInput from '@/components/common/FormTextInput'
 import MentorActionButtons from '@/components/common/MentorActionButtons'
 import SubjectChip from '@/components/common/SubjectChip'
-import { Text } from '@/components/common/Text'
 
 type FeedbackTaskInfo = {
   title: string
@@ -83,41 +83,29 @@ function MentorFeedbackDetailPanel({
           </div>
         </div>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-            피드백
-          </Text>
+        <FormSection title="피드백">
           <FormTextInput
             placeholder="자유 작성"
             value={feedback}
             onChange={onFeedbackChange}
-            size="md"
           />
-        </div>
+        </FormSection>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-            중요 요약
-          </Text>
+        <FormSection title="중요 요약">
           <FormTextInput
             placeholder="요약 포인트 3개 이내"
             value={summary}
             onChange={onSummaryChange}
-            size="md"
           />
-        </div>
+        </FormSection>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-            총평
-          </Text>
+        <FormSection title="총평">
           <FormTextInput
             placeholder="자유 작성"
             value={overall}
             onChange={onOverallChange}
-            size="md"
           />
-        </div>
+        </FormSection>
       </div>
     </section>
   )

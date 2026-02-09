@@ -6,7 +6,8 @@ import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
 import FloatingChatButton from '@/components/common/FloatingChatButton'
 import MenteeSection from '@/components/common/MenteeSection'
-import SectionHeader from '@/components/common/SectionHeader'
+import { ChevronRight } from 'lucide-react'
+import FormSection from '@/components/common/FormSection'
 import MenteeTimeline from '@/components/common/MenteeTimeline'
 import type { TaskItem } from '@/types/ui/task'
 import routePaths from '@/routes/routePaths'
@@ -105,7 +106,7 @@ function MenteeHome() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full bg-white px-4 pb-4 pt-2">
+      <div className="w-full bg-white px-4 pb-4 pt-[8px]">
         <MenteeSection>
           <Calendar
             mode="single"
@@ -124,13 +125,15 @@ function MenteeHome() {
           />
         </MenteeSection>
       </div>
-      <div className="w-full bg-transparent px-4 pb-[31px] pt-[26px]">
-        <MenteeSection className="flex flex-col gap-2.5">
-          <SectionHeader
+      <div className="w-full bg-transparent px-4 pb-[24px] pt-[18px]">
+        <MenteeSection className="flex flex-col gap-2">
+          <FormSection
             title="1:38:54"
-            subtitle="오늘 누적시간"
-            onClick={() => navigate(routePaths.menteeTimeBlock)}
-          />
+            actionIcon={<ChevronRight className="size-5" />}
+            onActionClick={() => navigate(routePaths.menteeTimeBlock)}
+          >
+            <p className="text-[12px] text-figma-typo-gray">오늘 누적시간</p>
+          </FormSection>
           <MenteeTimeline
             baseDate={displayDate}
             segments={React.useMemo(() => {
@@ -193,41 +196,45 @@ function MenteeHome() {
             }, [displayDate])}
           />
         </MenteeSection>
-        <MenteeSection className="mt-[14px] flex flex-col gap-2.5">
-          <SectionHeader
+        <MenteeSection className="mt-[10px] flex flex-col gap-2">
+          <FormSection
             title="과제"
-            onClick={() => navigate(`${routePaths.menteeTasks}?tab=assignments`)}
-          />
-          <ChecklistGroup>
-            {assignments.map((item) => (
-              <ChecklistItem
-                key={item.title}
-                title={item.title}
-                subtitle={item.subtitle}
-                subject={item.subject}
-                subjectLabel={item.subjectLabel}
-                completed={item.completed}
-              />
-            ))}
-          </ChecklistGroup>
+            actionIcon={<ChevronRight className="size-5" />}
+            onActionClick={() => navigate(`${routePaths.menteeTasks}?tab=assignments`)}
+          >
+            <ChecklistGroup>
+              {assignments.map((item) => (
+                <ChecklistItem
+                  key={item.title}
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  subject={item.subject}
+                  subjectLabel={item.subjectLabel}
+                  completed={item.completed}
+                />
+              ))}
+            </ChecklistGroup>
+          </FormSection>
         </MenteeSection>
         <MenteeSection className="mt-[14px] flex flex-col gap-2.5">
-          <SectionHeader
+          <FormSection
             title="할 일"
-            onClick={() => navigate(`${routePaths.menteeTasks}?tab=todos`)}
-          />
-          <ChecklistGroup>
-            {todos.map((item) => (
-              <ChecklistItem
-                key={item.title}
-                title={item.title}
-                subtitle={item.subtitle}
-                subject={item.subject}
-                subjectLabel={item.subjectLabel}
-                completed={item.completed}
-              />
-            ))}
-          </ChecklistGroup>
+            actionIcon={<ChevronRight className="size-5" />}
+            onActionClick={() => navigate(`${routePaths.menteeTasks}?tab=todos`)}
+          >
+            <ChecklistGroup>
+              {todos.map((item) => (
+                <ChecklistItem
+                  key={item.title}
+                  title={item.title}
+                  subtitle={item.subtitle}
+                  subject={item.subject}
+                  subjectLabel={item.subjectLabel}
+                  completed={item.completed}
+                />
+              ))}
+            </ChecklistGroup>
+          </FormSection>
         </MenteeSection>
       </div>
       <FloatingChatButton onClick={() => navigate(routePaths.menteeQna)} />

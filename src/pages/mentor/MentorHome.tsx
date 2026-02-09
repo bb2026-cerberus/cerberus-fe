@@ -4,7 +4,7 @@ import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
 import MentorMenteeProgressCard from '@/components/common/MentorMenteeProgressCard'
 import MentorQnaCard from '@/components/common/MentorQnaCard'
-import SectionLinkHeader from '@/components/common/SectionLinkHeader'
+import FormSection from '@/components/common/FormSection'
 import { Text } from '@/components/common/Text'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarToggle } from '@/components/ui/calendar-toggle'
@@ -141,63 +141,67 @@ function MentorHome() {
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <SectionLinkHeader title="과제" size="sm" />
-            <ChecklistGroup>
-              {assignments.map((item) => (
-                <ChecklistItem
-                  key={item.title}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  subjectLabel={item.subjectLabel}
-                  subject={item.subject}
-                  completed={item.completed}
-                  className="h-[84px] px-[20px]"
-                />
-              ))}
-            </ChecklistGroup>
+            <FormSection title="과제">
+              <ChecklistGroup>
+                {assignments.map((item) => (
+                  <ChecklistItem
+                    key={item.title}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    subjectLabel={item.subjectLabel}
+                    subject={item.subject}
+                    completed={item.completed}
+                    className="h-[84px] px-[20px]"
+                  />
+                ))}
+              </ChecklistGroup>
+            </FormSection>
           </div>
 
           <div className="flex flex-col gap-[20px]">
-            <SectionLinkHeader title="피드백" size="sm" />
-            <ChecklistGroup>
-              {feedbacks.map((item) => (
-                <ChecklistItem
-                  key={item.title}
-                  title={item.title}
-                  subtitle={item.subtitle}
-                  subjectLabel={item.subjectLabel}
-                  subject={item.subject}
-                  completed={item.completed}
-                  className="h-[84px] px-[20px]"
-                />
-              ))}
-            </ChecklistGroup>
+            <FormSection title="피드백">
+              <ChecklistGroup>
+                {feedbacks.map((item) => (
+                  <ChecklistItem
+                    key={item.title}
+                    title={item.title}
+                    subtitle={item.subtitle}
+                    subjectLabel={item.subjectLabel}
+                    subject={item.subject}
+                    completed={item.completed}
+                    className="h-[84px] px-[20px]"
+                  />
+                ))}
+              </ChecklistGroup>
+            </FormSection>
           </div>
         </section>
 
         <section className="flex flex-col gap-[32px] pt-[34px]">
           <div className="flex flex-col gap-[24px]">
-            <SectionLinkHeader title="Q&A" size="sm" />
-            <div className="flex flex-col gap-[10px]">
-              {qnaItems.map((item) => (
-                <MentorQnaCard key={item.name} name={item.name} question={item.question} />
-              ))}
-            </div>
+            <FormSection title="Q&A">
+              <div className="flex flex-col gap-[10px]">
+                {qnaItems.map((item) => (
+                  <MentorQnaCard key={item.name} name={item.name} question={item.question} />
+                ))}
+              </div>
+            </FormSection>
           </div>
 
           <div className="flex flex-col gap-[24px]">
-            <SectionLinkHeader title="멘티 관리" size="sm" />
-            <div className="flex flex-col gap-[14px]">
-              {menteeProgress.map((item) => (
-                <MentorMenteeProgressCard
-                  key={item.name}
-                  name={item.name}
-                  submitted={item.submitted}
-                  total={item.total}
-                  pendingLabel={item.pendingLabel}
-                />
-              ))}
-            </div>
+            <FormSection title="멘티 관리">
+              <div className="flex flex-col gap-[14px]">
+                {menteeProgress.map((item) => (
+                  <MentorMenteeProgressCard
+                    key={item.name}
+                    name={item.name}
+                    submitted={item.submitted}
+                    total={item.total}
+                    pendingLabel={item.pendingLabel}
+                  />
+                ))}
+              </div>
+            </FormSection>
           </div>
         </section>
       </div>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 
+import FormSection from '@/components/common/FormSection'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import MentorSingleColumnLayout from '@/components/layout/MentorSingleColumnLayout'
 import MentorSolutionTable, {
@@ -117,17 +118,13 @@ function MentorSolutions() {
             </Text>
           </div>
 
-          <div className="flex flex-col gap-[10px]">
-            <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-              멘티 선택
-            </Text>
+          <FormSection title="멘티 선택">
             <FormSelectInput
               value="김수험"
               onChange={() => { }}
               options={['김수험', '박모의']}
-              size="md"
             />
-          </div>
+          </FormSection>
 
           <MentorSolutionTable
             title="보완점"
@@ -160,19 +157,16 @@ function MentorSolutions() {
             value={draftSubject}
             onChange={setDraftSubject}
             options={['국어', '영어', '수학']}
-            size="md"
           />
           <FormTextInput
             value={draftImprovement}
             onChange={setDraftImprovement}
             placeholder="보완점 입력"
-            size="md"
           />
           <FormTextInput
             value={draftAttachment}
             onChange={setDraftAttachment}
             placeholder="파일을 업로드해주세요"
-            size="md"
           />
         </div>
         <div className="mt-[16px]">

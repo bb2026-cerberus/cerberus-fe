@@ -78,7 +78,7 @@ function MenteeMenu({
   return (
     <div
       className={cn(
-        'flex w-full flex-col items-center gap-[13px] bg-white px-5 py-[50px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)] h-full',
+        'flex h-full w-full flex-col items-center gap-[16px] bg-white px-[18px] py-[24px] shadow-[4px_0px_20px_rgba(0,0,0,0.15)]',
         side === 'right'
           ? 'rounded-tl-[25px] rounded-bl-[25px]'
           : 'rounded-tr-[25px] rounded-br-[25px]',
@@ -87,26 +87,26 @@ function MenteeMenu({
     >
       <Link
         to={routePaths.menteeMyPage}
-        className="flex w-full flex-col items-start gap-[5px] rounded-[14px] bg-white px-[10px] py-0"
+        className="flex w-full flex-col items-start gap-[8px] rounded-[14px] bg-white px-[8px] py-0"
         onClick={onNavigateClick}
       >
-        <div className="size-[79px] overflow-hidden rounded-full bg-figma-card-gray">
+        <div className="size-[64px] overflow-hidden rounded-full bg-figma-card-gray">
           {avatarUrl ? (
             <img
               alt=""
               className="h-full w-full object-cover"
               src={avatarUrl}
-              width={79}
-              height={79}
+              width={64}
+              height={64}
             />
           ) : null}
         </div>
-        <div className="flex w-full items-center justify-between p-[10px]">
+        <div className="flex w-full items-center justify-between px-[6px] py-[6px]">
           <div className="flex flex-col">
             <Text
               as="p"
               variant="title3"
-              className="text-[20px] font-semibold text-figma-typo-black"
+              className="text-[16px] font-semibold text-figma-typo-black"
             >
               {name}
             </Text>
@@ -115,14 +115,14 @@ function MenteeMenu({
             </Text>
           </div>
           <div className="flex size-[30px] items-center justify-center text-figma-typo-black">
-            <ChevronRight className="size-5" />
+            <ChevronRight className="size-4" />
           </div>
         </div>
       </Link>
 
-      <div className="h-px w-[218px] bg-figma-typo-gray/30" />
+      <div className="h-px w-full bg-figma-typo-gray/30" />
 
-      <div className="flex min-h-0 flex-1 w-full flex-col gap-[10px] p-5">
+      <div className="flex min-h-0 w-full flex-1 flex-col gap-[8px] px-[6px]">
         {menuItems.map((item) => {
           const isActive = item.to
             ? item.to === routePaths.mentee
@@ -138,13 +138,13 @@ function MenteeMenu({
           const content = (
             <>
               {item.iconSvg
-                ? renderMaskIcon(item.iconSvg, cn('size-[40px]', iconColorClass))
+                ? renderMaskIcon(item.iconSvg, cn('size-[32px]', iconColorClass))
                 : LucideIcon
                   ? (
-                    <LucideIcon className={cn('size-6', iconColorClass)} />
+                    <LucideIcon className={cn('size-5', iconColorClass)} />
                   )
                   : null}
-              <Text as="span" variant="title3" className="text-[18px] font-medium">
+              <Text as="span" variant="title3" className="text-[16px] font-medium">
                 {item.label}
               </Text>
             </>
@@ -154,7 +154,7 @@ function MenteeMenu({
             <Link
               key={item.label}
               to={item.to}
-              className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              className="flex w-full items-center gap-[10px] rounded-[14px] px-[8px] py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
               onClick={onNavigateClick}
             >
               {content}
@@ -163,7 +163,7 @@ function MenteeMenu({
             <button
               key={item.label}
               type="button"
-              className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+              className="flex w-full items-center gap-[10px] rounded-[14px] px-[8px] py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
               onClick={item.onClick}
             >
               {content}
@@ -172,14 +172,14 @@ function MenteeMenu({
         })}
       </div>
 
-      <div className="mt-auto pb-8">
+      <div className="mt-auto w-full px-[6px] pb-[12px]">
         <button
           type="button"
-          className="flex w-[171px] items-start gap-6 py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
+          className="flex w-full items-center gap-[10px] rounded-[14px] px-[8px] py-[10px] text-figma-typo-black outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0"
           onClick={handleLogoutClick}
         >
-          <LogOut className="size-6 text-figma-typo-gray-b" />
-          <Text as="span" variant="title3" className="text-[18px] font-medium">
+          <LogOut className="size-5 text-figma-typo-gray-b" />
+          <Text as="span" variant="title3" className="text-[16px] font-medium">
             로그아웃
           </Text>
         </button>

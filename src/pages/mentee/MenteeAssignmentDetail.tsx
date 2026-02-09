@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import FormSection from '@/components/common/FormSection'
 import MenteeSection from '@/components/common/MenteeSection'
 import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TaskDetailHeader from '@/components/common/TaskDetailHeader'
@@ -17,9 +18,9 @@ function MenteeAssignmentDetail() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full px-4 pb-[50px] pt-2">
-        <MenteeSection className="flex flex-col gap-6">
-          <div className="flex flex-col gap-4 px-1 pt-2">
+      <div className="w-full px-4 pb-[36px] pt-[8px]">
+        <MenteeSection className="flex flex-col gap-4">
+          <div className="flex flex-col gap-3 px-1 pt-2">
             <TaskDetailHeader title="문학 1지문 정리" subtitle="핵심 표현 5개" />
             <div className="flex items-center gap-2">
               <TaskDateMeta dateText="2026.02.02" />
@@ -27,17 +28,11 @@ function MenteeAssignmentDetail() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-[14px] px-[10px]">
-            <h3 className="text-[20px] font-semibold leading-6 text-figma-typo-black">
-              학습지
-            </h3>
+          <FormSection title="학습지">
             <StudyMaterialCard title="문학 요약문 작성 가이드" />
-          </div>
+          </FormSection>
 
-          <div className="flex flex-col gap-[14px] px-[10px]">
-            <h3 className="text-[20px] font-semibold leading-6 text-figma-typo-black">
-              과제 인증 업로드
-            </h3>
+          <FormSection title="과제 인증 업로드">
             {uploadedImageUrl ? (
               <UploadPreview
                 imageUrl={uploadedImageUrl}
@@ -47,7 +42,7 @@ function MenteeAssignmentDetail() {
             ) : (
               <UploadBox onClick={() => setUploadedImageUrl(demoImageUrl)} />
             )}
-          </div>
+          </FormSection>
         </MenteeSection>
       </div>
     </div>

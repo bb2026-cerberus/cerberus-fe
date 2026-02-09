@@ -27,7 +27,7 @@ function MenteeNotifications() {
   return (
     <div className="flex w-full flex-col items-center gap-0">
       <div className="w-full px-4 pb-4 pt-4">
-        <MenteeSection className="flex flex-col gap-2.5">
+        <MenteeSection className="flex flex-col gap-2">
           {notifications.map((item) => (
             <NotificationItem
               key={item.id}

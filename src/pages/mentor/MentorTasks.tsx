@@ -264,7 +264,6 @@ function MentorTasks() {
                 value={filter}
                 onChange={setFilter}
                 options={['전체', '김수험', '박모의']}
-                size="md"
               />
             </div>
 

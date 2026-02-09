@@ -107,9 +107,9 @@ function MenteeTimeBlock() {
 
   return (
     <div className="flex w-full flex-col items-center gap-0">
-      <div className="w-full pb-[50px] pt-0">
+      <div className="w-full pb-[36px] pt-0">
         <div className="w-full bg-white pb-4 pt-0">
-          <MenteeSection className="flex flex-col gap-4 px-4">
+          <MenteeSection className="flex flex-col gap-3 px-4">
             <MenteeSection>
               <Calendar
                 mode="single"
@@ -131,15 +131,15 @@ function MenteeTimeBlock() {
             </MenteeSection>
           </MenteeSection>
         </div>
-        <div className="w-full bg-figma-light-gray px-4 pt-[20px]">
-          <MenteeSection className="flex flex-col gap-4">
+        <div className="w-full bg-figma-light-gray px-4 pt-[16px]">
+          <MenteeSection className="flex flex-col gap-3">
             <div className="px-[10px]">
               <TimeSummaryCard
                 totalLabel="총 공부 시간"
                 totalValue="12h 54m"
                 averageLabel="평균 집중"
                 averageValue="48분"
-                className="w-[233px]"
+                className="w-full max-w-[260px]"
               />
             </div>
             <div className="flex gap-[10px] px-[10px]">

@@ -1,3 +1,4 @@
+import FormSection from '@/components/common/FormSection'
 import FormTextInput from '@/components/common/FormTextInput'
 import MentorActionButtons from '@/components/common/MentorActionButtons'
 import { Text } from '@/components/common/Text'
@@ -54,17 +55,13 @@ function MentorQnaDetailPanel({
           </div>
         </div>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[18px] font-medium leading-[1.2] text-figma-typo-black">
-            멘토 코멘트
-          </Text>
+        <FormSection title="멘토 코멘트">
           <FormTextInput
             placeholder="자유 작성"
             value={comment}
             onChange={onCommentChange}
-            size="md"
           />
-        </div>
+        </FormSection>
       </div>
     </section>
   )

@@ -1,4 +1,5 @@
 import DatePickerInput from '@/components/common/DatePickerInput'
+import FormSection from '@/components/common/FormSection'
 import FormSelectInput from '@/components/common/FormSelectInput'
 import FormTextInput from '@/components/common/FormTextInput'
 import MentorActionButtons, {
@@ -75,27 +76,22 @@ function MentorTaskDetailPanel({
         />
       </div>
 
-      <div className={cn('flex flex-col gap-[20px] pl-[10px]', readOnly && 'pointer-events-none opacity-90')}>
-        <FormSelectInput
-          value={mentee}
-          onChange={onMenteeChange}
-          options={['김수험', '박모의']}
-          placeholder="멘티 선택"
-          size="md"
-          readOnly={readOnly}
-        />
+      <div className={cn('flex flex-col gap-[16px] pl-[10px]', readOnly && 'pointer-events-none opacity-90')}>
+        <FormSection title="멘티 선택">
+          <FormSelectInput
+            value={mentee}
+            onChange={onMenteeChange}
+            options={['김수험', '박모의']}
+            placeholder="멘티 선택"
+            readOnly={readOnly}
+          />
+        </FormSection>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
-            날짜 선택
-          </Text>
-          <DatePickerInput value={date} onChange={onDateChange} size="md" readOnly={readOnly} />
-        </div>
+        <FormSection title="날짜 선택">
+          <DatePickerInput value={date} onChange={onDateChange} readOnly={readOnly} />
+        </FormSection>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
-            과목
-          </Text>
+        <FormSection title="과목">
           <div className="grid w-full grid-cols-3 gap-[10px]">
             {(['국어', '영어', '수학'] as const).map((item) => {
               const isActive = subject === item
@@ -116,52 +112,46 @@ function MentorTaskDetailPanel({
               )
             })}
           </div>
-        </div>
+        </FormSection>
 
-        <div className="flex flex-col gap-[10px]">
-          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
-            정보
-          </Text>
-          <FormTextInput
-            placeholder="제목"
-            value={taskTitle}
-            onChange={onTitleChange}
-            size="md"
-            readOnly={readOnly}
-          />
-          <FormTextInput
-            placeholder="설명"
-            value={description}
-            onChange={onDescriptionChange}
-            size="md"
-            readOnly={readOnly}
-          />
-          <FormSelectInput
-            value={solution}
-            onChange={onSolutionChange}
-            options={['솔루션 방안']}
-            size="md"
-            readOnly={readOnly}
-          />
-        </div>
+        <FormSection title="정보">
+          <div className="flex flex-col gap-[10px]">
+            <FormTextInput
+              placeholder="제목"
+              value={taskTitle}
+              onChange={onTitleChange}
+              readOnly={readOnly}
+            />
+            <FormTextInput
+              placeholder="설명"
+              value={description}
+              onChange={onDescriptionChange}
+              readOnly={readOnly}
+            />
+            <FormSelectInput
+              value={solution}
+              onChange={onSolutionChange}
+              options={['솔루션 방안']}
+              readOnly={readOnly}
+            />
+          </div>
+        </FormSection>
 
-        <div className="flex flex-col gap-[8px]">
-          <Text as="p" className="text-[16px] font-medium leading-[1.2] text-figma-typo-black">
-            학습지 등록
-          </Text>
-          <FormTextInput
-            placeholder="| 학습지를 작성해주세요"
-            value={worksheetText}
-            onChange={onWorksheetTextChange}
-            size="md"
-            readOnly={readOnly}
-          />
-          <UploadBox
-            label="파일을 선택하거나 여기로 끌어다 놓으세요"
-            size="lg"
-            className={readOnly ? 'bg-figma-card-gray text-figma-typo-gray-b' : undefined}
-          />
-        </div>
+        <FormSection title="학습지 등록">
+          <div className="flex flex-col gap-[8px]">
+            <FormTextInput
+              placeholder="| 학습지를 작성해주세요"
+              value={worksheetText}
+              onChange={onWorksheetTextChange}
+              readOnly={readOnly}
+            />
+            <UploadBox
+              label="파일을 선택하거나 여기로 끌어다 놓으세요"
+              size="lg"
+              className={readOnly ? 'bg-figma-card-gray text-figma-typo-gray-b' : undefined}
+            />
+          </div>
+        </FormSection>
       </div>
     </section>
   )

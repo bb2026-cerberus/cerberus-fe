@@ -194,7 +194,6 @@ function MentorFeedback() {
                 value={filter}
                 onChange={setFilter}
                 options={['전체', '김수험']}
-                size="md"
               />
             </div>
 
