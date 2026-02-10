@@ -26,7 +26,7 @@ type MentorQnaItem = {
 }
 
 function MentorQna() {
-  const { userId, role } = useAuth()
+  const { userId } = useAuth()
   const { loading, error, setError, run } = useApiRequest()
   const selectedItemClass =
     "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
@@ -72,13 +72,22 @@ function MentorQna() {
     [],
   )
 
+  const formatDate = (value?: Date) => {
+    if (!value) return ''
+    const year = value.getFullYear()
+    const month = String(value.getMonth() + 1).padStart(2, '0')
+    const day = String(value.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
   const fetchQnaList = useCallback(async () => {
-    if (!userId || !role) {
+    if (!userId || !selected) {
       setError('로그인 후 이용해주세요.')
       return
     }
+    const date = formatDate(selected)
     const response = await run(() =>
-      commentsApi.getQnasByMentorId({ mentorId: userId, userRole: role }),
+      commentsApi.getQnasByMentorId({ mentorId: userId, date }),
     )
     const list = (response as ListQnaResponse)?.data ?? []
     if (!list.length) {
@@ -111,7 +120,7 @@ function MentorQna() {
     if (resolved.length) {
       handleSelectQuestion(resolved[0])
     }
-  }, [handleSelectQuestion, role, run, setError, userId])
+  }, [handleSelectQuestion, run, selected, setError, userId])
 
   useEffect(() => {
     fetchQnaList()
@@ -119,14 +128,10 @@ function MentorQna() {
 
   const submitAnswer = useCallback(
     async (nextComment: string) => {
-      if (!selectedQuestion || selectedQuestion.qnaId == null || !userId || !role) return
+      if (!selectedQuestion || selectedQuestion.qnaId == null || !userId) return
       const { qnaId } = selectedQuestion
       const result = await run(
-        () =>
-          commentsApi.answerQna(
-            { userId, userRole: role },
-            { qnaId, answerContent: nextComment },
-          ),
+        () => commentsApi.answerQna({ qnaId, answerContent: nextComment }),
         {
           useOverlay: true,
           overlayMessage: '코멘트를 저장하는 중...',
@@ -142,7 +147,7 @@ function MentorQna() {
       )
       setSelectedQuestion((prev) => (prev ? { ...prev, comment: nextComment } : prev))
     },
-    [role, run, selectedQuestion, userId],
+    [run, selectedQuestion, userId],
   )
 
   const handleSubmit = () => {

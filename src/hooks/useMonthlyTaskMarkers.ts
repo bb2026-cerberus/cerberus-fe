@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import assignmentsApi from '@/services/api/assignments'
 import todosApi from '@/services/api/todos'
+import type { components } from '@/types/api'
 
 type MarkerSet = {
   dotBlue: Date[]
@@ -14,24 +14,7 @@ type UseMonthlyTaskMarkersOptions = {
   baseMonth: Date
 }
 
-type AssignmentGroup = {
-  date?: string
-  assignments?: {
-    title?: string
-    solution?: string
-    subject?: string
-  }[]
-}
-
-type TodoGroup = {
-  date?: string
-  todos?: {
-    title?: string
-    solution?: string
-    subject?: string
-    completed?: boolean
-  }[]
-}
+type TodoGroup = components['schemas']['GroupedTodosResponseDto']
 
 const emptyMarkers: MarkerSet = { dotBlue: [], dotOrange: [], dotRed: [] }
 
@@ -74,7 +57,7 @@ const getMonthRangeWithNextDay = (baseMonth: Date) => {
 
 const useMonthlyTaskMarkers = ({ menteeId, baseMonth }: UseMonthlyTaskMarkersOptions) => {
   const [markers, setMarkers] = React.useState<MarkerSet>(emptyMarkers)
-  const [assignmentGroups, setAssignmentGroups] = React.useState<AssignmentGroup[]>([])
+  const [assignmentGroups, setAssignmentGroups] = React.useState<TodoGroup[]>([])
   const [todoGroups, setTodoGroups] = React.useState<TodoGroup[]>([])
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
@@ -89,11 +72,23 @@ const useMonthlyTaskMarkers = ({ menteeId, baseMonth }: UseMonthlyTaskMarkersOpt
     setError(null)
     try {
       const [assignmentsRes, todosRes] = await Promise.all([
-        assignmentsApi.getAssignments({ menteeId, startDate, endDate }),
-        todosApi.getTodos({ menteeId, startDate, endDate }),
+        todosApi.getTodos({
+          menteeId: [menteeId],
+          startDate,
+          endDate,
+          assignYn: 'N',
+          draftYn: 'N',
+        }),
+        todosApi.getTodos({
+          menteeId: [menteeId],
+          startDate,
+          endDate,
+          assignYn: 'Y',
+          draftYn: 'N',
+        }),
       ])
 
-      const assignments = (assignmentsRes?.data ?? []) as AssignmentGroup[]
+      const assignments = (assignmentsRes?.data ?? []) as TodoGroup[]
       const todos = (todosRes?.data ?? []) as TodoGroup[]
 
       const dotBlue = assignments
@@ -125,13 +120,12 @@ const useMonthlyTaskMarkers = ({ menteeId, baseMonth }: UseMonthlyTaskMarkersOpt
 
   const getAssignmentsByDate = React.useCallback(
     (dateText?: string | null) =>
-      assignmentGroups.find((group) => group.date === dateText)?.assignments ?? [],
+      assignmentGroups.find((group) => group.date === dateText)?.todos ?? [],
     [assignmentGroups],
   )
 
   const getTodosByDate = React.useCallback(
-    (dateText?: string | null) =>
-      todoGroups.find((group) => group.date === dateText)?.todos ?? [],
+    (dateText?: string | null) => todoGroups.find((group) => group.date === dateText)?.todos ?? [],
     [todoGroups],
   )
 

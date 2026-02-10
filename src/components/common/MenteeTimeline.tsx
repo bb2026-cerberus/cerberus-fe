@@ -67,6 +67,8 @@ function MenteeTimeline({ baseDate, segments, markers = [], className }: MenteeT
   const barScrollRef = React.useRef<HTMLDivElement>(null)
   const isSyncingRef = React.useRef(false)
   const hasScrolledToCurrentRef = React.useRef(false)
+  const syncRafRef = React.useRef<number | null>(null)
+  const lastSyncedLeftRef = React.useRef<number>(0)
 
   const baseDay = React.useMemo(() => toBaseDay(baseDate), [baseDate])
 
@@ -103,16 +105,29 @@ function MenteeTimeline({ baseDate, segments, markers = [], className }: MenteeT
     const labelEl = labelScrollRef.current
     const barEl = barScrollRef.current
     if (!labelEl || !barEl) return
-    isSyncingRef.current = true
-    if (source === 'label') {
-      barEl.scrollLeft = labelEl.scrollLeft
-    } else {
-      labelEl.scrollLeft = barEl.scrollLeft
-    }
-    requestAnimationFrame(() => {
-      isSyncingRef.current = false
+    if (syncRafRef.current != null) return
+    syncRafRef.current = requestAnimationFrame(() => {
+      const nextLeft = source === 'label' ? labelEl.scrollLeft : barEl.scrollLeft
+      if (Math.abs(nextLeft - lastSyncedLeftRef.current) >= 1) {
+        isSyncingRef.current = true
+        if (source === 'label') {
+          barEl.scrollLeft = nextLeft
+        } else {
+          labelEl.scrollLeft = nextLeft
+        }
+        lastSyncedLeftRef.current = nextLeft
+        isSyncingRef.current = false
+      }
+      syncRafRef.current = null
     })
   }, [])
+
+  React.useEffect(
+    () => () => {
+      if (syncRafRef.current != null) cancelAnimationFrame(syncRafRef.current)
+    },
+    [],
+  )
 
   return (
     <div className={cn('w-full rounded-[18px] bg-figma-white px-4 py-4', className)}>
@@ -122,7 +137,12 @@ function MenteeTimeline({ baseDate, segments, markers = [], className }: MenteeT
           ref={labelScrollRef}
           className="relative z-10 overflow-x-auto overflow-y-visible"
           onScroll={() => syncScroll('label')}
-          style={{ scrollbarWidth: 'none' }}
+          style={{
+            scrollbarWidth: 'none',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehaviorX: 'contain',
+            touchAction: 'pan-x',
+          }}
         >
           <div className="relative pt-6" style={{ width: timelineWidth, minHeight: MARKER_EXTENT }}>
             <div className="h-[19px]" aria-hidden />
@@ -168,9 +188,14 @@ function MenteeTimeline({ baseDate, segments, markers = [], className }: MenteeT
         {/* 바만 스크롤 (rounded-full로 스크롤해도 바 양끝만 둥글게 보임, 마커 뒤로 가도록 z-0) */}
         <div
           ref={barScrollRef}
-          className="absolute left-0 right-0 z-0 overflow-x-auto overflow-y-hidden rounded-full"
-          style={{ top: LABEL_ROW_HEIGHT, height: BAR_HEIGHT, scrollbarWidth: 'none' }}
-          onScroll={() => syncScroll('bar')}
+          className="pointer-events-none absolute left-0 right-0 z-0 overflow-x-auto overflow-y-hidden rounded-full"
+          style={{
+            top: LABEL_ROW_HEIGHT,
+            height: BAR_HEIGHT,
+            scrollbarWidth: 'none',
+            WebkitOverflowScrolling: 'touch',
+            overscrollBehaviorX: 'contain',
+          }}
         >
           <div style={{ width: timelineWidth, height: BAR_HEIGHT }}>
             <div className="relative h-[19px] w-full overflow-hidden rounded-full bg-figma-card-gray">

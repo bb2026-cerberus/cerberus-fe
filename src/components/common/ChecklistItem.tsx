@@ -32,13 +32,13 @@ function ChecklistItem({
     >
       <div
         className={cn(
-          'flex size-[28px] items-center justify-center rounded-full',
+          'flex size-[28px] shrink-0 items-center justify-center rounded-full',
           completed ? 'bg-figma-typo-gray-b' : 'border-2 border-figma-typo-gray bg-transparent',
         )}
       >
         {completed ? <Check className="size-4 text-white" /> : null}
       </div>
-      <div className="flex flex-col gap-1">
+      <div className="flex min-w-0 flex-1 flex-col gap-1">
         <Text
           as="p"
           variant="title3"

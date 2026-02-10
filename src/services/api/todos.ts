@@ -1,4 +1,4 @@
-import { request } from '@/services/api/http'
+import { api, request } from '@/services/api/http'
 import type {
   OperationPath,
   OperationQuery,
@@ -6,6 +6,7 @@ import type {
   OperationResponse,
 } from '@/services/api/types'
 import type { components } from '@/types/api'
+import type { TodoDailyOverviewResponse } from '@/types/api/todos'
 
 const getTodos = (query: OperationQuery<'getTodos'>) =>
   request<OperationResponse<'getTodos'>>({
@@ -68,11 +69,35 @@ const getTimersByDate = (query: OperationQuery<'getTimersByDate'>) =>
     params: query,
   })
 
+type GetDailyOverviewQuery = {
+  menteeId: number
+  date?: string
+}
+
+const getDailyOverview = (query: GetDailyOverviewQuery) =>
+  request<TodoDailyOverviewResponse>({
+    method: 'GET',
+    url: '/todos/daily/overview',
+    params: query,
+  })
+
 const downloadTodoFile = (query: OperationQuery<'downloadFile'>) =>
   request<OperationResponse<'downloadFile'>>({
     method: 'GET',
     url: '/todos/download',
     params: query,
+  })
+
+type DownloadTodoFileQuery = {
+  fileUrl: string
+}
+
+const downloadTodoFileBlob = (query: DownloadTodoFileQuery) =>
+  api.request<Blob>({
+    method: 'GET',
+    url: '/todos/download',
+    params: query,
+    responseType: 'blob',
   })
 
 // 임시저장 할 일 관련 API는 OpenAPI에 정의되지 않아 별도 타입 정의
@@ -117,7 +142,7 @@ const deleteDraftTodo = (path: DeleteDraftTodoPath) =>
 
 const uploadTodoVerification = (
   path: OperationPath<'uploadVerification'>,
-  payload: OperationRequestBody<'uploadVerification'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'uploadVerification'>>({
     method: 'POST',
@@ -127,7 +152,7 @@ const uploadTodoVerification = (
 
 const updateTodoVerification = (
   path: OperationPath<'updateVerification'>,
-  payload: OperationRequestBody<'updateVerification'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'updateVerification'>>({
     method: 'PUT',
@@ -150,7 +175,9 @@ const todosApi = {
   addTimerSession,
   getTodosWeekly,
   getTimersByDate,
+  getDailyOverview,
   downloadTodoFile,
+  downloadTodoFileBlob,
   getDraftTodos,
   createDraftTodo,
   deleteDraftTodo,
