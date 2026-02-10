@@ -1103,6 +1103,8 @@ export interface components {
             /** Format: int64 */
             todoId?: number;
             title?: string;
+            menteeId?: number;
+            menteeName?: string;
             subject?: string;
             solution?: string;
             /** Format: date */

@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { startOfWeek } from 'date-fns'
+import { useEffect, useMemo, useState } from 'react'
+import { format, isToday, startOfWeek } from 'date-fns'
 
 import ChecklistGroup from '@/components/common/ChecklistGroup'
 import ChecklistItem from '@/components/common/ChecklistItem'
@@ -15,6 +15,12 @@ import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
 import ActionButtons from '@/components/common/ActionButtons'
 import { cn } from '@/lib/utils'
+import useApiRequest from '@/hooks/useApiRequest'
+import useAuth from '@/store/auth/useAuth'
+import mypageApi from '@/services/api/mypage'
+import todosApi from '@/services/api/todos'
+import { toDateText } from '@/lib/date'
+import { Skeleton } from '@/components/ui/skeleton'
 
 type MentorTask = {
   id: string
@@ -22,10 +28,13 @@ type MentorTask = {
   subtitle: string
   subjectLabel: string
   subject: 'korean' | 'math' | 'english' | 'neutral'
+  menteeId?: number
+  menteeName?: string
 }
 
 type MentorTaskGroup = {
   name: string
+  menteeId?: number
   tasks: MentorTask[]
 }
 
@@ -40,118 +49,99 @@ type DetailMode = 'create' | 'detail' | 'edit'
 function MentorTasks() {
   const selectedItemClass =
     "relative overflow-hidden border border-figma-point-color-2/30 bg-figma-card-gray before:absolute before:left-0 before:top-0 before:h-full before:w-[4px] before:bg-figma-point-color-2 before:rounded-l-[18px] before:content-['']"
+  const { userId: mentorId } = useAuth()
+  const { run: runApi } = useApiRequest()
+  const { run: runTasks, loading: tasksLoading } = useApiRequest()
+
   const [filter, setFilter] = useState<string>('전체')
+  const [mentees, setMentees] = useState<{ id: number; name: string }[]>([])
   const [weekStart, setWeekStart] = useState(() =>
     startOfWeek(new Date(), { weekStartsOn: 1 }),
   )
+  const [taskDates, setTaskDates] = useState<MentorTaskDate[]>([])
+
   const [detailMode, setDetailMode] = useState<DetailMode>('create')
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
   const [tempSaveOpen, setTempSaveOpen] = useState(false)
   const [deleteOpen, setDeleteOpen] = useState(false)
 
-  const [selectedMentee, setSelectedMentee] = useState<string>('김수험')
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
-    new Date('2026-02-02'),
-  )
+  const [selectedMenteeId, setSelectedMenteeId] = useState<number | null>(null)
+  const [selectedMentee, setSelectedMentee] = useState<string>('')
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const [selectedSubject, setSelectedSubject] = useState<'국어' | '영어' | '수학'>('국어')
-  const [taskTitle, setTaskTitle] = useState('문학 1지문 정리')
-  const [taskDescription, setTaskDescription] = useState('핵심 표현 5개')
-  const [taskSolution, setTaskSolution] = useState('솔루션 방안')
-  const [worksheetText, setWorksheetText] = useState('| 학습지를 작성해주세요')
+  const [taskTitle, setTaskTitle] = useState('')
+  const [taskDescription, setTaskDescription] = useState('')
+  const [taskSolution, setTaskSolution] = useState('')
+  const [worksheetText, setWorksheetText] = useState('')
 
-  const taskDates = useMemo<MentorTaskDate[]>(
-    () => [
-      {
-        date: '2026.02.02',
-        isToday: true,
-        groups: [
-          {
-            name: '김수험',
-            tasks: [
-              {
-                id: 't-1',
-                title: '문학 1지문 정리',
-                subtitle: '핵심 표현 5개',
-                subjectLabel: '국어',
-                subject: 'korean',
-              },
-              {
-                id: 't-2',
-                title: '미적분 1단원 개념 정리',
-                subtitle: '목표 30문제',
-                subjectLabel: '수학',
-                subject: 'math',
-              },
-            ],
-          },
-          {
-            name: '박모의',
-            tasks: [
-              {
-                id: 't-3',
-                title: '문학 1지문 정리',
-                subtitle: '핵심 표현 5개',
-                subjectLabel: '국어',
-                subject: 'korean',
-              },
-              {
-                id: 't-4',
-                title: '미적분 1단원 개념 정리',
-                subtitle: '목표 30문제',
-                subjectLabel: '수학',
-                subject: 'math',
-              },
-            ],
-          },
-        ],
-      },
-      {
-        date: '2026.02.01',
-        groups: [
-          {
-            name: '김수험',
-            tasks: [
-              {
-                id: 't-5',
-                title: '문학 1지문 정리',
-                subtitle: '핵심 표현 5개',
-                subjectLabel: '국어',
-                subject: 'korean',
-              },
-              {
-                id: 't-6',
-                title: '미적분 1단원 개념 정리',
-                subtitle: '목표 30문제',
-                subjectLabel: '수학',
-                subject: 'math',
-              },
-            ],
-          },
-          {
-            name: '박모의',
-            tasks: [
-              {
-                id: 't-7',
-                title: '문학 1지문 정리',
-                subtitle: '핵심 표현 5개',
-                subjectLabel: '국어',
-                subject: 'korean',
-              },
-              {
-                id: 't-8',
-                title: '미적분 1단원 개념 정리',
-                subtitle: '목표 30문제',
-                subjectLabel: '수학',
-                subject: 'math',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    [],
-  )
+  useEffect(() => {
+    if (!mentorId) return
+    runApi(() => mypageApi.getMentorHomeData({ mentorId }, { date: format(new Date(), 'yyyy-MM-dd') }), {
+      onSuccess: (data) => {
+        const menteeList = data.data?.menteeManagement?.map(m => ({
+          id: m.menteeId!,
+          name: m.menteeName!
+        })) || []
+        setMentees(menteeList)
+        if (menteeList.length > 0 && !selectedMenteeId) {
+          setSelectedMenteeId(menteeList[0].id)
+          setSelectedMentee(menteeList[0].name)
+        }
+      }
+    })
+  }, [mentorId, runApi, selectedMenteeId])
+
+  useEffect(() => {
+    if (mentees.length === 0) return
+
+    const selectedMenteeIds = filter === '전체' 
+      ? mentees.map(m => m.id)
+      : [mentees.find(m => m.name === filter)?.id].filter(id => id !== undefined) as number[]
+
+    if (selectedMenteeIds.length === 0) return
+
+    runTasks(() => todosApi.getTodosWeekly({
+      menteeId: selectedMenteeIds,
+      mondayDate: format(weekStart, 'yyyy-MM-dd')
+    }), {
+      onSuccess: (data) => {
+        if (!data.data) return
+
+        const mapped: MentorTaskDate[] = data.data.map(group => {
+          // 멘티별로 다시 그룹화
+          const menteeGroups: Record<string, { id: number, tasks: MentorTask[] }> = {}
+          group.todos?.forEach(todo => {
+            const mName = todo.menteeName || '알 수 없음'
+            const mId = todo.menteeId || 0
+            if (!menteeGroups[mName]) {
+              menteeGroups[mName] = { id: mId, tasks: [] }
+            }
+            menteeGroups[mName].tasks.push({
+              id: String(todo.todoId),
+              title: todo.title || '',
+              subtitle: todo.solution || '',
+              subjectLabel: todo.subject || '',
+              subject: (todo.subject === '수학' ? 'math' : todo.subject === '영어' ? 'english' : todo.subject === '국어' ? 'korean' : 'neutral') as any,
+              menteeId: mId,
+              menteeName: mName
+            })
+          })
+
+          return {
+            date: toDateText(group.date),
+            isToday: group.date ? isToday(new Date(group.date)) : false,
+            groups: Object.entries(menteeGroups).map(([name, gData]) => ({
+              name,
+              menteeId: gData.id,
+              tasks: gData.tasks
+            }))
+          }
+        })
+        setTaskDates(mapped)
+      }
+    })
+  }, [weekStart, filter, mentees, runTasks])
 
   const tempSaveItems = useMemo(
     () => [
@@ -164,14 +154,26 @@ function MentorTasks() {
   const handleTaskSelect = (task: MentorTask, mentee: string) => {
     setSelectedTaskId(task.id)
     setDetailMode('detail')
-    setDetailOpen(true)
-    setSelectedMentee(mentee)
-    setSelectedSubject(
-      task.subjectLabel === '수학' ? '수학' : task.subjectLabel === '영어' ? '영어' : '국어',
-    )
-    setTaskTitle(task.title)
-    setTaskDescription(task.subtitle)
-    setSelectedDate(new Date('2026-02-02'))
+    
+    runTasks(() => todosApi.getTodoDetail({ todoId: Number(task.id) }), {
+      useOverlay: true,
+      overlayMessage: '과제 상세 정보를 불러오는 중...',
+      onSuccess: (data) => {
+        if (!data.data) return
+        const detail = data.data
+        setDetailOpen(true)
+        setSelectedMentee(mentee)
+        setSelectedMenteeId(task.menteeId || null)
+        setSelectedSubject(
+          detail.subject === '수학' ? '수학' : detail.subject === '영어' ? '영어' : '국어',
+        )
+        setTaskTitle(detail.title || '')
+        setTaskDescription(detail.content || '')
+        setTaskSolution(detail.solution || '')
+        setSelectedDate(detail.date ? new Date(detail.date) : new Date())
+        setWorksheetText(detail.solution || '') // 예시로 solution을 worksheetText에 넣음 (비즈니스 로직에 따라 수정 가능)
+      }
+    })
   }
 
   const handleDelete = () => {
@@ -195,8 +197,14 @@ function MentorTasks() {
     setSelectedTaskId(null)
     setDetailMode('create')
     setDetailOpen(true)
-    setSelectedMentee('김수험')
-    setSelectedDate(new Date('2026-02-02'))
+
+    const defaultMentee = filter === '전체' ? mentees[0] : mentees.find(m => m.name === filter)
+    if (defaultMentee) {
+      setSelectedMentee(defaultMentee.name)
+      setSelectedMenteeId(defaultMentee.id)
+    }
+
+    setSelectedDate(new Date())
     setSelectedSubject('국어')
     setTaskTitle('')
     setTaskDescription('')
@@ -263,48 +271,63 @@ function MentorTasks() {
               <FormSelectInput
                 value={filter}
                 onChange={setFilter}
-                options={['전체', '김수험', '박모의']}
+                options={['전체', ...mentees.map(m => m.name)]}
               />
             </div>
 
             <div className="flex w-full max-w-[800px] flex-col gap-[20px]">
-              {taskDates.map((dateBlock) => (
-                <div key={dateBlock.date} className="flex flex-col gap-[10px]">
-                  <TaskDateMeta
-                    dateText={dateBlock.date}
-                    badgeText={dateBlock.isToday ? '오늘' : undefined}
-                    dateClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
-                    badgeClassName="text-[14px] font-semibold leading-6"
-                  />
-
-                  {dateBlock.groups.map((group) => (
-                    <div key={group.name} className="flex w-full flex-col items-start gap-[10px]">
-                      <SubjectChip label={group.name} tone="muted" />
-                      <ChecklistGroup className="w-full">
-                        {group.tasks.map((task) => (
-                          <button
-                            key={`${group.name}-${task.title}`}
-                            type="button"
-                            onClick={() => handleTaskSelect(task, group.name)}
-                            className="text-left"
-                          >
-                            <ChecklistItem
-                              title={task.title}
-                              subtitle={task.subtitle}
-                              subjectLabel={task.subjectLabel}
-                              subject={task.subject}
-                              className={cn(
-                                'h-[84px] px-[20px]',
-                                selectedTaskId === task.id && selectedItemClass,
-                              )}
-                            />
-                          </button>
-                        ))}
-                      </ChecklistGroup>
+              {tasksLoading ? (
+                <div className="flex flex-col gap-[20px]">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="flex flex-col gap-[10px]">
+                      <Skeleton className="h-[24px] w-[100px]" />
+                      <Skeleton className="h-[84px] w-full rounded-[18px]" />
                     </div>
                   ))}
                 </div>
-              ))}
+              ) : taskDates.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-[40px]">
+                  <Text className="text-figma-typo-gray">해당 기간에 등록된 과제가 없습니다.</Text>
+                </div>
+              ) : (
+                taskDates.map((dateBlock) => (
+                  <div key={dateBlock.date} className="flex flex-col gap-[10px]">
+                    <TaskDateMeta
+                      dateText={dateBlock.date}
+                      badgeText={dateBlock.isToday ? '오늘' : undefined}
+                      dateClassName="text-[14px] font-semibold leading-6 text-figma-typo-gray-b"
+                      badgeClassName="text-[14px] font-semibold leading-6"
+                    />
+
+                    {dateBlock.groups.map((group) => (
+                      <div key={group.name} className="flex w-full flex-col items-start gap-[10px]">
+                        <SubjectChip label={group.name} tone="muted" />
+                        <ChecklistGroup className="w-full">
+                          {group.tasks.map((task) => (
+                            <button
+                              key={`${group.name}-${task.id}`}
+                              type="button"
+                              onClick={() => handleTaskSelect(task, group.name)}
+                              className="text-left"
+                            >
+                              <ChecklistItem
+                                title={task.title}
+                                subtitle={task.subtitle}
+                                subjectLabel={task.subjectLabel}
+                                subject={task.subject}
+                                className={cn(
+                                  'h-[84px] px-[20px]',
+                                  selectedTaskId === task.id && selectedItemClass,
+                                )}
+                              />
+                            </button>
+                          ))}
+                        </ChecklistGroup>
+                      </div>
+                    ))}
+                  </div>
+                ))
+              )}
             </div>
           </section>
         }

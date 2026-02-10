@@ -6,7 +6,7 @@ import type {
   OperationResponse,
 } from '@/services/api/types'
 
-const getTodos = (query: OperationQuery<'getTodos'>) =>
+const getTodos = (query: { menteeId: number[]; startDate?: string; endDate?: string }) =>
   request<OperationResponse<'getTodos'>>({
     method: 'GET',
     url: '/todos',
@@ -42,7 +42,7 @@ const addTimerSession = (
     data: payload,
   })
 
-const getTodosWeekly = (query: OperationQuery<'getTodosWeekly'>) =>
+const getTodosWeekly = (query: { menteeId: number[]; mondayDate: string }) =>
   request<OperationResponse<'getTodosWeekly'>>({
     method: 'GET',
     url: '/todos/weekly',
