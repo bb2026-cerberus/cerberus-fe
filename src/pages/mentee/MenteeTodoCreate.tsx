@@ -11,15 +11,19 @@ import SegmentedTabs, { type SegmentedTabItem } from '@/components/common/Segmen
 import { Text } from '@/components/common/Text'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import DeleteConfirmModal from '@/components/common/DeleteConfirmModal'
+import type { components } from '@/types/api'
 import type { Subject } from '@/types/ui/subject'
 import routePaths from '@/routes/routePaths'
 import { toDateText } from '@/lib/date'
 import todosApi from '@/services/api/todos'
 import useApiRequest from '@/hooks/useApiRequest'
 import useAuth from '@/store/auth/useAuth'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 type SubjectValue = Subject
+
+type DraftTodosResponse =
+  components['schemas']['CommonResponseListGroupedTodosResponseDto']
 
 const subjectItems: SegmentedTabItem<SubjectValue>[] = [
   { label: '국어', value: 'korean' },
@@ -29,6 +33,7 @@ const subjectItems: SegmentedTabItem<SubjectValue>[] = [
 
 function MenteeTodoCreate() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const { userId } = useAuth()
   const { error, run, setError } = useApiRequest()
   const [date, setDate] = React.useState<Date | undefined>(new Date())
@@ -44,10 +49,24 @@ function MenteeTodoCreate() {
   const [deleteOpen, setDeleteOpen] = React.useState(false)
   const [deleteTargetId, setDeleteTargetId] = React.useState<number | null>(null)
 
+  const todoIdParam = searchParams.get('todoId')
+  const draftIdParam = searchParams.get('draftId')
+  const editingTodoId = todoIdParam ? Number(todoIdParam) : undefined
+  const editingDraftId = draftIdParam ? Number(draftIdParam) : undefined
+  const isEditMode = Boolean(editingTodoId)
+
   const toApiSubject = (value: SubjectValue) => {
     if (value === 'korean') return 'KOREAN'
     if (value === 'english') return 'ENGLISH'
     return 'MATH'
+  }
+
+  const fromApiSubject = (subject?: string): SubjectValue => {
+    const normalized = subject?.toLowerCase()
+    if (normalized === 'korean' || subject === '국어' || subject === 'KOREAN') return 'korean'
+    if (normalized === 'english' || subject === '영어' || subject === 'ENGLISH') return 'english'
+    if (normalized === 'math' || subject === '수학' || subject === 'MATH') return 'math'
+    return 'korean'
   }
 
   const toDateString = (value?: Date) => {
@@ -73,16 +92,37 @@ function MenteeTodoCreate() {
       return
     }
 
+    const formData = new FormData()
+    formData.append(
+      'request',
+      new Blob(
+        [
+          JSON.stringify({
+            menteeId: userId,
+            subject: toApiSubject(subject),
+            title: title.trim(),
+            content: description.trim() || undefined,
+            dates: [dateText],
+            // 솔루션 선택 시 ID 문자열을 숫자로 변환하여 전달
+            solutionId: solution ? Number(solution) : undefined,
+            assignYn: 'N',
+            draftYn: 'N',
+          }),
+        ],
+        { type: 'application/json' },
+      ),
+    )
+
     const response = await run(
       () =>
-        todosApi.createTodo({
-          menteeId: userId,
-          subject: toApiSubject(subject),
-          title: title.trim(),
-          content: description.trim() || undefined,
-          date: dateText,
-        }),
-      { errorMessage: '할 일 등록에 실패했어요.', useOverlay: true, overlayMessage: '등록 중...' },
+        isEditMode && editingTodoId
+          ? todosApi.updateTodo({ todoId: editingTodoId }, formData)
+          : todosApi.createTodo(formData),
+      {
+        errorMessage: isEditMode ? '할 일 수정에 실패했어요.' : '할 일 등록에 실패했어요.',
+        useOverlay: true,
+        overlayMessage: isEditMode ? '수정 중...' : '등록 중...',
+      },
     )
 
     if (!response) return
@@ -108,9 +148,7 @@ function MenteeTodoCreate() {
     )
   }
 
-  const mapDraftResponseToItems = (
-    response: Awaited<ReturnType<typeof todosApi.getDraftTodos>>,
-  ) =>
+  const mapDraftResponseToItems = (response: DraftTodosResponse | undefined) =>
     response?.data
       ?.flatMap((group) => group.todos ?? [])
       .map((todo) => ({
@@ -124,9 +162,73 @@ function MenteeTodoCreate() {
     if (!userId) return
     todosApi
       .getDraftTodos({ menteeId: userId })
-      .then((response) => setTempSaveItems(mapDraftResponseToItems(response)))
+      .then((response: DraftTodosResponse) =>
+        setTempSaveItems(mapDraftResponseToItems(response)),
+      )
       .catch(() => {})
   }, [userId])
+
+  // 기존 할 일 수정 진입 시 상세 조회로 값 세팅
+  React.useEffect(() => {
+    if (!userId) return
+    if (!editingTodoId) return
+
+    run(
+      () =>
+        todosApi.getTodoDetail({
+          todoId: editingTodoId,
+        }),
+      {
+        errorMessage: '할 일 정보를 불러오지 못했어요.',
+        onSuccess: (response) => {
+          const data = response?.data
+          if (!data) return
+
+          if (data.date) {
+            const [year, month, day] = data.date.split('-').map((value) => Number(value))
+            if (year && month && day) {
+              setDate(new Date(year, month - 1, day))
+            }
+          }
+          if (data.subject) {
+            setSubject(fromApiSubject(data.subject))
+          }
+          setTitle(data.title ?? '')
+          setDescription(data.content ?? '')
+          setSolution(data.solutionId ? String(data.solutionId) : undefined)
+        },
+      },
+    )
+  }, [editingTodoId, run, userId])
+
+  // 임시저장 선택 후 진입 시 해당 값 세팅
+  React.useEffect(() => {
+    if (!userId) return
+    if (!editingDraftId) return
+
+    todosApi
+      .getDraftTodos({ menteeId: userId })
+      .then((response: DraftTodosResponse) => {
+        const allTodos =
+          response?.data?.flatMap((group) => group.todos ?? []) ?? []
+        const target = allTodos.find((todo) => todo.todoId === editingDraftId)
+        if (!target) return
+
+        if (target.date) {
+          const [year, month, day] = target.date.split('-').map((value) => Number(value))
+          if (year && month && day) {
+            setDate(new Date(year, month - 1, day))
+          }
+        }
+        if (target.subject) {
+          setSubject(fromApiSubject(target.subject))
+        }
+        setTitle(target.title ?? '')
+        setDescription(target.content ?? '')
+        // draft 에는 solutionId 정보가 없을 수 있어서 일단 유지
+      })
+      .catch(() => {})
+  }, [editingDraftId, userId])
 
   const handleOpenTempSave = async () => {
     if (!userId) {
@@ -140,7 +242,8 @@ function MenteeTodoCreate() {
         () => todosApi.getDraftTodos({ menteeId: userId }),
         {
           errorMessage: '임시저장 목록을 불러오지 못했어요.',
-          onSuccess: (response) => setTempSaveItems(mapDraftResponseToItems(response)),
+          onSuccess: (response: DraftTodosResponse) =>
+            setTempSaveItems(mapDraftResponseToItems(response)),
         },
       )
     } finally {
@@ -221,13 +324,15 @@ function MenteeTodoCreate() {
       </div>
       <FixedActionBar>
         <ActionButtons
-          mode="create"
+          mode={isEditMode ? 'edit' : 'create'}
           size="mobile"
-          primaryLabel="등록"
-          secondaryLabel="임시저장"
+          primaryLabel={isEditMode ? '수정' : '등록'}
+          secondaryLabel={isEditMode ? '취소' : '임시저장'}
           onPrimary={handleSubmit}
-          onSecondary={handleTempSave}
-          useTempSaveButton
+          onSecondary={
+            isEditMode ? () => navigate(routePaths.menteeTasks + '?tab=todos') : handleTempSave
+          }
+          useTempSaveButton={!isEditMode}
           tempSaveCount={tempSaveItems.length}
           onTempSaveListOpen={handleOpenTempSave}
           className="w-full gap-[8px]"

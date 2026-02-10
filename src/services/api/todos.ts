@@ -5,6 +5,7 @@ import type {
   OperationRequestBody,
   OperationResponse,
 } from '@/services/api/types'
+import type { components } from '@/types/api'
 
 const getTodos = (query: OperationQuery<'getTodos'>) =>
   request<OperationResponse<'getTodos'>>({
@@ -13,11 +14,13 @@ const getTodos = (query: OperationQuery<'getTodos'>) =>
     params: query,
   })
 
-const createTodo = (payload: OperationRequestBody<'createTodo'>) =>
+// /api/todos POST (등록 및 임시저장 공통) - multipart/form-data
+const createTodo = (payload: FormData) =>
   request<OperationResponse<'createTodo'>>({
     method: 'POST',
     url: '/todos',
     data: payload,
+    headers: { 'Content-Type': undefined },
   })
 
 const getTodoDetail = (path: OperationPath<'getTodoDetail'>) =>
@@ -42,6 +45,15 @@ const addTimerSession = (
     data: payload,
   })
 
+// /api/todos/{todoId} PUT - 할 일 수정
+const updateTodo = (path: OperationPath<'updateTodo'>, payload: FormData) =>
+  request<OperationResponse<'updateTodo'>>({
+    method: 'PUT',
+    url: `/todos/${path.todoId}`,
+    data: payload,
+    headers: { 'Content-Type': undefined },
+  })
+
 const getTodosWeekly = (query: OperationQuery<'getTodosWeekly'>) =>
   request<OperationResponse<'getTodosWeekly'>>({
     method: 'GET',
@@ -63,22 +75,42 @@ const downloadTodoFile = (query: OperationQuery<'downloadFile'>) =>
     params: query,
   })
 
-const getDraftTodos = (query: OperationQuery<'getDraftTodos'>) =>
-  request<OperationResponse<'getDraftTodos'>>({
+// 임시저장 할 일 관련 API는 OpenAPI에 정의되지 않아 별도 타입 정의
+type GetDraftTodosQuery = {
+  menteeId: number
+}
+
+type GetDraftTodosResponse =
+  components['schemas']['CommonResponseListGroupedTodosResponseDto']
+
+type CreateDraftTodoPayload = {
+  menteeId: number
+  subject?: components['schemas']['TodoSaveRequestDto']['subject']
+  title?: string
+  content?: string
+  date?: string
+}
+
+type DeleteDraftTodoPath = {
+  todoId: number
+}
+
+const getDraftTodos = (query: GetDraftTodosQuery) =>
+  request<GetDraftTodosResponse>({
     method: 'GET',
     url: '/todos/drafts',
     params: query,
   })
 
-const createDraftTodo = (payload: OperationRequestBody<'createDraftTodo'>) =>
-  request<OperationResponse<'createDraftTodo'>>({
+const createDraftTodo = (payload: CreateDraftTodoPayload) =>
+  request<components['schemas']['CommonResponseVoid']>({
     method: 'POST',
     url: '/todos/drafts',
     data: payload,
   })
 
-const deleteDraftTodo = (path: OperationPath<'deleteDraftTodo'>) =>
-  request<OperationResponse<'deleteDraftTodo'>>({
+const deleteDraftTodo = (path: DeleteDraftTodoPath) =>
+  request<components['schemas']['CommonResponseVoid']>({
     method: 'DELETE',
     url: `/todos/drafts/${path.todoId}`,
   })
@@ -112,6 +144,7 @@ const deleteTodoVerification = (path: OperationPath<'deleteVerification'>) =>
 const todosApi = {
   getTodos,
   createTodo,
+  updateTodo,
   getTodoDetail,
   toggleTodoStatus,
   addTimerSession,
