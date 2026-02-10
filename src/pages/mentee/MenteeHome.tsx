@@ -206,14 +206,23 @@ function MenteeHome() {
             ) : assignments.length > 0 ? (
               <ChecklistGroup>
                 {assignments.map((item) => (
-                  <ChecklistItem
+                  <button
                     key={item.id ?? item.title}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    subject={item.subject}
-                    subjectLabel={item.subjectLabel}
-                    completed={item.completed}
-                  />
+                    type="button"
+                    className="w-full text-left"
+                    onClick={() => {
+                      if (!item.id) return
+                      navigate(routePaths.menteeAssignmentDetail.replace(':assignmentId', item.id))
+                    }}
+                  >
+                    <ChecklistItem
+                      title={item.title}
+                      subtitle={item.subtitle}
+                      subject={item.subject}
+                      subjectLabel={item.subjectLabel}
+                      completed={item.completed}
+                    />
+                  </button>
                 ))}
               </ChecklistGroup>
             ) : (
@@ -239,14 +248,23 @@ function MenteeHome() {
             ) : todos.length > 0 ? (
               <ChecklistGroup>
                 {todos.map((item) => (
-                  <ChecklistItem
+                  <button
                     key={item.id ?? item.title}
-                    title={item.title}
-                    subtitle={item.subtitle}
-                    subject={item.subject}
-                    subjectLabel={item.subjectLabel}
-                    completed={item.completed}
-                  />
+                    type="button"
+                    className="w-full text-left"
+                    onClick={() => {
+                      if (!item.id) return
+                      navigate(routePaths.menteeTodoDetail.replace(':todoId', item.id))
+                    }}
+                  >
+                    <ChecklistItem
+                      title={item.title}
+                      subtitle={item.subtitle}
+                      subject={item.subject}
+                      subjectLabel={item.subjectLabel}
+                      completed={item.completed}
+                    />
+                  </button>
                 ))}
               </ChecklistGroup>
             ) : (

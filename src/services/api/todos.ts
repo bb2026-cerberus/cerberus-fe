@@ -1,4 +1,4 @@
-import { request } from '@/services/api/http'
+import { api, request } from '@/services/api/http'
 import type {
   OperationPath,
   OperationQuery,
@@ -88,6 +88,18 @@ const downloadTodoFile = (query: OperationQuery<'downloadFile'>) =>
     params: query,
   })
 
+type DownloadTodoFileQuery = {
+  fileUrl: string
+}
+
+const downloadTodoFileBlob = (query: DownloadTodoFileQuery) =>
+  api.request<Blob>({
+    method: 'GET',
+    url: '/todos/download',
+    params: query,
+    responseType: 'blob',
+  })
+
 // 임시저장 할 일 관련 API는 OpenAPI에 정의되지 않아 별도 타입 정의
 type GetDraftTodosQuery = {
   menteeId: number
@@ -130,7 +142,7 @@ const deleteDraftTodo = (path: DeleteDraftTodoPath) =>
 
 const uploadTodoVerification = (
   path: OperationPath<'uploadVerification'>,
-  payload: OperationRequestBody<'uploadVerification'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'uploadVerification'>>({
     method: 'POST',
@@ -140,7 +152,7 @@ const uploadTodoVerification = (
 
 const updateTodoVerification = (
   path: OperationPath<'updateVerification'>,
-  payload: OperationRequestBody<'updateVerification'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'updateVerification'>>({
     method: 'PUT',
@@ -165,6 +177,7 @@ const todosApi = {
   getTimersByDate,
   getDailyOverview,
   downloadTodoFile,
+  downloadTodoFileBlob,
   getDraftTodos,
   createDraftTodo,
   deleteDraftTodo,

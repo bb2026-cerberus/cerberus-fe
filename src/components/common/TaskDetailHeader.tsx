@@ -1,4 +1,4 @@
-import { Play } from 'lucide-react'
+import { Play, Square } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
@@ -8,7 +8,10 @@ type TaskDetailHeaderProps = {
   title: string
   subtitle?: string
   timeText?: string
-  onPlay?: () => void
+  onStart?: () => void
+  onStop?: () => void
+  isRunning?: boolean
+  disabled?: boolean
   className?: string
 }
 
@@ -16,7 +19,10 @@ function TaskDetailHeader({
   title,
   subtitle,
   timeText = '00:00:00',
-  onPlay,
+  onStart,
+  onStop,
+  isRunning = false,
+  disabled = false,
   className,
 }: TaskDetailHeaderProps) {
   return (
@@ -34,11 +40,19 @@ function TaskDetailHeader({
       <div className="flex w-[76px] flex-col items-center gap-1">
         <button
           type="button"
-          onClick={onPlay}
-          className="flex size-[48px] items-center justify-center rounded-full bg-figma-point-color-2"
-          aria-label="타이머 시작"
+          onClick={isRunning ? onStop : onStart}
+          disabled={disabled}
+          className={cn(
+            'flex size-[48px] items-center justify-center rounded-full bg-figma-point-color-2 transition',
+            disabled && 'cursor-not-allowed opacity-50',
+          )}
+          aria-label={isRunning ? '타이머 종료' : '타이머 시작'}
         >
-          <Icon icon={Play} size={20} className="text-white" />
+          <Icon
+            icon={isRunning ? Square : Play}
+            size={18}
+            className={cn('text-white', isRunning && 'timer-wiggle')}
+          />
         </button>
         <Text as="span" className="text-[12px] font-medium leading-tight text-figma-typo-gray">
           {timeText}
