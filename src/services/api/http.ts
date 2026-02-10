@@ -35,6 +35,14 @@ const toApiError = (error: AxiosError): ApiError => {
   }
 }
 
+// FormData 전송 시 Content-Type 제거 → axios가 multipart/form-data + boundary 자동 설정 (415 방지)
+api.interceptors.request.use((config) => {
+  if (config.data instanceof FormData) {
+    delete (config.headers as Record<string, unknown>)['Content-Type']
+  }
+  return config
+})
+
 api.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {

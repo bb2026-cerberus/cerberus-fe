@@ -15,7 +15,7 @@ const getQna = (query: OperationQuery<'getQna'>) =>
 
 const createQna = (
   query: OperationQuery<'createQna'>,
-  payload: OperationRequestBody<'createQna'>,
+  payload: OperationRequestBody<'createQna'> | FormData,
 ) =>
   request<OperationResponse<'createQna'>>({
     method: 'POST',
@@ -26,7 +26,7 @@ const createQna = (
 
 const updateQna = (
   query: OperationQuery<'updateQna'>,
-  payload: OperationRequestBody<'updateQna'>,
+  payload: OperationRequestBody<'updateQna'> | FormData,
 ) =>
   request<OperationResponse<'updateQna'>>({
     method: 'PUT',
