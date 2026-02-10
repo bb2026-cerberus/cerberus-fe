@@ -4,6 +4,34 @@
  */
 
 export interface paths {
+    "/api/todos/{todoId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 상세 조회
+         * @description 할일/과제 ID를 기반으로 상세 정보를 조회합니다.
+         */
+        get: operations["getTodoDetail"];
+        /**
+         * 수정
+         * @description 기존 정보를 수정합니다.
+         */
+        put: operations["updateTodo"];
+        post?: never;
+        /**
+         * 삭제
+         * @description 할일/과제를 삭제합니다.
+         */
+        delete: operations["deleteTodo"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/todos/{todoId}/verification": {
         parameters: {
             query?: never;
@@ -13,18 +41,18 @@ export interface paths {
         };
         get?: never;
         /**
-         * 할일 인증 사진 수정
+         * 공부 인증 사진 수정
          * @description 기존 인증 사진을 새 사진으로 수정
          */
         put: operations["updateVerification"];
         /**
-         * 할일 인증 사진 업로드
-         * @description 할일에 대한 공부 인증 사진을 업로드합니다.
+         * 공부 인증 사진 업로드
+         * @description 인증 사진을 업로드합니다. 업로드 시 자동으로 완료 상태로 전환
          */
         post: operations["uploadVerification"];
         /**
-         * 할일 인증 사진 삭제
-         * @description 할일에 등록된 인증 사진을 삭제하고, 할일 상태를 미완료로 변경
+         * 공부 인증 사진 삭제
+         * @description 인증 사진을 삭제하고 상태를 미완료로 변경
          */
         delete: operations["deleteVerification"];
         options?: never;
@@ -80,7 +108,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/mentors/qnas/answer/{userId}/{userRole}": {
+    "/api/mentors/qnas/answer": {
         parameters: {
             query?: never;
             header?: never;
@@ -132,34 +160,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/assignments/{assignmentId}/verification": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * 과제 인증 사진 수정
-         * @description 기존 인증 사진을 새 사진으로 수정
-         */
-        put: operations["updateVerification_1"];
-        /**
-         * 과제 인증 사진 업로드
-         * @description 과제에 대한 공부 인증 사진을 업로드합니다. 업로드 시 자동으로 완료 상태로 전환
-         */
-        post: operations["uploadVerification_1"];
-        /**
-         * 과제 인증 사진 삭제
-         * @description 과제에 등록된 인증 사진을 삭제하고, 과제 상태를 미완료로 변경
-         */
-        delete: operations["deleteVerification_1"];
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/todos": {
         parameters: {
             query?: never;
@@ -168,14 +168,14 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 할일 목록 조회
-         * @description 전체/기간별/일별 할일 목록을 조회합니다. startDate만 있으면 일별, startDate+endDate는 기간별, 둘 다 없으면 전체 조회
+         * 할일/과제 목록 조회
+         * @description 파라미터에 따라 할일 또는 과제 목록을 조회합니다.
          */
         get: operations["getTodos"];
         put?: never;
         /**
-         * 할일 등록
-         * @description 새로운 할일을 등록합니다. 과목(subject)은 KOREAN, ENGLISH, MATH 중 하나여야 합니다.
+         * 등록 및 임시저장
+         * @description 새로운 할일 또는 과제를 등록합니다. 과제인 경우 학습지 파일을 첨부할 수 있습니다.
          */
         post: operations["createTodo"];
         delete?: never;
@@ -194,8 +194,8 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * 할일 타이머 세션 추가
-         * @description Todo에 타이머 세션(시작~종료)을 추가로 저장합니다.
+         * 타이머 세션 추가
+         * @description 타이머 세션을 추가합니다.
          */
         post: operations["addTimerSession"];
         delete?: never;
@@ -204,31 +204,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/todos/drafts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 할일 임시 저장 목록 조회
-         * @description 임시 저장된 할일 목록을 조회합니다.
-         */
-        get: operations["getDraftTodos"];
-        put?: never;
-        /**
-         * 할일 임시 저장
-         * @description 할일을 임시 저장합니다. 과목(subject)은 KOREAN, ENGLISH, MATH 중 하나여야 합니다.
-         */
-        post: operations["createDraftTodo"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/mentors/assignments": {
+    "/api/notifications/subscribe": {
         parameters: {
             query?: never;
             header?: never;
@@ -238,10 +214,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * 과제 생성 및 임시저장
-         * @description 멘토가 멘티에게 과제를 배정합니다. 다수의 날짜를 지정할 수 있으며, 학습지 파일을 업로드할 수 있습니다. isDraft 필드로 임시저장 여부를 결정합니다.
+         * PWA 푸시 구독 등록
+         * @description 멘티의 Web Push 구독 정보를 저장합니다.
          */
-        post: operations["createAssignment"];
+        post: operations["subscribe"];
         delete?: never;
         options?: never;
         head?: never;
@@ -322,30 +298,10 @@ export interface paths {
         options?: never;
         head?: never;
         /**
-         * 할일 완료 상태 변경
-         * @description 할일의 완료 상태를 토글합니다.
+         * 완료 상태 토글
+         * @description 완료 상태를 토글합니다.
          */
         patch: operations["toggleStatus"];
-        trace?: never;
-    };
-    "/api/todos/{todoId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 할일 상세 조회
-         * @description 할일 ID를 기반으로 상세 정보를 조회합니다.
-         */
-        get: operations["getTodoDetail"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
         trace?: never;
     };
     "/api/todos/weekly": {
@@ -356,8 +312,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 주차별 할일 목록 조회
-         * @description 특정 주차의 월요일 날짜를 기준으로 해당 주(월~일)의 할일 목록을 조회
+         * 주차별 목록 조회
+         * @description 특정 주차의 월요일 날짜를 기준으로 할일/과제 목록을 조회
          */
         get: operations["getTodosWeekly"];
         put?: never;
@@ -377,9 +333,29 @@ export interface paths {
         };
         /**
          * 일별 타이머 조회
-         * @description 특정 날짜의 모든 todo_timer를 모아 총시간/평균시간과 함께 반환합니다.
+         * @description 특정 날짜의 타이머 기록을 조회합니다.
          */
         get: operations["getTimersByDate"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/todos/solutions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 멘티의 솔루션 목록 조회
+         * @description 과제 생성 시 멘티의 보완점 목록을 조회합니다.
+         */
+        get: operations["getMenteeSolutions"];
         put?: never;
         post?: never;
         delete?: never;
@@ -397,7 +373,7 @@ export interface paths {
         };
         /**
          * 학습지/파일 다운로드
-         * @description 제공된 파일 URL을 통해 파일을 다운로드
+         * @description 파일 URL을 통해 파일을 다운로드
          */
         get: operations["downloadFile"];
         put?: never;
@@ -428,7 +404,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/mentors/{mentorId}/mentees/{menteeId}/progress": {
+    "/api/mentors/{mentorId}/mentees": {
         parameters: {
             query?: never;
             header?: never;
@@ -436,10 +412,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 멘티별 진행률 통계 조회
-         * @description 멘토 ID와 멘티 ID 기반으로 멘티의 전체 및 과목별 과제 진행률을 조회합니다.
+         * 담당 멘티 목록 조회
+         * @description 멘토가 담당하는 멘티 목록을 조회합니다.
          */
-        get: operations["getMenteeProgress"];
+        get: operations["getMenteeList"];
         put?: never;
         post?: never;
         delete?: never;
@@ -460,26 +436,6 @@ export interface paths {
          * @description 멘토 ID와 날짜 기반으로 과제, 피드백, Q&A 현황을 조회합니다.
          */
         get: operations["getMentorHomeData"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/mentors/{mentorId}/draft-counts": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 멘토의 임시저장 개수 조회
-         * @description 멘토가 관리하는 멘티들의 과제 및 피드백 임시저장 개수를 조회합니다.
-         */
-        get: operations["getDraftCounts"];
         put?: never;
         post?: never;
         delete?: never;
@@ -568,6 +524,50 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/mentors/weakness-solutions/by-mentee/{mentorId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 멘티의 약점 솔루션 목록 조회
+         * @description 특정 멘티의 솔루션 목록을 조회
+         */
+        get: operations["getWeaknessSolutionsByMentor_1"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/mentors/qnas": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 멘토별 Q&A 목록 조회
+         * @description 멘토가 답변해야 할 또는 답변한 모든 Q&A 목록을 조회합니다.
+         */
+        get: operations["getQnasByMentorId"];
+        put?: never;
+        post?: never;
+        /**
+         * Q&A 삭제
+         * @description 멘토가 등록한 Q&A를 삭제합니다.
+         */
+        delete: operations["deleteQna_1"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/mentors/qnas/{qnaId}": {
         parameters: {
             query?: never;
@@ -588,7 +588,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/mentors/qnas/by-mentor/{mentorId}/{userRole}": {
+    "/api/mentees/{menteeId}/my-page": {
         parameters: {
             query?: never;
             header?: never;
@@ -596,10 +596,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 멘토별 Q&A 목록 조회
-         * @description 멘토가 답변해야 할 또는 답변한 모든 Q&A 목록을 조회합니다.
+         * 멘티 마이페이지
+         * @description 멘티 마이페아지 - 이름, 이번 주 달성률, 과목별 진행도, 최근 피드백 요약을 조회합니다.
          */
-        get: operations["getQnasByMentorId"];
+        get: operations["getMenteeDetails"];
         put?: never;
         post?: never;
         delete?: never;
@@ -608,7 +608,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/mentors/assignments/solutions": {
+    "/api/mentees/weakness-solutions": {
         parameters: {
             query?: never;
             header?: never;
@@ -616,10 +616,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * 멘티의 솔루션 목록 조회
-         * @description 특정 할일(todoId)을 통해 멘티를 식별하고, 해당 멘티의 모든 약점 솔루션과 포함된 파일명을 조회합니다.
+         * 멘티의 약점 솔루션 목록 조회
+         * @description 멘티의 솔루션 목록을 조회합니다.
          */
-        get: operations["getMenteeSolutions"];
+        get: operations["getWeaknessSolutionsByMentee"];
         put?: never;
         post?: never;
         delete?: never;
@@ -668,6 +668,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/feedbacks/weekly/by-subject": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 주간 과목별 피드백 목록 조회
+         * @description 입력된 날짜가 포함된 주차의 과목별 주간 피드백 요약과 피드백 목록을 조회합니다.
+         */
+        get: operations["getWeeklyFeedbacksBySubject"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/feedbacks/drafts/{mentorId}": {
         parameters: {
             query?: never;
@@ -683,106 +703,6 @@ export interface paths {
         put?: never;
         post?: never;
         delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/assignments": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 과제 목록 조회
-         * @description 전체/기간별/일별 과제 목록을 조회합니다. startDate만 있으면 일별, startDate+endDate는 기간별, 둘 다 없으면 전체 조회
-         */
-        get: operations["getAssignments"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/assignments/{assignmentId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 과제 상세 조회
-         * @description 과제 ID를 기반으로 상세 정보를 조회
-         */
-        get: operations["getAssignmentDetail"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/assignments/weekly": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 주차별 과제 목록 조회
-         * @description 특정 주차의 월요일 날짜를 기준으로 해당 주(월~일)의 과제 목록을 조회
-         */
-        get: operations["getAssignmentsWeekly"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/assignments/download": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 학습지/파일 다운로드
-         * @description 제공된 파일 URL을 통해 파일을 다운로드
-         */
-        get: operations["downloadFile_1"];
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/api/todos/drafts/{todoId}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * 할일 임시 저장 삭제
-         * @description 임시 저장된 할일을 삭제합니다.
-         */
-        delete: operations["deleteDraftTodo"];
         options?: never;
         head?: never;
         patch?: never;
@@ -832,6 +752,61 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** @description 할일/과제 저장 요청 DTO */
+        TodoSaveRequestDto: {
+            /**
+             * Format: int64
+             * @description 멘티 ID
+             * @example 2
+             */
+            menteeId?: number;
+            /**
+             * @description 과목
+             * @example KOREAN
+             * @enum {string}
+             */
+            subject?: "KOREAN" | "ENGLISH" | "MATH";
+            /**
+             * @description 제목
+             * @example 수학 문제집 20p 풀기
+             */
+            title?: string;
+            /**
+             * @description 내용
+             * @example 수학의 정석 미적분 20페이지부터 25페이지까지 풀고 채점하기
+             */
+            content?: string;
+            /**
+             * @description 날짜 목록 (할일은 보통 1개, 과제는 여러 개 가능)
+             * @example 2026-02-08
+             */
+            dates?: string[];
+            /**
+             * @description 시간 (HH:mm)
+             * @example 14:30
+             */
+            scheduledTime?: string;
+            /**
+             * Format: int64
+             * @description 솔루션 ID
+             * @example 1
+             */
+            solutionId?: number;
+            /**
+             * @description 과제 여부 (Y/N)
+             * @example N
+             */
+            assignYn?: string;
+            /**
+             * @description 임시저장 여부 (Y/N)
+             * @example N
+             */
+            draftYn?: string;
+        };
+        CommonResponseVoid: {
+            success?: boolean;
+            data?: unknown;
+        };
         CommonResponseVerificationResponseDto: {
             success?: boolean;
             data?: components["schemas"]["VerificationResponseDto"];
@@ -953,58 +928,6 @@ export interface components {
              */
             updateDatetime?: string;
         };
-        /** @description 임시 저장할 할일 정보 */
-        TodoCreateRequestDto: {
-            /**
-             * Format: int64
-             * @description 멘티 ID
-             * @example 2
-             */
-            menteeId?: number;
-            /**
-             * @description 과목
-             * @example KOREAN
-             * @enum {string}
-             */
-            subject?: "KOREAN" | "ENGLISH" | "MATH";
-            /**
-             * @description 할일 제목
-             * @example 수학 문제집 20p 풀기
-             */
-            title?: string;
-            /**
-             * @description 할일 내용
-             * @example 수학의 정석 미적분 20페이지부터 25페이지까지 풀고 채점하기
-             */
-            content?: string;
-            /**
-             * Format: date
-             * @description 할일 날짜 (YYYY-MM-DD)
-             * @example 2026-02-08
-             */
-            date?: string;
-            /**
-             * Format: int64
-             * @description 솔루션 ID
-             * @example 1
-             */
-            solutionId?: number;
-        };
-        CommonResponseTodoCreateResponseDto: {
-            success?: boolean;
-            data?: components["schemas"]["TodoCreateResponseDto"];
-        };
-        TodoCreateResponseDto: {
-            /** Format: int64 */
-            todoId?: number;
-            title?: string;
-            content?: string;
-            subject?: string;
-            solution?: string;
-            /** Format: date */
-            date?: string;
-            completed?: boolean;
-        };
         TodoTimerSessionCreateRequestDto: {
             /**
              * Format: date-time
@@ -1017,9 +940,12 @@ export interface components {
              */
             endAt?: string;
         };
-        CommonResponseVoid: {
-            success?: boolean;
-            data?: unknown;
+        PushSubscribeRequestDto: {
+            /** Format: int64 */
+            menteeId: number;
+            endpoint: string;
+            p256dh: string;
+            auth: string;
         };
         WeeklyReportCreateRequestDto: {
             /** Format: int64 */
@@ -1041,20 +967,6 @@ export interface components {
             subject: string;
             content: string;
         };
-        MentorAssignmentCreateRequestDto: {
-            /** Format: int64 */
-            menteeId?: number;
-            dates?: string[];
-            /** @enum {string} */
-            subject?: "KOREAN" | "ENGLISH" | "MATH";
-            title?: string;
-            content?: string;
-            /** Format: int64 */
-            solutionId?: number;
-            /** Format: int64 */
-            goalId?: number;
-            isDraft?: boolean;
-        };
         LoginRequestDto: {
             /**
              * @description 사용자 이름
@@ -1075,6 +987,7 @@ export interface components {
             /** Format: int64 */
             id?: number;
             role?: string;
+            name?: string;
         };
         FeedbackSaveRequestDto: {
             /** Format: int64 */
@@ -1103,11 +1016,17 @@ export interface components {
             /** Format: int64 */
             todoId?: number;
             title?: string;
+            content?: string;
             subject?: string;
             solution?: string;
             /** Format: date */
             date?: string;
             completed?: boolean;
+            /** Format: int64 */
+            menteeId?: number;
+            menteeName?: string;
+            assignYn?: string;
+            draftYn?: string;
         };
         CommonResponseTodoDetailResponseDto: {
             success?: boolean;
@@ -1121,7 +1040,7 @@ export interface components {
             draftYn?: string;
             completeYn?: string;
         };
-        /** @description Todo 상세 응답 DTO */
+        /** @description 할일/과제 상세 응답 DTO */
         TodoDetailResponseDto: {
             /**
              * Format: int64
@@ -1130,12 +1049,12 @@ export interface components {
              */
             todoId?: number;
             /**
-             * @description 할일 제목
+             * @description 제목
              * @example 알고리즘 문제 풀이
              */
             title?: string;
             /**
-             * @description 할일 내용
+             * @description 내용
              * @example 백준 1234번 문제 풀이 및 제출
              */
             content?: string;
@@ -1145,31 +1064,58 @@ export interface components {
              */
             solution?: string;
             /**
+             * Format: int64
+             * @description 보완점 ID
+             * @example 1
+             */
+            solutionId?: number;
+            /**
              * Format: date
-             * @description 할일 날짜
+             * @description 날짜
              * @example 2024-01-01
              */
             date?: string;
             /**
-             * @description 할일 과목
+             * @description 시간
+             * @example 14:30
+             */
+            scheduledTime?: string;
+            /**
+             * @description 과목
              * @example 수학
              */
             subject?: string;
             /**
-             * @description 할일 완료 여부
+             * Format: int64
+             * @description 멘티 ID
+             * @example 1
+             */
+            menteeId?: number;
+            /**
+             * @description 완료 여부
              * @example true
              */
-            todoCompleted?: boolean;
+            completed?: boolean;
             /**
              * @description 피드백 작성완료 여부
              * @example false
              */
             feedbackCompleted?: boolean;
+            /**
+             * @description 과제 여부 (Y/N)
+             * @example N
+             */
+            assignYn?: string;
+            /**
+             * @description 임시저장 여부 (Y/N)
+             * @example N
+             */
+            draftYn?: string;
             /** @description 첨부된 학습지 파일 목록 */
             workbooks?: components["schemas"]["FileInfo"][];
             /** @description 첨부된 학습 인증 이미지 목록 */
             studyVerificationImages?: components["schemas"]["FileInfo"][];
-            /** @description 할일에 대한 피드백 정보 */
+            /** @description 피드백 정보 */
             feedback?: components["schemas"]["FeedbackInfo"];
         };
         CommonResponseTodoTimerDailyResponseDto: {
@@ -1203,6 +1149,17 @@ export interface components {
             totalMinutes?: number;
             sessions?: components["schemas"]["TimerSession"][];
         };
+        CommonResponseListMentorSolutionResponseDto: {
+            success?: boolean;
+            data?: components["schemas"]["MentorSolutionResponseDto"][];
+        };
+        MentorSolutionResponseDto: {
+            /** Format: int64 */
+            solutionId?: number;
+            solutionContent?: string;
+            fileName?: string;
+            fileUrl?: string;
+        };
         CommonResponseNotificationListResponseDto: {
             success?: boolean;
             data?: components["schemas"]["NotificationListResponseDto"];
@@ -1222,22 +1179,45 @@ export interface components {
         NotificationListResponseDto: {
             content?: components["schemas"]["NotificationDto"][];
         };
-        CommonResponseMenteeProgressResponseDto: {
+        CommonResponseMenteeListResponseDto: {
             success?: boolean;
-            data?: components["schemas"]["MenteeProgressResponseDto"];
+            data?: components["schemas"]["MenteeListResponseDto"];
         };
-        MenteeProgressResponseDto: {
+        MenteeDetailItem: {
             /** Format: int64 */
             menteeId?: number;
             menteeName?: string;
-            /** Format: double */
-            overallProgress?: number;
-            subjectProgressList?: components["schemas"]["SubjectProgressDto"][];
+            details?: components["schemas"]["MenteeDetailsResponseDto"];
+        };
+        MenteeDetailsResponseDto: {
+            /** Format: int64 */
+            menteeId?: number;
+            menteeName?: string;
+            todayStatus?: components["schemas"]["TodayStatus"];
+            weeklyAchievement?: components["schemas"]["WeeklyAchievement"];
+            subjectAchievement?: components["schemas"]["SubjectProgressDto"][];
+            weeklyFeedbackSummary?: string;
+        };
+        MenteeListResponseDto: {
+            mentees?: components["schemas"]["MenteeDetailItem"][];
         };
         SubjectProgressDto: {
             subject?: string;
             /** Format: double */
             progress?: number;
+        };
+        TodayStatus: {
+            /** Format: int32 */
+            completedCount?: number;
+            /** Format: int32 */
+            totalCount?: number;
+            unsubmittedTitles?: string[];
+        };
+        WeeklyAchievement: {
+            /** Format: double */
+            mentorAssignmentRate?: number;
+            /** Format: double */
+            generalTodoRate?: number;
         };
         CommonResponseMentorHomeResponseDto: {
             success?: boolean;
@@ -1252,6 +1232,7 @@ export interface components {
             /** Format: int32 */
             totalCount?: number;
             unsubmittedTitles?: string[];
+            pendingLabel?: string;
             /** Format: double */
             progressRate?: number;
         };
@@ -1290,31 +1271,10 @@ export interface components {
             /** Format: int64 */
             menteeId?: number;
             menteeName?: string;
+            question?: string;
             status?: string;
             /** Format: date-time */
             createDatetime?: string;
-        };
-        CommonResponseDraftCountResponseDto: {
-            success?: boolean;
-            data?: components["schemas"]["DraftCountResponseDto"];
-        };
-        /** @description 임시저장 개수 정보 */
-        DraftCountResponseDto: {
-            /**
-             * Format: int64
-             * @description 과제 임시저장 개수
-             */
-            assignmentDraftCount?: number;
-            /**
-             * Format: int64
-             * @description 피드백 임시저장 개수
-             */
-            feedbackDraftCount?: number;
-            /**
-             * Format: int64
-             * @description 전체 임시저장 개수 합계
-             */
-            totalDraftCount?: number;
         };
         CommonResponseListWeeklyReportResponseDto: {
             success?: boolean;
@@ -1355,16 +1315,16 @@ export interface components {
             success?: boolean;
             data?: components["schemas"]["QnaResponseDto"][];
         };
-        CommonResponseListMentorSolutionResponseDto: {
+        CommonResponseMenteeMypageResponseDto: {
             success?: boolean;
-            data?: components["schemas"]["MentorSolutionResponseDto"][];
+            data?: components["schemas"]["MenteeMypageResponseDto"];
         };
-        MentorSolutionResponseDto: {
+        MenteeMypageResponseDto: {
             /** Format: int64 */
-            solutionId?: number;
-            solutionContent?: string;
-            fileName?: string;
-            fileUrl?: string;
+            menteeId?: number;
+            menteeName?: string;
+            weeklyAchievement?: components["schemas"]["WeeklyAchievement"];
+            subjectAchievement?: components["schemas"]["SubjectProgressDto"][];
         };
         CommonResponseFeedbackDetailResponseDto: {
             success?: boolean;
@@ -1417,83 +1377,22 @@ export interface components {
             verificationImages?: string[];
             feedback?: components["schemas"]["FeedbackDetailDto"];
         };
+        CommonResponseFeedbackWeeklyBySubjectResponseDto: {
+            success?: boolean;
+            data?: components["schemas"]["FeedbackWeeklyBySubjectResponseDto"];
+        };
+        FeedbackWeeklyBySubjectResponseDto: {
+            weekInfo?: string;
+            /** Format: date */
+            mondayDate?: string;
+            summary?: string;
+            feedback?: {
+                [key: string]: components["schemas"]["FeedbackDetailDto"][];
+            };
+        };
         CommonResponseListTodoWithFeedbackDto: {
             success?: boolean;
             data?: components["schemas"]["TodoWithFeedbackDto"][];
-        };
-        AssignmentListResponseDto: {
-            /** Format: int64 */
-            assignmentId?: number;
-            title?: string;
-            subject?: string;
-            solution?: string;
-            /** Format: date */
-            date?: string;
-            completed?: boolean;
-        };
-        CommonResponseListGroupedAssignmentsResponseDto: {
-            success?: boolean;
-            data?: components["schemas"]["GroupedAssignmentsResponseDto"][];
-        };
-        GroupedAssignmentsResponseDto: {
-            /** Format: date */
-            date?: string;
-            assignments?: components["schemas"]["AssignmentListResponseDto"][];
-        };
-        /** @description 과제 상세 응답 DTO */
-        AssignmentDetailResponseDto: {
-            /**
-             * Format: int64
-             * @description 과제 ID
-             * @example 1
-             */
-            assignmentId?: number;
-            /**
-             * @description 과제 제목
-             * @example Spring Boot 과제
-             */
-            title?: string;
-            /**
-             * @description 과제 내용
-             * @example 게시판 CRUD 구현하기
-             */
-            content?: string;
-            /**
-             * @description 보완점
-             * @example 첨부 파일 또는 추가 설명
-             */
-            solution?: string;
-            /**
-             * Format: date
-             * @description 과제 날짜
-             * @example 2024-01-01
-             */
-            date?: string;
-            /**
-             * @description 과제 과목
-             * @example 백엔드
-             */
-            subject?: string;
-            /**
-             * @description 과제 완료 여부
-             * @example true
-             */
-            assignmentCompleted?: boolean;
-            /**
-             * @description 피드백 작성완료 여부
-             * @example false
-             */
-            feedbackCompleted?: boolean;
-            /** @description 첨부된 학습지 파일 목록 */
-            workbooks?: components["schemas"]["FileInfo"][];
-            /** @description 첨부된 학습 인증 이미지 목록 */
-            studyVerificationImages?: components["schemas"]["FileInfo"][];
-            /** @description 과제에 대한 피드백 정보 */
-            feedback?: components["schemas"]["FeedbackInfo"];
-        };
-        CommonResponseAssignmentDetailResponseDto: {
-            success?: boolean;
-            data?: components["schemas"]["AssignmentDetailResponseDto"];
         };
     };
     responses: never;
@@ -1504,15 +1403,33 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    updateVerification: {
+    getTodoDetail: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
+                todoId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseTodoDetailResponseDto"];
+                };
+            };
+        };
+    };
+    updateTodo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
                 todoId: number;
             };
             cookie?: never;
@@ -1520,7 +1437,57 @@ export interface operations {
         requestBody?: {
             content: {
                 "multipart/form-data": {
-                    /** @description 새로운 인증 사진 파일 (여러 개 가능) */
+                    request: components["schemas"]["TodoSaveRequestDto"];
+                    workbooks?: string[];
+                };
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseVoid"];
+                };
+            };
+        };
+    };
+    deleteTodo: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                todoId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseVoid"];
+                };
+            };
+        };
+    };
+    updateVerification: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                todoId: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                "multipart/form-data": {
                     images: string[];
                 };
             };
@@ -1542,10 +1509,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
                 todoId: number;
             };
             cookie?: never;
@@ -1553,7 +1516,6 @@ export interface operations {
         requestBody?: {
             content: {
                 "multipart/form-data": {
-                    /** @description 인증 사진 파일 (여러 개 가능) */
                     images: string[];
                 };
             };
@@ -1575,10 +1537,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
                 todoId: number;
             };
             cookie?: never;
@@ -1712,10 +1670,7 @@ export interface operations {
         parameters: {
             query?: never;
             header?: never;
-            path: {
-                userId: number;
-                userRole: string;
-            };
+            path?: never;
             cookie?: never;
         };
         requestBody: {
@@ -1761,7 +1716,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CommonResponseQnaResponseDto"];
+                    "*/*": components["schemas"]["CommonResponseListQnaResponseDto"];
                 };
             };
         };
@@ -1873,116 +1828,28 @@ export interface operations {
             };
         };
     };
-    updateVerification_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 과제 ID
-                 * @example 1
-                 */
-                assignmentId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /** @description 새로운 인증 사진 파일 (여러 개 가능) */
-                    images: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseVerificationResponseDto"];
-                };
-            };
-        };
-    };
-    uploadVerification_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 과제 ID
-                 * @example 1
-                 */
-                assignmentId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    /** @description 인증 사진 파일 (여러 개 가능) */
-                    images: string[];
-                };
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseVerificationResponseDto"];
-                };
-            };
-        };
-    };
-    deleteVerification_1: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 과제 ID
-                 * @example 1
-                 */
-                assignmentId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseVerificationResponseDto"];
-                };
-            };
-        };
-    };
     getTodos: {
         parameters: {
             query: {
                 /**
-                 * @description 멘티 ID
-                 * @example 2
+                 * @description 멘티 ID 목록
+                 * @example 2,3
                  */
-                menteeId: number;
-                /**
-                 * @description 시작 날짜 (YYYY-MM-DD), startDate만 있으면 일별, startDate+endDate는 기간별, 둘 다 없으면 전체 조회
-                 * @example 2026-02-01
-                 */
+                menteeId: number[];
+                /** @description 시작 날짜 (YYYY-MM-DD) */
                 startDate?: string;
-                /**
-                 * @description 종료 날짜 (YYYY-MM-DD)
-                 * @example 2026-02-20
-                 */
+                /** @description 종료 날짜 (YYYY-MM-DD) */
                 endDate?: string;
+                /**
+                 * @description 과제 여부 (Y/N)
+                 * @example N
+                 */
+                assignYn?: string;
+                /**
+                 * @description 임시저장 여부 (Y/N)
+                 * @example N
+                 */
+                draftYn?: string;
             };
             header?: never;
             path?: never;
@@ -2008,9 +1875,12 @@ export interface operations {
             path?: never;
             cookie?: never;
         };
-        requestBody: {
+        requestBody?: {
             content: {
-                "application/json": components["schemas"]["TodoCreateRequestDto"];
+                "multipart/form-data": {
+                    request: components["schemas"]["TodoSaveRequestDto"];
+                    workbooks?: string[];
+                };
             };
         };
         responses: {
@@ -2020,7 +1890,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CommonResponseTodoCreateResponseDto"];
+                    "*/*": components["schemas"]["CommonResponseVoid"];
                 };
             };
         };
@@ -2051,33 +1921,7 @@ export interface operations {
             };
         };
     };
-    getDraftTodos: {
-        parameters: {
-            query: {
-                /**
-                 * @description 멘티 ID
-                 * @example 2
-                 */
-                menteeId: number;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseListGroupedTodosResponseDto"];
-                };
-            };
-        };
-    };
-    createDraftTodo: {
+    subscribe: {
         parameters: {
             query?: never;
             header?: never;
@@ -2086,34 +1930,7 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["TodoCreateRequestDto"];
-            };
-        };
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseTodoCreateResponseDto"];
-                };
-            };
-        };
-    };
-    createAssignment: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: {
-            content: {
-                "multipart/form-data": {
-                    request: components["schemas"]["MentorAssignmentCreateRequestDto"];
-                    workbooks?: string[];
-                };
+                "application/json": components["schemas"]["PushSubscribeRequestDto"];
             };
         };
         responses: {
@@ -2203,10 +2020,6 @@ export interface operations {
             query?: never;
             header?: never;
             path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
                 todoId: number;
             };
             cookie?: never;
@@ -2224,45 +2037,26 @@ export interface operations {
             };
         };
     };
-    getTodoDetail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
-                todoId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseTodoDetailResponseDto"];
-                };
-            };
-        };
-    };
     getTodosWeekly: {
         parameters: {
             query: {
                 /**
-                 * @description 멘티 ID
-                 * @example 2
+                 * @description 멘티 ID 목록
+                 * @example 2,3
                  */
-                menteeId: number;
-                /**
-                 * @description 주차의 월요일 날짜 (YYYY-MM-DD)
-                 * @example 2026-02-02
-                 */
+                menteeId: number[];
+                /** @description 월요일 날짜 (YYYY-MM-DD) */
                 mondayDate: string;
+                /**
+                 * @description 과제 여부 (Y/N)
+                 * @example N
+                 */
+                assignYn?: string;
+                /**
+                 * @description 임시저장 여부 (Y/N)
+                 * @example N
+                 */
+                draftYn?: string;
             };
             header?: never;
             path?: never;
@@ -2284,15 +2078,7 @@ export interface operations {
     getTimersByDate: {
         parameters: {
             query: {
-                /**
-                 * @description 멘티 ID
-                 * @example 2
-                 */
                 menteeId: number;
-                /**
-                 * @description 조회할 날짜 (YYYY-MM-DD)
-                 * @example 2026-02-03
-                 */
                 date: string;
             };
             header?: never;
@@ -2312,10 +2098,31 @@ export interface operations {
             };
         };
     };
+    getMenteeSolutions: {
+        parameters: {
+            query: {
+                todoId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseListMentorSolutionResponseDto"];
+                };
+            };
+        };
+    };
     downloadFile: {
         parameters: {
             query: {
-                /** @description 파일 URL (예: /solutions/국어/1/file1.pdf) */
                 fileUrl: string;
             };
             header?: never;
@@ -2357,13 +2164,12 @@ export interface operations {
             };
         };
     };
-    getMenteeProgress: {
+    getMenteeList: {
         parameters: {
             query?: never;
             header?: never;
             path: {
                 mentorId: number;
-                menteeId: number;
             };
             cookie?: never;
         };
@@ -2375,7 +2181,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CommonResponseMenteeProgressResponseDto"];
+                    "*/*": components["schemas"]["CommonResponseMenteeListResponseDto"];
                 };
             };
         };
@@ -2400,28 +2206,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CommonResponseMentorHomeResponseDto"];
-                };
-            };
-        };
-    };
-    getDraftCounts: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                mentorId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseDraftCountResponseDto"];
                 };
             };
         };
@@ -2519,6 +2303,83 @@ export interface operations {
             };
         };
     };
+    getWeaknessSolutionsByMentor_1: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseListSolutionResponseDto"];
+                };
+            };
+        };
+    };
+    getQnasByMentorId: {
+        parameters: {
+            query: {
+                /**
+                 * @description 멘토 ID
+                 * @example 2
+                 */
+                mentorId: number;
+                /**
+                 * @description 조회 날짜 (YYYY-MM-DD)
+                 * @example 2026-02-09
+                 */
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseListQnaResponseDto"];
+                };
+            };
+        };
+    };
+    deleteQna_1: {
+        parameters: {
+            query: {
+                /**
+                 * @description Q&A ID
+                 * @example 1
+                 */
+                qnaId: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseVoid"];
+                };
+            };
+        };
+    };
     getQnaDetail: {
         parameters: {
             query?: never;
@@ -2541,13 +2402,12 @@ export interface operations {
             };
         };
     };
-    getQnasByMentorId: {
+    getMenteeDetails: {
         parameters: {
             query?: never;
             header?: never;
             path: {
-                mentorId: number;
-                userRole: string;
+                menteeId: number;
             };
             cookie?: never;
         };
@@ -2559,19 +2419,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CommonResponseListQnaResponseDto"];
+                    "*/*": components["schemas"]["CommonResponseMenteeMypageResponseDto"];
                 };
             };
         };
     };
-    getMenteeSolutions: {
+    getWeaknessSolutionsByMentee: {
         parameters: {
             query: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
-                todoId: number;
+                menteeId: number;
             };
             header?: never;
             path?: never;
@@ -2585,7 +2441,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["CommonResponseListMentorSolutionResponseDto"];
+                    "*/*": components["schemas"]["CommonResponseListSolutionResponseDto"];
                 };
             };
         };
@@ -2637,6 +2493,29 @@ export interface operations {
             };
         };
     };
+    getWeeklyFeedbacksBySubject: {
+        parameters: {
+            query: {
+                menteeId: number;
+                date: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "*/*": components["schemas"]["CommonResponseFeedbackWeeklyBySubjectResponseDto"];
+                };
+            };
+        };
+    };
     getDraftFeedbacks: {
         parameters: {
             query?: never;
@@ -2655,148 +2534,6 @@ export interface operations {
                 };
                 content: {
                     "*/*": components["schemas"]["CommonResponseListTodoWithFeedbackDto"];
-                };
-            };
-        };
-    };
-    getAssignments: {
-        parameters: {
-            query: {
-                /**
-                 * @description 멘티 ID
-                 * @example 2
-                 */
-                menteeId: number;
-                /**
-                 * @description 시작 날짜 (YYYY-MM-DD), startDate만 있으면 일별, startDate+endDate는 기간별, 둘 다 없으면 전체 조회
-                 * @example 2026-02-01
-                 */
-                startDate?: string;
-                /**
-                 * @description 종료 날짜 (YYYY-MM-DD)
-                 * @example 2026-02-20
-                 */
-                endDate?: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseListGroupedAssignmentsResponseDto"];
-                };
-            };
-        };
-    };
-    getAssignmentDetail: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 과제 ID
-                 * @example 1
-                 */
-                assignmentId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseAssignmentDetailResponseDto"];
-                };
-            };
-        };
-    };
-    getAssignmentsWeekly: {
-        parameters: {
-            query: {
-                /**
-                 * @description 멘티 ID
-                 * @example 2
-                 */
-                menteeId?: number;
-                /**
-                 * @description 주차의 월요일 날짜 (YYYY-MM-DD)
-                 * @example 2026-02-02
-                 */
-                mondayDate: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseListGroupedAssignmentsResponseDto"];
-                };
-            };
-        };
-    };
-    downloadFile_1: {
-        parameters: {
-            query: {
-                /** @description 파일 URL (예: /solutions/국어/1/file1.pdf) */
-                fileUrl: string;
-            };
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": string;
-                };
-            };
-        };
-    };
-    deleteDraftTodo: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                /**
-                 * @description 할일 ID
-                 * @example 1
-                 */
-                todoId: number;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description OK */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "*/*": components["schemas"]["CommonResponseVoid"];
                 };
             };
         };

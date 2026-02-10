@@ -26,6 +26,13 @@ const getWeeklyFeedbacks = (query: OperationQuery<'getWeeklyFeedbacks'>) =>
     params: query,
   })
 
+const getWeeklyFeedbacksBySubject = (query: OperationQuery<'getWeeklyFeedbacksBySubject'>) =>
+  request<OperationResponse<'getWeeklyFeedbacksBySubject'>>({
+    method: 'GET',
+    url: '/feedbacks/weekly/by-subject',
+    params: query,
+  })
+
 const getDraftFeedbacks = (path: OperationPath<'getDraftFeedbacks'>) =>
   request<OperationResponse<'getDraftFeedbacks'>>({
     method: 'GET',
@@ -42,6 +49,7 @@ const feedbacksApi = {
   saveFeedback,
   getFeedbackDetail,
   getWeeklyFeedbacks,
+  getWeeklyFeedbacksBySubject,
   getDraftFeedbacks,
   triggerImageAnalysis,
 }
