@@ -2,36 +2,39 @@ import { request } from '@/services/api/http'
 import type {
   OperationPath,
   OperationQuery,
-  OperationRequestBody,
   OperationResponse,
 } from '@/services/api/types'
 
 const getWeaknessSolutionsByMentor = (
   path: OperationPath<'getWeaknessSolutionsByMentor'>,
+  query?: OperationQuery<'getWeaknessSolutionsByMentor'>,
 ) =>
   request<OperationResponse<'getWeaknessSolutionsByMentor'>>({
     method: 'GET',
     url: `/mentors/weakness-solutions/by-mentor/${path.mentorId}`,
+    params: query,
   })
 
 const createWeaknessSolution = (
   path: OperationPath<'createWeaknessSolution'>,
-  payload: OperationRequestBody<'createWeaknessSolution'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'createWeaknessSolution'>>({
     method: 'POST',
     url: `/mentors/weakness-solutions/${path.mentorId}`,
     data: payload,
+    headers: { 'Content-Type': undefined },
   })
 
 const updateWeaknessSolution = (
   path: OperationPath<'updateWeaknessSolution'>,
-  payload: OperationRequestBody<'updateWeaknessSolution'>,
+  payload: FormData,
 ) =>
   request<OperationResponse<'updateWeaknessSolution'>>({
     method: 'PUT',
     url: `/mentors/weakness-solutions/${path.mentorId}`,
     data: payload,
+    headers: { 'Content-Type': undefined },
   })
 
 const deleteWeaknessSolution = (

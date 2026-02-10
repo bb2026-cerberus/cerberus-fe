@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import * as React from 'react'
 
 import FormSection from '@/components/common/FormSection'
 import FormSectionGroup from '@/components/common/FormSectionGroup'
@@ -12,47 +12,82 @@ import ActionButtons from '@/components/common/ActionButtons'
 import FormTextInput from '@/components/common/FormTextInput'
 import FloatingActionButton from '@/components/common/FloatingActionButton'
 import { Text } from '@/components/common/Text'
+import { Skeleton } from '@/components/ui/skeleton'
+import solutionsApi from '@/services/api/solutions'
+import mentorMenteesApi from '@/services/api/mentor-mentees'
+import useApiRequest from '@/hooks/useApiRequest'
+import useAuth from '@/store/auth/useAuth'
+
+type MenteeOption = {
+  menteeId: number
+  menteeName: string
+}
 
 function MentorSolutions() {
-  const initialItems = useMemo<MentorSolutionItem[]>(
-    () => [
+  const { userId } = useAuth()
+  const { run } = useApiRequest()
+  const [menteeOptions, setMenteeOptions] = React.useState<MenteeOption[]>([])
+  const [selectedMenteeName, setSelectedMenteeName] = React.useState('')
+  const [solutionItems, setSolutionItems] = React.useState<MentorSolutionItem[]>([])
+  const [loading, setLoading] = React.useState(true)
+  const [editingId, setEditingId] = React.useState<string | null>(null)
+  const [modalOpen, setModalOpen] = React.useState(false)
+  const [draftImprovement, setDraftImprovement] = React.useState('')
+  const [draftSubject, setDraftSubject] = React.useState('국어')
+  const [draftAttachment, setDraftAttachment] = React.useState('')
+
+  const selectedMentee = menteeOptions.find((m) => m.menteeName === selectedMenteeName)
+
+  // 멘티 목록 로드
+  React.useEffect(() => {
+    if (!userId) return
+
+    run(
+      () => mentorMenteesApi.getMentorMentees(userId),
       {
-        id: 's-1',
-        improvement: '문법 강의/오답노트',
-        subject: '국어',
-        attachment: '언어(문법) 오답노트.pdf',
-        showActions: true,
+        errorMessage: '멘티 목록을 불러오지 못했어요.',
+        onSuccess: (response) => {
+          const list = response.data.mentees.map((m) => ({
+            menteeId: m.menteeId,
+            menteeName: m.menteeName,
+          }))
+          setMenteeOptions(list)
+          if (list.length > 0) setSelectedMenteeName(list[0].menteeName)
+        },
       },
+    )
+  }, [userId, run])
+
+  // 솔루션 목록 로드
+  React.useEffect(() => {
+    if (!userId) return
+
+    setLoading(true)
+    run(
+      () =>
+        solutionsApi.getWeaknessSolutionsByMentor(
+          { mentorId: userId },
+          selectedMentee ? { menteeId: selectedMentee.menteeId } : undefined,
+        ),
       {
-        id: 's-2',
-        improvement: '문법 복습지',
-        subject: '국어',
-        attachment: '문법 개념 복습지.pdf',
-        showActions: true,
+        errorMessage: '솔루션 목록을 불러오지 못했어요.',
+        onSuccess: (response) => {
+          const items: MentorSolutionItem[] = (response.data ?? []).map((item) => ({
+            id: String(item.id),
+            improvement: item.solutionContent ?? '',
+            subject: item.subject ?? '',
+            attachment: item.solutionFile?.fileName ?? '-',
+            showActions: true,
+          }))
+          setSolutionItems(items)
+        },
       },
-      {
-        id: 's-3',
-        improvement: '문학 문풀',
-        subject: '국어',
-        attachment: '-',
-        showActions: true,
-      },
-      {
-        id: 's-4',
-        improvement: '유형별 문제',
-        subject: '수학',
-        attachment: '수학 오답노트 양식.pdf',
-        showActions: true,
-      },
-    ],
-    [],
-  )
-  const [solutionItems, setSolutionItems] = useState(initialItems)
-  const [editingId, setEditingId] = useState<string | null>(null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const [draftImprovement, setDraftImprovement] = useState('')
-  const [draftSubject, setDraftSubject] = useState('국어')
-  const [draftAttachment, setDraftAttachment] = useState('')
+    ).finally(() => setLoading(false))
+  }, [userId, selectedMentee?.menteeId, run])
+
+  const handleMenteeChange = (name: string) => {
+    setSelectedMenteeName(name)
+  }
 
   const handleEditItem = (id: string) => {
     const target = solutionItems.find((item) => item.id === id)
@@ -64,27 +99,112 @@ function MentorSolutions() {
     setModalOpen(true)
   }
 
-  const handleSaveDraft = () => {
-    if (!editingId) return
-    setSolutionItems((prev) =>
-      prev.map((item) =>
-        item.id === editingId
-          ? {
-            ...item,
-            improvement: draftImprovement,
+  const isNewItem = (id: string) => id.startsWith('s-')
+
+  const handleSaveDraft = async () => {
+    if (!editingId || !userId) return
+
+    if (isNewItem(editingId)) {
+      if (!selectedMentee) return
+
+      const formData = new FormData()
+      formData.append(
+        'request',
+        new Blob(
+          [JSON.stringify({
+            menteeId: selectedMentee.menteeId,
+            mentorId: userId,
             subject: draftSubject,
-            attachment: draftAttachment,
-          }
-          : item,
-      ),
-    )
-    setModalOpen(false)
-    setEditingId(null)
+            content: draftImprovement,
+          })],
+          { type: 'application/json' },
+        ),
+      )
+
+      await run(
+        () => solutionsApi.createWeaknessSolution({ mentorId: userId }, formData),
+        {
+          useOverlay: true,
+          overlayMessage: '등록 중...',
+          errorMessage: '등록에 실패했어요.',
+          onSuccess: (response) => {
+            const created = response.data
+            if (created) {
+              setSolutionItems((prev) =>
+                prev.map((item) =>
+                  item.id === editingId
+                    ? {
+                      ...item,
+                      id: String(created.id),
+                      improvement: created.solutionContent ?? draftImprovement,
+                      subject: created.subject ?? draftSubject,
+                      attachment: created.solutionFile?.fileName ?? '-',
+                    }
+                    : item,
+                ),
+              )
+            }
+            setModalOpen(false)
+            setEditingId(null)
+          },
+        },
+      )
+    } else {
+      const solutionId = Number(editingId)
+      const formData = new FormData()
+      formData.append(
+        'request',
+        new Blob(
+          [JSON.stringify({ solutionId, subject: draftSubject, content: draftImprovement })],
+          { type: 'application/json' },
+        ),
+      )
+
+      await run(
+        () => solutionsApi.updateWeaknessSolution({ mentorId: userId }, formData),
+        {
+          useOverlay: true,
+          overlayMessage: '수정 중...',
+          errorMessage: '수정에 실패했어요.',
+          onSuccess: (response) => {
+            const updated = response.data
+            if (updated) {
+              setSolutionItems((prev) =>
+                prev.map((item) =>
+                  item.id === editingId
+                    ? {
+                      ...item,
+                      improvement: updated.solutionContent ?? draftImprovement,
+                      subject: updated.subject ?? draftSubject,
+                      attachment: updated.solutionFile?.fileName ?? draftAttachment,
+                    }
+                    : item,
+                ),
+              )
+            }
+            setModalOpen(false)
+            setEditingId(null)
+          },
+        },
+      )
+    }
   }
 
-  const handleDeleteItem = (id: string) => {
-    setSolutionItems((prev) => prev.filter((item) => item.id !== id))
-    if (editingId === id) setEditingId(null)
+  const handleDeleteItem = async (id: string) => {
+    if (!userId) return
+
+    await run(
+      () => solutionsApi.deleteWeaknessSolution({ mentorId: userId, weaknessSolutionId: Number(id) }),
+      {
+        useOverlay: true,
+        overlayMessage: '삭제 중...',
+        errorMessage: '삭제에 실패했어요.',
+        onSuccess: () => {
+          setSolutionItems((prev) => prev.filter((item) => item.id !== id))
+          if (editingId === id) setEditingId(null)
+        },
+      },
+    )
   }
 
   const handleAddItem = () => {
@@ -121,19 +241,27 @@ function MentorSolutions() {
 
           <FormSection title="멘티 선택">
             <FormSelectInput
-              value="김수험"
-              onChange={() => { }}
-              options={['김수험', '박모의']}
+              value={selectedMenteeName}
+              onChange={handleMenteeChange}
+              options={menteeOptions.map((m) => m.menteeName)}
             />
           </FormSection>
 
-          <MentorSolutionTable
-            title="보완점"
-            items={solutionItems}
-            onEditItem={handleEditItem}
-            onDeleteItem={handleDeleteItem}
-            onAddItem={undefined}
-          />
+          {loading ? (
+            <div className="flex flex-col gap-[10px]">
+              <Skeleton className="h-[60px] w-full rounded-[16px]" />
+              <Skeleton className="h-[60px] w-full rounded-[16px]" />
+              <Skeleton className="h-[60px] w-full rounded-[16px]" />
+            </div>
+          ) : (
+            <MentorSolutionTable
+              title="보완점"
+              items={solutionItems}
+              onEditItem={handleEditItem}
+              onDeleteItem={handleDeleteItem}
+              onAddItem={undefined}
+            />
+          )}
         </FormSectionGroup>
       </MentorSingleColumnLayout>
 
