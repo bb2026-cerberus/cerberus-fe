@@ -33,7 +33,9 @@
 - API 호출은 `src/services/api/*` 도메인 모듈로만 작성한다.
 - 에러 처리는 공통 `ApiError` 구조를 따른다.
 - API 응답 타입은 `src/types/api` 공통 타입을 우선 사용한다.
-- API 매핑은 `src/types/api/generated.ts`(OpenAPI 기반)를 기준으로 필드명/타입을 서버 스펙에 맞춘다.
+- Swagger 문서는 사람이 직접 관리하므로 실수가 있을 수 있다. API 매핑/필드/파라미터는
+  반드시 백엔드 구현(`/Users/gimbongseob/git/cerberus-be/src/main/java/kr/co/cerberus`)을 우선
+  참고하고, 필요 시 `src/types/api/generated.ts`를 서버 구현에 맞게 보정한다.
 
 ## 타입 설계
 

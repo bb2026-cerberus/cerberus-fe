@@ -42,13 +42,10 @@ const deleteQna = (query: OperationQuery<'deleteQna'>) =>
     params: query,
   })
 
-const answerQna = (
-  path: OperationPath<'answerQna'>,
-  payload: OperationRequestBody<'answerQna'>,
-) =>
+const answerQna = (payload: OperationRequestBody<'answerQna'>) =>
   request<OperationResponse<'answerQna'>>({
     method: 'PUT',
-    url: `/mentors/qnas/answer/${path.userId}/${path.userRole}`,
+    url: '/mentors/qnas/answer',
     data: payload,
   })
 
@@ -58,10 +55,11 @@ const getQnaDetail = (path: OperationPath<'getQnaDetail'>) =>
     url: `/mentors/qnas/${path.qnaId}`,
   })
 
-const getQnasByMentorId = (path: OperationPath<'getQnasByMentorId'>) =>
+const getQnasByMentorId = (query: OperationQuery<'getQnasByMentorId'>) =>
   request<OperationResponse<'getQnasByMentorId'>>({
     method: 'GET',
-    url: `/mentors/qnas/by-mentor/${path.mentorId}/${path.userRole}`,
+    url: '/mentors/qnas',
+    params: query,
   })
 
 const commentsApi = {

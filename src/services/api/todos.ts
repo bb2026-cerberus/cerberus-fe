@@ -6,6 +6,7 @@ import type {
   OperationResponse,
 } from '@/services/api/types'
 import type { components } from '@/types/api'
+import type { TodoDailyOverviewResponse } from '@/types/api/todos'
 
 const getTodos = (query: OperationQuery<'getTodos'>) =>
   request<OperationResponse<'getTodos'>>({
@@ -65,6 +66,18 @@ const getTimersByDate = (query: OperationQuery<'getTimersByDate'>) =>
   request<OperationResponse<'getTimersByDate'>>({
     method: 'GET',
     url: '/todos/timers/daily',
+    params: query,
+  })
+
+type GetDailyOverviewQuery = {
+  menteeId: number
+  date?: string
+}
+
+const getDailyOverview = (query: GetDailyOverviewQuery) =>
+  request<TodoDailyOverviewResponse>({
+    method: 'GET',
+    url: '/todos/daily/overview',
     params: query,
   })
 
@@ -150,6 +163,7 @@ const todosApi = {
   addTimerSession,
   getTodosWeekly,
   getTimersByDate,
+  getDailyOverview,
   downloadTodoFile,
   getDraftTodos,
   createDraftTodo,
