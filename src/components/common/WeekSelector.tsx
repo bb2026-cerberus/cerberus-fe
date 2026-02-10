@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
+  addDays,
   addMonths,
   addWeeks,
   differenceInCalendarWeeks,
@@ -13,7 +14,7 @@ import {
   subMonths,
   subWeeks,
 } from 'date-fns'
-import { ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 import { Icon } from '@/components/common/Icon'
@@ -51,22 +52,38 @@ function WeekSelector({
   const displayDate = value ?? new Date()
   const displayLabel = useMemo(() => {
     if (label) return label
-    const monthStart = startOfMonth(displayDate)
+    // 한 주의 "기준 달"은 주의 가운데(예: 목요일)를 기준으로 판단한다.
+    // 이렇게 하면 월 경계에 걸친 주가 항상 한 달에만 속하도록 정리된다.
+    const weekStart = startOfWeek(displayDate, { weekStartsOn })
+    const midWeekDate = addDays(weekStart, 3)
+    const monthStart = startOfMonth(midWeekDate)
+
+    // 해당 달에서 "첫 번째 주"는, 가운데 요일이 그 달에 속하는 첫 번째 주로 정의한다.
+    const monthStartWeekStart = startOfWeek(monthStart, { weekStartsOn })
+    const monthStartWeekMid = addDays(monthStartWeekStart, 3)
+    const firstWeekStartInMonth =
+      monthStartWeekMid.getMonth() === monthStart.getMonth()
+        ? monthStartWeekStart
+        : addWeeks(monthStartWeekStart, 1)
+
     const weekIndex =
       differenceInCalendarWeeks(
-        startOfWeek(displayDate, { weekStartsOn }),
-        startOfWeek(monthStart, { weekStartsOn }),
+        startOfWeek(midWeekDate, { weekStartsOn }),
+        firstWeekStartInMonth,
         { weekStartsOn },
       ) + 1
-    return `${format(displayDate, 'yyyy년 M월')} ${weekIndex}주차`
+
+    return `${format(midWeekDate, 'M월')} ${weekIndex}주차`
   }, [displayDate, label, weekStartsOn])
 
   const [pickerOpen, setPickerOpen] = useState(false)
-  const [currentMonth, setCurrentMonth] = useState<Date>(() => startOfMonth(displayDate))
+  const [currentMonth, setCurrentMonth] = useState<Date>(() =>
+    startOfMonth(addDays(startOfWeek(displayDate, { weekStartsOn }), 3)),
+  )
 
   useEffect(() => {
-    setCurrentMonth(startOfMonth(displayDate))
-  }, [displayDate])
+    setCurrentMonth(startOfMonth(addDays(startOfWeek(displayDate, { weekStartsOn }), 3)))
+  }, [displayDate, weekStartsOn])
 
   const handlePrev = onPrev ?? (value && onChange ? () => onChange(subWeeks(value, 1)) : undefined)
   const handleNext = onNext ?? (value && onChange ? () => onChange(addWeeks(value, 1)) : undefined)
@@ -78,7 +95,18 @@ function WeekSelector({
     const monthEnd = endOfMonth(currentMonth)
     const start = startOfWeek(monthStart, { weekStartsOn })
     const end = startOfWeek(monthEnd, { weekStartsOn })
-    return eachWeekOfInterval({ start, end }, { weekStartsOn })
+    const allWeeks = eachWeekOfInterval({ start, end }, { weekStartsOn })
+
+    // 주의 "가운데 날짜"가 해당 달에 속하는 주만 남기고, 그 순서대로 1주차, 2주차...를 매긴다.
+    const targetMonth = monthStart.getMonth()
+    const weeksWithIndex = allWeeks
+      .filter((weekStart) => addDays(weekStart, 3).getMonth() === targetMonth)
+      .map((weekStart, index) => ({
+        weekStart,
+        weekIndex: index + 1,
+      }))
+
+    return weeksWithIndex
   }, [currentMonth, weekStartsOn])
 
   return (
@@ -107,7 +135,7 @@ function WeekSelector({
           <button
             type="button"
             className={cn(
-              'flex min-w-[200px] items-center justify-center gap-1 rounded-[6px] bg-figma-card-gray px-2 py-1 transition-colors disabled:cursor-default',
+              'flex min-w-[170px] items-center justify-center gap-1 rounded-[6px] bg-figma-card-gray px-2 py-1 transition-colors disabled:cursor-default',
               labelClassName,
             )}
             aria-label="주차 선택"
@@ -151,14 +179,7 @@ function WeekSelector({
               </button>
             </div>
             <div className="mt-3 flex flex-col gap-2">
-              {weeksInMonth.map((weekStart) => {
-                const monthStart = startOfMonth(currentMonth)
-                const weekIndex =
-                  differenceInCalendarWeeks(
-                    startOfWeek(weekStart, { weekStartsOn }),
-                    startOfWeek(monthStart, { weekStartsOn }),
-                    { weekStartsOn },
-                  ) + 1
+              {weeksInMonth.map(({ weekStart, weekIndex }) => {
                 const weekEnd = endOfWeek(weekStart, { weekStartsOn })
                 const selected = value ? isSameWeek(value, weekStart, { weekStartsOn }) : false
                 return (

@@ -2,10 +2,10 @@ import ActionButton from '@/components/common/ActionButton'
 import TempSaveButton from '@/components/common/TempSaveButton'
 import { cn } from '@/lib/utils'
 
-type MentorActionMode = 'create' | 'detail' | 'edit'
+type ActionMode = 'create' | 'detail' | 'edit'
 
-type MentorActionButtonsProps = {
-  mode: MentorActionMode
+type ActionButtonsProps = {
+  mode: ActionMode
   size?: 'pc' | 'mobile'
   primaryLabel?: string
   secondaryLabel?: string
@@ -20,7 +20,7 @@ type MentorActionButtonsProps = {
   tempSaveClassName?: string
 }
 
-function MentorActionButtons({
+function ActionButtons({
   mode,
   size = 'pc',
   primaryLabel,
@@ -34,7 +34,7 @@ function MentorActionButtons({
   primaryButtonClassName,
   secondaryButtonClassName,
   tempSaveClassName,
-}: MentorActionButtonsProps) {
+}: ActionButtonsProps) {
   const sizeClass =
     size === 'pc'
       ? 'h-[var(--mentor-action-button-height-pc)] w-[var(--mentor-action-button-width-pc)] rounded-[var(--mentor-action-button-radius)] text-[18px]'
@@ -79,5 +79,5 @@ function MentorActionButtons({
   )
 }
 
-export type { MentorActionButtonsProps, MentorActionMode }
-export default MentorActionButtons
+export type { ActionButtonsProps, ActionMode }
+export default ActionButtons

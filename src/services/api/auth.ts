@@ -1,25 +1,20 @@
-import { request } from './http'
+import { request } from '@/services/api/http'
+import type { operations } from '@/types/api'
 
-const basePath = '/auth'
+type LoginRequest =
+  operations['login']['requestBody']['content']['application/json']
+type LoginResponse = operations['login']['responses']['200']['content']['*/*']
 
-const login = <TResponse>(payload: Record<string, unknown>) => {
-  return request<TResponse>({
+const login = (payload: LoginRequest) => {
+  return request<LoginResponse>({
     method: 'POST',
-    url: `${basePath}/login`,
+    url: '/member/login',
     data: payload,
-  })
-}
-
-const logout = <TResponse>() => {
-  return request<TResponse>({
-    method: 'POST',
-    url: `${basePath}/logout`,
   })
 }
 
 const authApi = {
   login,
-  logout,
 }
 
 export default authApi

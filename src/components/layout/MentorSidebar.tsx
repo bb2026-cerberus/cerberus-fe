@@ -14,6 +14,7 @@ import profileIcon from '@/assets/person.svg'
 import qnaIcon from '@/assets/qna.svg'
 import reportIcon from '@/assets/report.svg'
 import solutionIcon from '@/assets/solution.svg'
+import iconPng from '@/assets/icon.png'
 
 type MentorSidebarProps = {
   expanded?: boolean
@@ -92,7 +93,7 @@ function MentorSidebar({
             expanded ? 'items-start' : 'items-center',
           )}
         >
-          <div className="size-[52px] rounded-full bg-figma-typo-gray" />
+          <img src={iconPng} alt="" className="size-[52px] shrink-0 rounded-full object-cover" />
           <div
             className={cn(
               'flex flex-col gap-[8px]',

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import ErrorBoundary from '../../components/common/ErrorBoundary'
 import AuthProvider from '../../store/auth/AuthProvider'
+import { LoadingOverlayProvider } from '../../store/ui/LoadingOverlayContext'
 
 type AppProvidersProps = {
   children: ReactNode
@@ -9,7 +10,9 @@ type AppProvidersProps = {
 function AppProviders({ children }: AppProvidersProps) {
   return (
     <ErrorBoundary>
-      <AuthProvider>{children}</AuthProvider>
+      <AuthProvider>
+        <LoadingOverlayProvider>{children}</LoadingOverlayProvider>
+      </AuthProvider>
     </ErrorBoundary>
   )
 }

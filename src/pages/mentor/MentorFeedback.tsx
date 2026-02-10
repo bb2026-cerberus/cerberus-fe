@@ -14,7 +14,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import { cn } from '@/lib/utils'
 
 type FeedbackTask = FeedbackTaskInfo & {
@@ -144,7 +144,7 @@ function MentorFeedback() {
         onMobileDetailClose={() => setDetailOpen(false)}
         mobileDetailTitle="피드백"
         mobileActionBar={
-          <MentorActionButtons
+          <ActionButtons
             mode="create"
             onPrimary={handleSubmit}
             onSecondary={handleTempSave}

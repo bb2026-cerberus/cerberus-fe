@@ -67,5 +67,19 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    server: {
+      proxy: {
+        '/api': {
+          target: env.VITE_API_PROXY_TARGET ?? 'https://api.seolberus.co.kr',
+          changeOrigin: true,
+          secure: false,
+          configure: (proxy) => {
+            proxy.on('proxyReq', (proxyReq) => {
+              proxyReq.removeHeader('origin')
+            })
+          },
+        },
+      },
+    },
   }
 })

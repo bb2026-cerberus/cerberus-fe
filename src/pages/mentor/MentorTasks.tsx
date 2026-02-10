@@ -13,7 +13,7 @@ import TaskDateMeta from '@/components/common/TaskDateMeta'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import { cn } from '@/lib/utils'
 
 type MentorTask = {
@@ -219,7 +219,7 @@ function MentorTasks() {
         onMobileDetailClose={() => setDetailOpen(false)}
         mobileDetailTitle="과제"
         mobileActionBar={
-          <MentorActionButtons
+          <ActionButtons
             mode={detailMode}
             onPrimary={detailMode === 'detail' ? handleEdit : handleSave}
             onSecondary={

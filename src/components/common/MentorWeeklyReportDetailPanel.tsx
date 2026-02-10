@@ -1,4 +1,4 @@
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import { Text } from '@/components/common/Text'
 import { cn } from '@/lib/utils'
 
@@ -49,7 +49,7 @@ function MentorWeeklyReportDetailPanel({
         <Text as="h2" className="text-[18px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
-        <MentorActionButtons
+        <ActionButtons
           mode={mode}
           onPrimary={onPrimary}
           onSecondary={mode === 'edit' ? onTempSave : onSecondary}

@@ -1,20 +1,16 @@
 import { createContext, useMemo, useState } from 'react'
 import { clearUserRole, getUserRole, setUserRole } from '../../services/storage/authStorage'
-import {
-  clearAccessToken,
-  getAccessToken,
-  setAccessToken,
-} from '../../services/storage/tokenStorage'
+import { clearUserId, getUserId, setUserId } from '../../services/storage/userStorage'
 import type { UserRole } from '../../types/shared/auth'
 
 type AuthState = {
   role: UserRole | null
-  accessToken: string | null
+  userId: number | null
 }
 
 type AuthContextValue = AuthState & {
   setRole: (role: UserRole | null) => void
-  setToken: (token: string | null) => void
+  setUserId: (userId: number | null) => void
   logout: () => void
 }
 
@@ -22,9 +18,7 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 
 const useAuthState = (): AuthContextValue => {
   const [role, setRoleState] = useState<UserRole | null>(() => getUserRole())
-  const [accessToken, setAccessTokenState] = useState<string | null>(() =>
-    getAccessToken(),
-  )
+  const [userId, setUserIdState] = useState<number | null>(() => getUserId())
 
   const setRole = (nextRole: UserRole | null) => {
     if (nextRole) {
@@ -35,25 +29,31 @@ const useAuthState = (): AuthContextValue => {
     setRoleState(nextRole)
   }
 
-  const setToken = (nextToken: string | null) => {
-    if (nextToken) {
-      setAccessToken(nextToken)
+  const setUserIdValue = (nextUserId: number | null) => {
+    if (nextUserId !== null) {
+      setUserId(nextUserId)
     } else {
-      clearAccessToken()
+      clearUserId()
     }
-    setAccessTokenState(nextToken)
+    setUserIdState(nextUserId)
   }
 
   const logout = () => {
-    clearAccessToken()
     clearUserRole()
-    setAccessTokenState(null)
+    clearUserId()
     setRoleState(null)
+    setUserIdState(null)
   }
 
   return useMemo(
-    () => ({ role, accessToken, setRole, setToken, logout }),
-    [role, accessToken],
+    () => ({
+      role,
+      userId,
+      setRole,
+      setUserId: setUserIdValue,
+      logout,
+    }),
+    [role, userId],
   )
 }
 

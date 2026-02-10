@@ -7,11 +7,12 @@ import { Text } from '@/components/common/Text'
 type TempSaveItemProps = {
   title: string
   dateText: string
+  onClick?: () => void
   onDelete?: () => void
   className?: string
 }
 
-function TempSaveItem({ title, dateText, onDelete, className }: TempSaveItemProps) {
+function TempSaveItem({ title, dateText, onClick, onDelete, className }: TempSaveItemProps) {
   return (
     <div
       className={cn(
@@ -19,7 +20,11 @@ function TempSaveItem({ title, dateText, onDelete, className }: TempSaveItemProp
         className,
       )}
     >
-      <div className="flex w-full flex-col items-start gap-1">
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex w-full flex-col items-start gap-1 text-left"
+      >
         <Text as="p" className="text-[16px] font-semibold leading-6 text-figma-typo-black">
           {title}
         </Text>
@@ -28,7 +33,7 @@ function TempSaveItem({ title, dateText, onDelete, className }: TempSaveItemProp
             {dateText}
           </Text>
         </div>
-      </div>
+      </button>
       <button
         type="button"
         onClick={onDelete}

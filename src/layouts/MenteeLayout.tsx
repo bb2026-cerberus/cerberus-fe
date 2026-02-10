@@ -52,7 +52,7 @@ function MenteeLayout() {
             <MenteePageHeader
               title={
                 isTodoCreate
-                  ? '할 일 추가'
+                  ? '할 일'
                   : isTasks
                     ? '과제/할 일'
                     : isAssignmentDetail
@@ -62,12 +62,12 @@ function MenteeLayout() {
                         : isMyPage
                           ? '마이페이지'
                           : isWeeklyReport
-                          ? '주간학습 리포트'
-                          : isTimeBlock
-                            ? '타임블록'
-                            : isQna
-                              ? 'Q&A'
-                              : '알림'
+                            ? '주간학습 리포트'
+                            : isTimeBlock
+                              ? '타임블록'
+                              : isQna
+                                ? 'Q&A'
+                                : '알림'
               }
               onMenuClick={() => setMenuOpen(true)}
               onBackClick={() =>
@@ -100,14 +100,14 @@ function MenteeLayout() {
           isNotifications ||
             isTasks ||
             isTodoCreate ||
-          isAssignmentDetail ||
-          isTodoDetail ||
-          isMyPage ||
-          isWeeklyReport ||
-          isQna
-          ? 'bg-figma-light-gray'
-          : 'bg-figma-white',
-      )}
+            isAssignmentDetail ||
+            isTodoDetail ||
+            isMyPage ||
+            isWeeklyReport ||
+            isQna
+            ? 'bg-figma-light-gray'
+            : 'bg-figma-white',
+        )}
         className="min-h-dvh bg-figma-light-gray"
         mainClassName="mx-0 w-full max-w-none px-0 py-0 pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
       >

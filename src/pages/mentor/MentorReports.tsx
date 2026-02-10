@@ -9,7 +9,7 @@ import MentorTwoColumnLayout from '@/components/layout/MentorTwoColumnLayout'
 import TempSavePanel from '@/components/common/TempSavePanel'
 import { Text } from '@/components/common/Text'
 import WeekSelector from '@/components/common/WeekSelector'
-import MentorActionButtons from '@/components/common/MentorActionButtons'
+import ActionButtons from '@/components/common/ActionButtons'
 import { cn } from '@/lib/utils'
 
 type ReportMode = 'empty' | 'detail' | 'edit'
@@ -124,7 +124,7 @@ function MentorReports() {
         mobileDetailTitle="주간 리포트"
         mobileActionBar={
           showDetail ? (
-            <MentorActionButtons
+            <ActionButtons
               mode={mode === 'detail' ? 'detail' : 'edit'}
               onPrimary={mode === 'detail' ? handleEdit : handleSave}
               onSecondary={mode === 'detail' ? () => setDeleteOpen(true) : handleTempSave}
