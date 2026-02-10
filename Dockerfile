@@ -2,7 +2,7 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 ENV VITE_PWA_DEV=true
-ENV VITE_API_BASE_URL=https://api.seolberus.co.kr
+ENV VITE_API_BASE_URL=https://api.seolberus.co.kr/api
 
 COPY package*.json ./
 RUN npm install
